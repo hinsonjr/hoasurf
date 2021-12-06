@@ -9,7 +9,6 @@ use Doctrine\Persistence\ManagerRegistry;
 /**
  * @method Owner|null find($id, $lockMode = null, $lockVersion = null)
  * @method Owner|null findOneBy(array $criteria, array $orderBy = null)
- * @method Owner[]    findAll()
  * @method Owner[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
  */
 class OwnerRepository extends ServiceEntityRepository
@@ -22,29 +21,26 @@ class OwnerRepository extends ServiceEntityRepository
     // /**
     //  * @return Owner[] Returns an array of Owner objects
     //  */
-    /*
-    public function findByExampleField($value)
-    {
-        return $this->createQueryBuilder('o')
-            ->andWhere('o.exampleField = :val')
-            ->setParameter('val', $value)
-            ->orderBy('o.id', 'ASC')
-            ->setMaxResults(10)
-            ->getQuery()
-            ->getResult()
-        ;
-    }
-    */
 
-    /*
-    public function findOneBySomeField($value): ?Owner
-    {
-        return $this->createQueryBuilder('o')
-            ->andWhere('o.exampleField = :val')
-            ->setParameter('val', $value)
-            ->getQuery()
-            ->getOneOrNullResult()
-        ;
-    }
-    */
+    public function findAll($query = [])
+	{
+		$search = "";
+		$q = $this->createQueryBuilder('o')
+			->join("o.unit","u")
+            ->setMaxResults(50)
+			->orderBy('u.unitNumber');
+
+		if (array_key_exists('search',$query) && $query['search'])
+		{
+            $q->orWhere("o.name like :nval","u.unitNumber like :nval")
+				->setParameter('nval','%'.$query['search'].'%' );
+		}
+		//var_dump($q->getQuery());
+
+		$owners = $q->getQuery()
+            ->getResult();
+		
+		return (array) $owners;
+	
+	}
 }

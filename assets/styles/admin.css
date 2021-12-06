@@ -1,4 +1,12 @@
 body {
-    background-color: #C0C0C0;
-    margin: 100px;
+    background-color: #ffffff;
+    margin: 0;
 }
+
+#content {
+    background-color: #ffffff;
+    margin-top: 20px;
+    margin-left: 100px;
+    margin-right: 100px;
+}
+

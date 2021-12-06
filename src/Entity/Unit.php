@@ -25,7 +25,7 @@ class Unit
     private $unitNumber;
 
     /**
-     * @ORM\Column(type="blob", nullable=true)
+     * @ORM\Column(type="text", nullable=true)
      */
     private $description;
 
@@ -45,17 +45,12 @@ class Unit
     private $baths;
 
     /**
-     * @ORM\Column(type="date", nullable=true)
-     */
-    private $lastSaleData;
-
-    /**
      * @ORM\ManyToOne(targetEntity=Building::class, inversedBy="units")
      */
     private $building;
 
     /**
-     * @ORM\ManyToMany(targetEntity=Owner::class, inversedBy="units")
+     * @ORM\OneToMany(targetEntity=Owner::class, mappedBy="unit")
      */
     private $owners;
 
@@ -65,9 +60,9 @@ class Unit
     }
 	
 	public function __toString()
-    {
-        return "Bld:" . $this->getBuilding() . " Unit:" . $this->getUnitNumber();
-    }
+	{
+		return $this->getUnitNumber() . "-" .$this->getBuilding();
+	}
 
 
     public function getId(): ?int
@@ -135,18 +130,6 @@ class Unit
         return $this;
     }
 
-    public function getLastSaleData(): ?\DateTimeInterface
-    {
-        return $this->lastSaleData;
-    }
-
-    public function setLastSaleData(?\DateTimeInterface $lastSaleData): self
-    {
-        $this->lastSaleData = $lastSaleData;
-
-        return $this;
-    }
-
     public function getBuilding(): ?building
     {
         return $this->building;
@@ -160,26 +143,33 @@ class Unit
     }
 
     /**
-     * @return Collection|owner[]
+     * @return Collection|Owner[]
      */
     public function getOwners(): Collection
     {
         return $this->owners;
     }
 
-    public function addOwner(owner $owner): self
+    public function addOwner(Owner $owner): self
     {
         if (!$this->owners->contains($owner)) {
             $this->owners[] = $owner;
+            $owner->setUnit($this);
         }
 
         return $this;
     }
 
-    public function removeOwner(owner $owner): self
+    public function removeOwner(Owner $owner): self
     {
-        $this->owners->removeElement($owner);
+        if ($this->owners->removeElement($owner)) {
+            // set the owning side to null (unless already changed)
+            if ($owner->getUnit() === $this) {
+                $owner->setUnit(null);
+            }
+        }
 
         return $this;
     }
+
 }

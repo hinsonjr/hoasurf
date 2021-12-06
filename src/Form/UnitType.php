@@ -13,11 +13,10 @@ class UnitType extends AbstractType
     {
         $builder
             ->add('unitNumber')
-            ->add('description')
+            ->add('currentOwner')
             ->add('sf')
             ->add('beds')
             ->add('baths')
-            ->add('lastSaleData')
             ->add('building')
             ->add('owners')
         ;

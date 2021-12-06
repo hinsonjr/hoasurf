@@ -1,4 +1,10 @@
 body {
     background-color: lightgray;
-    margin: 10px;
+    margin: 0px;
+}
+
+#content {
+    background-color: lightgray;
+    margin-left: 50px;
+    margin-right: 50px;
 }

@@ -51,7 +51,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     private $isVerified = false;
 
     /**
-     * @ORM\OneToMany(targetEntity=Owner::class, mappedBy="user")
+     * @ORM\ManyToMany(targetEntity=Owner::class, mappedBy="users")
      */
     private $owners;
 
@@ -61,9 +61,9 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     }
 
 	public function __toString()
-    {
-        return $this->getName();
-    }
+                                  {
+                                      return $this->getName();
+                                  }
 	
     public function getId(): ?int
     {
@@ -172,15 +172,16 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
             $this->owners[] = $owner;
             $owner->addUser($this);
         }
+
         return $this;
     }
 
     public function removeOwner(Owner $owner): self
     {
         if ($this->owners->removeElement($owner)) {
-            // set the owning side to null (unless already changed)
             $owner->removeUser($this);
         }
+
         return $this;
     }
 }
