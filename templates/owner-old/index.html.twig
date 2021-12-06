@@ -1,0 +1,45 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Owner index{% endblock %}
+
+{% block content %}
+    <h1>Owner index</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Unit</th>
+                <th>Name</th>
+                <th>Address</th>
+                <th>Phone</th>
+                <th>Purchase Date</th>
+                <th>Sale Date</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for owner in owners %}
+            <tr>
+                <td>{{ owner.id }}</td>
+                <td>{{ owner.unit }}</td>
+                <td>{{ owner.name }}</td>
+                <td>{{ owner.address}} {{ owner.address2 }}<br>{{ owner.city}},{{ owner.state }} {{ owner.zip }}</td>
+                <td>{{ owner.phone }}</td>
+                <td>{{ owner.startDate ? owner.startDate|date('Y-m-d') : '' }}</td>
+                <td>{{ owner.endDate ? owner.endDate|date('Y-m-d') : '' }}</td>
+                <td>
+                    <a href="{{ path('owner_show', {'id': owner.id}) }}">show</a>
+                    <a href="{{ path('owner_edit', {'id': owner.id}) }}">edit</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="6">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{{ path('owner_new') }}">Create new</a>
+{% endblock %}

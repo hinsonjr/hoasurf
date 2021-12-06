@@ -1,0 +1,63 @@
+{% extends 'admin-base.html.twig' %}
+
+{% block title %}Unit List{% endblock %}
+
+{% block content %}
+    <h1>Unit index</h1>
+    <form id="unit_index_form">
+        <div form-control row>
+            <label for="search">Search By Unit Number or Owner Name</label>
+            <input type="text" id="search" name="search">
+        </div>
+        <div form-control row>
+            <label for="search">Filter by Building</label>
+            <select id="buildingId" name="buildingId">
+                {% for building in buildings %}
+                    <option name="{{ building.name}}" value="{{ building.id }}">{{ building.name }}</option>
+                {% endfor %}
+            </select>
+        </div>
+        <div form-control row>
+            <button class="btn btn-primary" type="submit">Submit</button>
+        </div>
+    </form>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Unit Number</th>
+                <th>Description</th>
+                <th>Sf</th>
+                <th>Beds</th>
+                <th>Baths</th>
+                <th>Current Owner</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for unit in units %}
+            <tr>
+                <td><a href="{{ path('unit_edit', {'id': unit.id}) }}">{{ unit.unitNumber }}</a></td>
+                <td>{{ unit.description }}</td>
+                <td>{{ unit.sf }}</td>
+                <td>{{ unit.beds }}</td>
+                <td>{{ unit.baths }}</td>
+                {% if unit.currentOwner %}
+                    <td>{{ unit.currentOwner[0].name}}</td>
+                {%  else %}
+                    <td>no current owner found</td>
+                {% endif %}
+                <td>
+                    <a href="{{ path('unit_show', {'id': unit.id}) }}">show</a>
+                    <a href="{{ path('unit_edit', {'id': unit.id}) }}">edit</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="8">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{{ path('unit_new') }}">Create new</a>
+{% endblock %}

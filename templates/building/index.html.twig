@@ -1,0 +1,45 @@
+{% extends 'admin-base.html.twig' %}
+
+{% block title %}Building index{% endblock %}
+
+{% block content %}
+    <h1>Building index</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Name</th>
+                <th>Address1</th>
+                <th>Address2</th>
+                <th>City</th>
+                <th>State</th>
+                <th>Zip</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for building in buildings %}
+            <tr>
+                <td>{{ building.id }}</td>
+                <td><a href="{{ path('unit_index',{'buildingId':building.id}) }}">{{ building.name }}</a></td>
+                <td>{{ building.address1 }}</td>
+                <td>{{ building.address2 }}</td>
+                <td>{{ building.city }}</td>
+                <td>{{ building.state }}</td>
+                <td>{{ building.zip }}</td>
+                <td>
+                    <a href="{{ path('building_show', {'id': building.id}) }}">show</a>
+                    <a href="{{ path('building_edit', {'id': building.id}) }}">edit</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="8">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{{ path('building_new') }}">Create new</a>
+{% endblock %}
