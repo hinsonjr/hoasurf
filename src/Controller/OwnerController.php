@@ -32,6 +32,20 @@ class OwnerController extends AbstractController
             'owners' => $owners,
         ]);		
     }
+	
+	public function getOwners(Request $request, $data)
+	{
+	    $json = array();
+	    if ($request->isXmlHttpRequest()) {		
+			if (array_key_exists('search',$data))
+			{
+				$query = ['search' => $search];
+				$owners = $ownerRepository->findAll($query);
+			}
+			$owners = $ownerRepository->findAll();
+		}
+		return new JsonResponse($json);
+	}
 
     #[Route('/new', name: 'owner_new', methods: ['GET', 'POST'])]
     public function new(Request $request, EntityManagerInterface $entityManager): Response

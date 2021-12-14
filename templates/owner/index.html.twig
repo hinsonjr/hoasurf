@@ -2,13 +2,18 @@
 
 {% block title %}Owner List{% endblock %}
 
+{% block javascripts %}
+    {{ parent() }}
+    {{ encore_entry_script_tags('owner') }}
+{% endblock %}
+    
 {% block content %}
     <h1>Owner index</h1>
     <form id="owner_index_form">
         <div form-control row>
             <label for="search">Search By Unit Number or Owner Name</label>
             <input type="text" id="search" name="search">
-            <button class="btn btn-primary" type="submit">Submit</button>
+            <button class="btn btn-primary" type="submit" onclick="Owner.Search(this);">Submit</button>
         </div>
     </form>
     <table class="table">
