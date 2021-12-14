@@ -3,6 +3,7 @@
 namespace App\Repository;
 
 use App\Entity\Owner;
+use App\Entity\Unit;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
@@ -43,4 +44,24 @@ class OwnerRepository extends ServiceEntityRepository
 		return (array) $owners;
 	
 	}
+	
+	public function findOwnerUnits($ownerId)
+	{
+		$q = $this->createQueryBuilder('p')
+			->from("Units")
+			->where("Unit.ownerId = ".$ownerId)
+			->orderBy('u.unitNumber');
+	}
+
+	public function findHoaCurrentOwners($hoaId)
+	{
+		$date = new DateTime();
+		$q = $this->createQueryBuilder('o')
+			->join("o.unit","u")
+			->join("u.building","b","WITH",'b.id = ?1')
+			->andWhere(isNotNull('o.start_date'),orX(isNull('o.end_date'),gte('o.endDate',$date->format("Y-m-d"))))
+			->setParameter(1,$hoaId)
+			->orderBy('u.unitNumber');
+	}
+	
 }

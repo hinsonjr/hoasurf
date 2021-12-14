@@ -1,0 +1,4 @@
+<form method="post" action="{{ path('accounting_ledger_account_delete', {'id': ledger_account.id}) }}" onsubmit="return confirm('Are you sure you want to delete this item?');">
+    <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ ledger_account.id) }}">
+    <button class="btn">Delete</button>
+</form>

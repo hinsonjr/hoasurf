@@ -34,9 +34,12 @@
                               <div class="navbar-nav">
                                 {% block navitems %}
                                   <a class="nav-item nav-link" href="{{ path('admin_dash') }}">Admin Dash</a><span class="sr-only"></span></a>
+                                  <a class="nav-item nav-link" href="{{ path('hoa_index') }}">HOAs</a>
+                                  <a class="nav-item nav-link" href="{{ path('building_index') }}">Buildings</a>
                                   <a class="nav-item nav-link" href="{{ path('owner_index') }}">Owners</a>
                                   <a class="nav-item nav-link" href="{{ path('unit_index') }}">Units</a>
-                                  <a class="nav-item nav-link" href="{{ path('building_index') }}">Buldings</a>
+                                  <a class="nav-item nav-link" href="{{ path('vendor_index') }}">Vendors</a>
+                                  <a class="nav-item nav-link" href="{{ path('maintenance_object_index') }}">Maintenance</a>
                                 {% endblock %}
                               </div>
                             </div>

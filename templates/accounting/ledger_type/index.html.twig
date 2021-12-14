@@ -1,0 +1,37 @@
+{% extends 'admin-base.html.twig' %}
+
+{% block title %}LedgerType index{% endblock %}
+
+{% block content %}
+    <h1>LedgerType index</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Name</th>
+                <th>IsDebit</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for ledger_type in ledger_types %}
+            <tr>
+                <td>{{ ledger_type.id }}</td>
+                <td>{{ ledger_type.name }}</td>
+                <td>{{ ledger_type.isDebit ? 'Yes' : 'No' }}</td>
+                <td>
+                    <a href="{{ path('accounting_ledger_type_show', {'id': ledger_type.id}) }}">show</a>
+                    <a href="{{ path('accounting_ledger_type_edit', {'id': ledger_type.id}) }}">edit</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="4">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{{ path('accounting_ledger_type_new') }}">Create new</a>
+{% endblock %}

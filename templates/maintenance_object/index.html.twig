@@ -1,0 +1,43 @@
+{% extends 'admin-base.html.twig' %}
+
+{% block title %}MaintenanceObject index{% endblock %}
+
+{% block content %}
+    <h1>MaintenanceObject index</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Name</th>
+                <th>Description</th>
+                <th>Period</th>
+                <th>PeriodAmount</th>
+                <th>Location</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for maintenance_object in maintenance_objects %}
+            <tr>
+                <td>{{ maintenance_object.id }}</td>
+                <td>{{ maintenance_object.name }}</td>
+                <td>{{ maintenance_object.description }}</td>
+                <td>{{ maintenance_object.period }}</td>
+                <td>{{ maintenance_object.periodAmount }}</td>
+                <td>{{ maintenance_object.location }}</td>
+                <td>
+                    <a href="{{ path('maintenance_object_show', {'id': maintenance_object.id}) }}">show</a>
+                    <a href="{{ path('maintenance_object_edit', {'id': maintenance_object.id}) }}">edit</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="7">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{{ path('maintenance_object_new') }}">Create new</a>
+{% endblock %}

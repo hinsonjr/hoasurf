@@ -1,0 +1,45 @@
+{% extends 'admin-base.html.twig' %}
+
+{% block title %}Vendor index{% endblock %}
+
+{% block content %}
+    <h1>Vendor index</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Name</th>
+                <th>ContactName</th>
+                <th>ContactNumber</th>
+                <th>ContactEmail</th>
+                <th>Type</th>
+                <th>Description</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for vendor in vendors %}
+            <tr>
+                <td>{{ vendor.id }}</td>
+                <td>{{ vendor.name }}</td>
+                <td>{{ vendor.contactName }}</td>
+                <td>{{ vendor.contactNumber }}</td>
+                <td>{{ vendor.contactEmail }}</td>
+                <td>{{ vendor.type }}</td>
+                <td>{{ vendor.description }}</td>
+                <td>
+                    <a href="{{ path('vendor_show', {'id': vendor.id}) }}">show</a>
+                    <a href="{{ path('vendor_edit', {'id': vendor.id}) }}">edit</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="8">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{{ path('vendor_new') }}">Create new</a>
+{% endblock %}

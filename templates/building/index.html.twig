@@ -22,7 +22,7 @@
         {% for building in buildings %}
             <tr>
                 <td>{{ building.id }}</td>
-                <td><a href="{{ path('unit_index',{'buildingId':building.id}) }}">{{ building.name }}</a></td>
+                <td>{{ building.name }}</td>
                 <td>{{ building.address1 }}</td>
                 <td>{{ building.address2 }}</td>
                 <td>{{ building.city }}</td>

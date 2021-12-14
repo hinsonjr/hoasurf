@@ -1,0 +1,11 @@
+{% extends 'admin-base.html.twig' %}
+
+{% block title %}New Vendor{% endblock %}
+
+{% block content %}
+    <h1>Create new Vendor</h1>
+
+    {{ include('vendor/_form.html.twig') }}
+
+    <a href="{{ path('vendor_index') }}">back to list</a>
+{% endblock %}

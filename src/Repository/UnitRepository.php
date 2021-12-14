@@ -46,20 +46,17 @@ class UnitRepository extends ServiceEntityRepository
 
     }
 
-    public function getUnitOwner($unitId)
+    public function findCurrentOwners($unitId)
     {
 		$em = $this->getEntityManager();
 		$query = $em->createQuery(
             'SELECT o
             FROM App\Entity\Owner o
-			WHERE o.unit = :id AND o.startDate IS NOT NULL and o.endDate IS NULL
-			ORDER BY o.startDate
-			'
+			WHERE o.unit = :id AND o.startDate IS NOT NULL and (o.endDate IS NULL or o.endDate >= CURRENT_TIMESTAMP())
+			ORDER BY o.startDate'
         )->setParameter('id', $unitId);
-		$owner = $query->getResult();
-
-		return $owner;
-		
+		$owners = (array) $query->getResult();
+		return $owners;
 	}
 
     /*

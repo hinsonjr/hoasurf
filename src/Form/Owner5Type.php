@@ -27,6 +27,7 @@ class Owner5Type extends AbstractType
             ->add('country')
             ->add('phone')
             ->add('users')
+			->add('ownPercent')
         ;
     }
 

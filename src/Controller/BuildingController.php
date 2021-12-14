@@ -3,7 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\Building;
-use App\Form\Building1Type;
+use App\Form\Building2Type;
 use App\Repository\BuildingRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -26,7 +26,7 @@ class BuildingController extends AbstractController
     public function new(Request $request, EntityManagerInterface $entityManager): Response
     {
         $building = new Building();
-        $form = $this->createForm(Building1Type::class, $building);
+        $form = $this->createForm(Building2Type::class, $building);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
@@ -53,7 +53,7 @@ class BuildingController extends AbstractController
     #[Route('/{id}/edit', name: 'building_edit', methods: ['GET', 'POST'])]
     public function edit(Request $request, Building $building, EntityManagerInterface $entityManager): Response
     {
-        $form = $this->createForm(Building1Type::class, $building);
+        $form = $this->createForm(Building2Type::class, $building);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {

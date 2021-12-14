@@ -1,0 +1,13 @@
+{% extends 'admin-base.html.twig' %}
+
+{% block title %}Edit LedgerAccount{% endblock %}
+
+{% block content %}
+    <h1>Edit LedgerAccount</h1>
+
+    {{ include('accounting/ledger_account/_form.html.twig', {'button_label': 'Update'}) }}
+
+    <a href="{{ path('accounting_ledger_account_index') }}">back to list</a>
+
+    {{ include('accounting/ledger_account/_delete_form.html.twig') }}
+{% endblock %}

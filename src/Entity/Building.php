@@ -54,20 +54,26 @@ class Building
      */
     private $units;
 
+    /**
+     * @ORM\ManyToOne(targetEntity=HOA::class, inversedBy="buildings")
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $hOA;
+
     public function __construct()
     {
         $this->units = new ArrayCollection();
     }
 
 	public function __toString()
-    {
-        return $this->getName();
-    }
+	{
+		return $this->getName();
+	}
 
 	public function getId(): ?int
-    {
-        return $this->id;
-    }
+	{
+		return $this->id;
+	}
 
     public function getName(): ?string
     {
@@ -167,6 +173,18 @@ class Building
                 $unit->setBuilding(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getHOA(): ?HOA
+    {
+        return $this->hOA;
+    }
+
+    public function setHOA(?HOA $hOA): self
+    {
+        $this->hOA = $hOA;
 
         return $this;
     }

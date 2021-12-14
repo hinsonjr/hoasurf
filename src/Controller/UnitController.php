@@ -31,7 +31,7 @@ class UnitController extends AbstractController
 		}
 		foreach ($units as $key => $unit)
 		{
-			$units[$key]->currentOwner = $unitRepository->getUnitOwner($unit->getId());
+			$units[$key]->currentOwner = $unitRepository->findCurrentOwners($unit->getId());
 		}
         return $this->render('unit/index.html.twig', [
             'units' => $units,
@@ -45,6 +45,7 @@ class UnitController extends AbstractController
         $unit = new Unit();
         $form = $this->createForm(Unit2Type::class, $unit);
         $form->handleRequest($request);
+		
 
         if ($form->isSubmitted() && $form->isValid()) {
             $entityManager->persist($unit);

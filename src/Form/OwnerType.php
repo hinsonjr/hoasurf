@@ -18,6 +18,7 @@ class OwnerType extends AbstractType
             ->add('endData')
             ->add('user')
             ->add('units')
+			->add('ownPercent')
         ;
     }
 
