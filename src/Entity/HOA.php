@@ -61,6 +61,11 @@ class HOA
      */
     private $ledgerAccounts;
 
+    /**
+     * @ORM\Column(type="string", length=25, nullable=true)
+     */
+    private $ShortName;
+
     public function __construct()
     {
         $this->buildings = new ArrayCollection();
@@ -237,6 +242,18 @@ class HOA
         if ($this->ledgerAccounts->removeElement($ledgerAccount)) {
             $ledgerAccount->removeHoa($this);
         }
+
+        return $this;
+    }
+
+    public function getShortName(): ?string
+    {
+        return $this->ShortName;
+    }
+
+    public function setShortName(?string $ShortName): self
+    {
+        $this->ShortName = $ShortName;
 
         return $this;
     }

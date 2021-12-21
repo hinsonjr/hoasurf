@@ -2,6 +2,7 @@
 
 namespace App\Entity;
 
+use App\Entity\Accounting\Transaction;
 use App\Repository\UserRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
@@ -41,7 +42,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     /**
      * @var string The hashed password
-     * @ORM\Column(type="string")
+     * @ORM\Column(type="string", nullable=true)
      */
     private $password;
 
@@ -51,19 +52,30 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     private $isVerified = false;
 
     /**
-     * @ORM\ManyToMany(targetEntity=Owner::class, mappedBy="users")
+     * @ORM\OneToMany(targetEntity=Owner::class, mappedBy="user")
      */
     private $owners;
+
+    /**
+     * @ORM\ManyToOne(targetEntity=HOA::class)
+     */
+    private $activeHoa;
+
+    /**
+     * @ORM\ManyToMany(targetEntity=Role::class, inversedBy="users")
+     */
+    private $role;
 
     public function __construct()
     {
         $this->owners = new ArrayCollection();
+        $this->role = new ArrayCollection();
     }
 
 	public function __toString()
-                                  {
-                                      return $this->getName();
-                                  }
+                                                                                                             {
+                                                                                                                 return $this->getName();
+                                                                                                             }
 	
     public function getId(): ?int
     {
@@ -97,19 +109,25 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      */
     public function getRoles(): array
     {
-        $roles = $this->roles;
+        $userRoles = $this->getRole();
+		$roles = [];
+		foreach ($userRoles as $userRole)
+		{
+			$roles[] = $userRole->getRoleName();
+		}
         // guarantee every user at least has ROLE_USER
-        $roles[] = 'ROLE_USER';
 
         return array_unique($roles);
     }
 
-    public function setRoles(array $roles): self
+    /*public function setRoles(array $roles): self
     {
         $this->roles = $roles;
 
         return $this;
     }
+	 * 
+	 */
 
     /**
      * @see PasswordAuthenticatedUserInterface
@@ -170,7 +188,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     {
         if (!$this->owners->contains($owner)) {
             $this->owners[] = $owner;
-            $owner->addUser($this);
+            $owner->setUser($this);
         }
 
         return $this;
@@ -179,8 +197,47 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function removeOwner(Owner $owner): self
     {
         if ($this->owners->removeElement($owner)) {
-            $owner->removeUser($this);
+            // set the owning side to null (unless already changed)
+            if ($owner->getUser() === $this) {
+                $owner->setUser(null);
+            }
         }
+
+        return $this;
+    }
+
+    public function getActiveHoa(): ?Hoa
+    {
+        return $this->activeHoa;
+    }
+
+    public function setActiveHoa(?HOA $activeHoa): self
+    {
+        $this->activeHoa = $activeHoa;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Role[]
+     */
+    public function getRole(): Collection
+    {
+        return $this->role;
+    }
+
+    public function addRole(Role $role): self
+    {
+        if (!$this->role->contains($role)) {
+            $this->role[] = $role;
+        }
+
+        return $this;
+    }
+
+    public function removeRole(Role $role): self
+    {
+        $this->role->removeElement($role);
 
         return $this;
     }

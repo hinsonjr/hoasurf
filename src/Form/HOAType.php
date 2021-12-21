@@ -13,6 +13,7 @@ class HOAType extends AbstractType
     {
         $builder
             ->add('Name')
+            ->add('shortName')
             ->add('adminName')
             ->add('adminPhone')
             ->add('adminEmail')

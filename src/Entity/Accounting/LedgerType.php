@@ -30,7 +30,7 @@ class LedgerType
     private $isDebit;
 
     /**
-     * @ORM\ManyToMany(targetEntity=LedgerAccount::class, mappedBy="type")
+     * @ORM\OneToMany(targetEntity=LedgerAccount::class, mappedBy="type")
      */
     private $ledgerAccounts;
 
@@ -41,7 +41,7 @@ class LedgerType
 
     public function __toString()
     {
-        return $this->name;
+        return $this->getName();
     }
 
     public function getId(): ?int
@@ -85,7 +85,7 @@ class LedgerType
     {
         if (!$this->ledgerAccounts->contains($ledgerAccount)) {
             $this->ledgerAccounts[] = $ledgerAccount;
-            $ledgerAccount->addType($this);
+            $ledgerAccount->setType($this);
         }
 
         return $this;
@@ -94,7 +94,10 @@ class LedgerType
     public function removeLedgerAccount(LedgerAccount $ledgerAccount): self
     {
         if ($this->ledgerAccounts->removeElement($ledgerAccount)) {
-            $ledgerAccount->removeType($this);
+            // set the owning side to null (unless already changed)
+            if ($ledgerAccount->getType() === $this) {
+                $ledgerAccount->setType(null);
+            }
         }
 
         return $this;

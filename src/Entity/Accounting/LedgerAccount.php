@@ -2,6 +2,7 @@
 
 namespace App\Entity\Accounting;
 
+use App\Entity\Accounting\Transaction;
 use App\Entity\HOA;
 use App\Repository\Accounting\LedgerAccountRepository;
 use Doctrine\Common\Collections\ArrayCollection;
@@ -26,11 +27,6 @@ class LedgerAccount
     private $name;
 
     /**
-     * @ORM\ManyToMany(targetEntity=LedgerType::class, inversedBy="ledgerAccounts")
-     */
-    private $type;
-
-    /**
      * @ORM\ManyToMany(targetEntity=HOA::class, inversedBy="ledgerAccounts")
      */
     private $hoa;
@@ -45,16 +41,35 @@ class LedgerAccount
      */
     private $startBalance;
 
+    /**
+     * @ORM\OneToMany(targetEntity=Transaction::class, mappedBy="creditAccount")
+     */
+    private $creditTransactions;
+
+    /**
+     * @ORM\OneToMany(targetEntity=Transaction::class, mappedBy="debitAccount")
+     */
+    private $debitTransactions;
+
+    /**
+     * @ORM\ManyToOne(targetEntity=LedgerType::class, inversedBy="ledgerAccounts")
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $type;
+
+
     public function __construct()
     {
         $this->type = new ArrayCollection();
         $this->hoa = new ArrayCollection();
+        $this->creditTransactions = new ArrayCollection();
+        $this->debitTransactions = new ArrayCollection();
     }
 
 	public function __toString()
-    {
-        return $this->name;
-    }
+      	{
+      		return $this->name;
+      	}
 
     public function getId(): ?int
     {
@@ -69,30 +84,6 @@ class LedgerAccount
     public function setName(string $name): self
     {
         $this->name = $name;
-
-        return $this;
-    }
-
-    /**
-     * @return Collection|LedgerType[]
-     */
-    public function getType(): Collection
-    {
-        return $this->type;
-    }
-
-    public function addType(LedgerType $type): self
-    {
-        if (!$this->type->contains($type)) {
-            $this->type[] = $type;
-        }
-
-        return $this;
-    }
-
-    public function removeType(LedgerType $type): self
-    {
-        $this->type->removeElement($type);
 
         return $this;
     }
@@ -141,6 +132,78 @@ class LedgerAccount
     public function setStartBalance(string $startBalance): self
     {
         $this->startBalance = $startBalance;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Transaction[]
+     */
+    public function getCreditTransactions(): Collection
+    {
+        return $this->creditTransactions;
+    }
+
+    public function addCreditTransaction(Transaction $creditTransaction): self
+    {
+        if (!$this->creditTransactions->contains($creditTransaction)) {
+            $this->creditTransactions[] = $creditTransaction;
+            $creditTransaction->setCreditAccount($this);
+        }
+
+        return $this;
+    }
+
+    public function removeCreditTransaction(Transaction $creditTransaction): self
+    {
+        if ($this->creditTransactions->removeElement($creditTransaction)) {
+            // set the owning side to null (unless already changed)
+            if ($creditTransaction->getCreditAccount() === $this) {
+                $creditTransaction->setCreditAccount(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Transaction[]
+     */
+    public function getDebitTransactions(): Collection
+    {
+        return $this->debitTransactions;
+    }
+
+    public function addDebitTransaction(Transaction $debitTransaction): self
+    {
+        if (!$this->debitTransactions->contains($debitTransaction)) {
+            $this->debitTransactions[] = $debitTransaction;
+            $debitTransaction->setDebitAccount($this);
+        }
+
+        return $this;
+    }
+
+    public function removeDebitTransaction(Transaction $debitTransaction): self
+    {
+        if ($this->debitTransactions->removeElement($debitTransaction)) {
+            // set the owning side to null (unless already changed)
+            if ($debitTransaction->getDebitAccount() === $this) {
+                $debitTransaction->setDebitAccount(null);
+            }
+        }
+
+        return $this;
+    }
+
+    public function getType()
+    {
+        return $this->type;
+    }
+
+	public function setType(?LedgerType $type): self
+    {
+        $this->type = $type;
 
         return $this;
     }

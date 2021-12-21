@@ -26,7 +26,7 @@ class UnitRepository extends ServiceEntityRepository
 		$buildingId = "";
 		$search = "";
 		$q = $this->createQueryBuilder('u')
-            ->setMaxResults(55)
+            ->setMaxResults(50)
 			->orderBy('u.unitNumber');
 
 		if (array_key_exists('search',$query) && $query['search'])

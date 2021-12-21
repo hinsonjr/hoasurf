@@ -11,3 +11,7 @@ body {
     margin-right: 100px;
 }
 
+#nav-user {
+    float:right;
+}
+
