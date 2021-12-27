@@ -6,6 +6,7 @@ use App\Repository\Accounting\OwnerAccountRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use App\Traits\AccountTransactionTrait;
 
 /**
  * @ORM\Entity(repositoryClass=OwnerAccountRepository::class)

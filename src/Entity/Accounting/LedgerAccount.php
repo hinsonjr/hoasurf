@@ -8,6 +8,7 @@ use App\Repository\Accounting\LedgerAccountRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use App\Traits\AccountTransactionTrait;
 
 /**
  * @ORM\Entity(repositoryClass=LedgerAccountRepository::class)
@@ -42,28 +43,27 @@ class LedgerAccount
     private $startBalance;
 
     /**
-     * @ORM\OneToMany(targetEntity=Transaction::class, mappedBy="creditAccount")
-     */
-    private $creditTransactions;
-
-    /**
-     * @ORM\OneToMany(targetEntity=Transaction::class, mappedBy="debitAccount")
-     */
-    private $debitTransactions;
-
-    /**
      * @ORM\ManyToOne(targetEntity=LedgerType::class, inversedBy="ledgerAccounts")
      * @ORM\JoinColumn(nullable=false)
      */
     private $type;
+	
+	/**
+	 * @ORM\OneToMany(targetEntity="App\Entity\Accounting\Transaction", mappedBy="debitAccount", orphanRemoval=true)
+	 */
+	private $debitTransactions;	
 
+	/**
+	 * @ORM\OneToMany(targetEntity="App\Entity\Accounting\Transaction", mappedBy="creditAccount", orphanRemoval=true)
+	 */
+	private $creditTransactions;	
 
     public function __construct()
     {
         $this->type = new ArrayCollection();
         $this->hoa = new ArrayCollection();
-        $this->creditTransactions = new ArrayCollection();
-        $this->debitTransactions = new ArrayCollection();
+        $this->debitTransactions = new ArrayCollection();		
+        $this->creditTransactions = new ArrayCollection();		
     }
 
 	public function __toString()
@@ -136,66 +136,6 @@ class LedgerAccount
         return $this;
     }
 
-    /**
-     * @return Collection|Transaction[]
-     */
-    public function getCreditTransactions(): Collection
-    {
-        return $this->creditTransactions;
-    }
-
-    public function addCreditTransaction(Transaction $creditTransaction): self
-    {
-        if (!$this->creditTransactions->contains($creditTransaction)) {
-            $this->creditTransactions[] = $creditTransaction;
-            $creditTransaction->setCreditAccount($this);
-        }
-
-        return $this;
-    }
-
-    public function removeCreditTransaction(Transaction $creditTransaction): self
-    {
-        if ($this->creditTransactions->removeElement($creditTransaction)) {
-            // set the owning side to null (unless already changed)
-            if ($creditTransaction->getCreditAccount() === $this) {
-                $creditTransaction->setCreditAccount(null);
-            }
-        }
-
-        return $this;
-    }
-
-    /**
-     * @return Collection|Transaction[]
-     */
-    public function getDebitTransactions(): Collection
-    {
-        return $this->debitTransactions;
-    }
-
-    public function addDebitTransaction(Transaction $debitTransaction): self
-    {
-        if (!$this->debitTransactions->contains($debitTransaction)) {
-            $this->debitTransactions[] = $debitTransaction;
-            $debitTransaction->setDebitAccount($this);
-        }
-
-        return $this;
-    }
-
-    public function removeDebitTransaction(Transaction $debitTransaction): self
-    {
-        if ($this->debitTransactions->removeElement($debitTransaction)) {
-            // set the owning side to null (unless already changed)
-            if ($debitTransaction->getDebitAccount() === $this) {
-                $debitTransaction->setDebitAccount(null);
-            }
-        }
-
-        return $this;
-    }
-
     public function getType()
     {
         return $this->type;
@@ -207,4 +147,67 @@ class LedgerAccount
 
         return $this;
     }
+	
+
+    /**
+     * @return Collection|Transaction[]
+     */
+    public function getDebitTransactions(): Collection
+    {
+        return $this->debitTransactions;
+    }
+
+    public function addDebitTransaction(Transaction $transaction): self
+    {
+        if (!$this->debitTransactions->contains($transaction)) {
+            $this->debitTransactions[] = $transaction;
+            $transaction->setDebitAccount($this);
+        }
+
+        return $this;
+    }
+
+    public function removeDebitTransaction(Transaction $transaction): self
+    {
+        if ($this->debitTransactions->removeElement($transaction)) {
+            // set the owning side to null (unless already changed)
+            if ($transaction->getDebitAccount() === $this) {
+                $transaction->setDebitAccount(null);
+            }
+        }
+
+        return $this;
+    }	
+
+    /**
+     * @return Collection|Transaction[]
+     */
+    public function getCreditTransactions(): Collection
+    {
+        return $this->creditTransactions;
+    }
+
+    public function addCreditTransaction(Transaction $transaction): self
+    {
+        if (!$this->creditTransactions->contains($transaction)) {
+            $this->creditTransactions[] = $transaction;
+            $transaction->setCreditAccount($this);
+        }
+
+        return $this;
+    }
+
+    public function removeCreditTransaction(Transaction $transaction): self
+    {
+        if ($this->creditTransactions->removeElement($transaction)) {
+            // set the owning side to null (unless already changed)
+            if ($transaction->getCreditAccount() === $this) {
+                $transaction->setCreditAccount(null);
+            }
+        }
+
+        return $this;
+    }	
+
+	
 }
