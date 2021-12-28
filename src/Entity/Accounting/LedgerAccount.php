@@ -15,6 +15,7 @@ use App\Traits\AccountTransactionTrait;
  */
 class LedgerAccount
 {
+	use AccountTransactionTrait;
     /**
      * @ORM\Id
      * @ORM\GeneratedValue
@@ -49,14 +50,12 @@ class LedgerAccount
     private $type;
 	
 	/**
-	 * @ORM\OneToMany(targetEntity="App\Entity\Accounting\Transaction", mappedBy="debitAccount", orphanRemoval=true)
-	 */
+	 * ORM\OneToMany(targetEntity="App\Entity\Accounting\Transaction", mappedBy="debitAccount", orphanRemoval=true)
 	private $debitTransactions;	
 
-	/**
-	 * @ORM\OneToMany(targetEntity="App\Entity\Accounting\Transaction", mappedBy="creditAccount", orphanRemoval=true)
-	 */
+	 //ORM\OneToMany(targetEntity="App\Entity\Accounting\Transaction", mappedBy="creditAccount", orphanRemoval=true)
 	private $creditTransactions;	
+	 */
 
     public function __construct()
     {
@@ -67,9 +66,9 @@ class LedgerAccount
     }
 
 	public function __toString()
-      	{
-      		return $this->name;
-      	}
+	{
+		return $this->name;
+	}
 
     public function getId(): ?int
     {
@@ -151,7 +150,6 @@ class LedgerAccount
 
     /**
      * @return Collection|Transaction[]
-     */
     public function getDebitTransactions(): Collection
     {
         return $this->debitTransactions;
@@ -178,10 +176,10 @@ class LedgerAccount
 
         return $this;
     }	
+     */
 
     /**
      * @return Collection|Transaction[]
-     */
     public function getCreditTransactions(): Collection
     {
         return $this->creditTransactions;
@@ -208,6 +206,7 @@ class LedgerAccount
 
         return $this;
     }	
+     */
 
 	
 }

@@ -12,9 +12,12 @@ namespace App\Traits;
  *
  * @author hinso
  */
-class AccountTransactionTrait
-{
 
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
+
+trait AccountTransactionTrait
+{
 
 	/**
      * @ORM\OneToMany(targetEntity=Transaction::class, mappedBy="creditAccount")
@@ -34,7 +37,7 @@ class AccountTransactionTrait
         return $this->creditTransactions;
     }
 
-    public function addCreditTransaction(Transaction $creditTransaction): self
+    public function addCreditTransaction(App\Entity\Accounting\Transaction $creditTransaction): self
     {
         if (!$this->creditTransactions->contains($creditTransaction)) {
             $this->creditTransactions[] = $creditTransaction;
@@ -44,7 +47,7 @@ class AccountTransactionTrait
         return $this;
     }
 
-    public function removeCreditTransaction(Transaction $creditTransaction): self
+    public function removeCreditTransaction(App\Entity\Accounting\Transaction $creditTransaction): self
     {
         if ($this->creditTransactions->removeElement($creditTransaction)) {
             // set the owning side to null (unless already changed)
@@ -52,7 +55,6 @@ class AccountTransactionTrait
                 $creditTransaction->setCreditAccount(null);
             }
         }
-
         return $this;
     }
 
@@ -64,7 +66,7 @@ class AccountTransactionTrait
         return $this->debitTransactions;
     }
 
-    public function addDebitTransaction(Transaction $debitTransaction): self
+    public function addDebitTransaction(App\Entity\Accounting\Transaction $debitTransaction): self
     {
         if (!$this->debitTransactions->contains($debitTransaction)) {
             $this->debitTransactions[] = $debitTransaction;
@@ -74,7 +76,7 @@ class AccountTransactionTrait
         return $this;
     }
 
-    public function removeDebitTransaction(Transaction $debitTransaction): self
+    public function removeDebitTransaction(App\Entity\Accounting\Transaction $debitTransaction): self
     {
         if ($this->debitTransactions->removeElement($debitTransaction)) {
             // set the owning side to null (unless already changed)
