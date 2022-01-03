@@ -17,6 +17,8 @@ class LedgerAccountType extends AbstractType
             ->add('startBalance')
             ->add('type')
             ->add('hoa')
+            ->add('owner')
+            ->add('vendor')
         ;
     }
 

@@ -1,0 +1,43 @@
+{% extends 'admin-base.html.twig' %}
+
+{% block title %}
+    {% if title is not empty %}
+        {{  title }}
+    {%  endif %}
+{% endblock %}
+
+{% block content %}
+    <h2>{{  title }}</h2>
+    {%  if content is iterable %}
+        <table>
+        {%  if heading is not empty %}
+            <thead>
+            {% if heading is iterable %}
+                <tr>
+                {% for item in heading %}
+                    <th>{{ item }}</th>
+                {% endfor %}
+                </tr>
+            {% else %}
+                <tr>
+                {{ heading|raw }}
+                </tr>
+            {% endif %}
+            </thead>
+        {% endif %}
+        {%  for item in content %}
+            <tr>
+            {% if item is iterable %}
+                {% for atom in item %}
+                    <td>{{ atom }}</td>
+                {% endfor %}
+            {% else %}
+                <td>{{ item|raw }}</td>
+            {% endif %}
+            </tr>
+        {% endfor %}
+        </table>
+    {% else %}
+        {{ content|raw }}
+    {%  endif %}
+{% endblock %}

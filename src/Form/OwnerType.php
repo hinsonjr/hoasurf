@@ -17,6 +17,7 @@ class OwnerType extends AbstractType
         $builder
             ->add('name')
             ->add('unit')
+            ->add('email')
             ->add('startDate', DateType::class, ['years' => $yearRange])
             ->add('endDate')
             ->add('address')

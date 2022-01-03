@@ -18,227 +18,237 @@ use Symfony\Component\Security\Core\User\UserInterface;
  */
 class User implements UserInterface, PasswordAuthenticatedUserInterface
 {
-    /**
-     * @ORM\Id
-     * @ORM\GeneratedValue
-     * @ORM\Column(type="integer")
-     */
-    private $id;
 
-    /**
-     * @ORM\Column(type="string", length=180, unique=true)
-     */
-    private $email;
-	
-    /**
-     * @ORM\Column(type="string", length=255)
-     */
-    private $name;
+	/**
+	 * @ORM\Id
+	 * @ORM\GeneratedValue
+	 * @ORM\Column(type="integer")
+	 */
+	private $id;
 
-    /**
-     * @ORM\Column(type="json")
-     */
-    private $roles = [];
+	/**
+	 * @ORM\Column(type="string", length=180, unique=true)
+	 */
+	private $email;
 
-    /**
-     * @var string The hashed password
-     * @ORM\Column(type="string", nullable=true)
-     */
-    private $password;
+	/**
+	 * @ORM\Column(type="string", length=255)
+	 */
+	private $name;
 
-    /**
-     * @ORM\Column(type="boolean")
-     */
-    private $isVerified = false;
+	/**
+	 * @ORM\Column(type="json")
+	 */
+	private $roles = [];
 
-    /**
-     * @ORM\OneToMany(targetEntity=Owner::class, mappedBy="user")
-     */
-    private $owners;
+	/**
+	 * @var string The hashed password
+	 * @ORM\Column(type="string", nullable=true)
+	 */
+	private $password;
 
-    /**
-     * @ORM\ManyToOne(targetEntity=HOA::class)
-     */
-    private $activeHoa;
+	/**
+	 * @ORM\Column(type="boolean")
+	 */
+	private $isVerified = false;
 
-    /**
-     * @ORM\ManyToMany(targetEntity=Role::class, inversedBy="users")
-     */
-    private $role;
+	/**
+	 * @ORM\OneToMany(targetEntity=Owner::class, mappedBy="user")
+	 */
+	private $owners;
 
-    public function __construct()
-    {
-        $this->owners = new ArrayCollection();
-        $this->role = new ArrayCollection();
-    }
+	/**
+	 * @ORM\ManyToOne(targetEntity=HOA::class)
+	 */
+	private $activeHoa;
+
+	/**
+	 * @ORM\ManyToMany(targetEntity=Role::class, inversedBy="users")
+	 */
+	private $role;
+
+	public function __construct()
+	{
+		$this->owners = new ArrayCollection();
+		$this->role = new ArrayCollection();
+	}
 
 	public function __toString()
-                                                                                                             {
-                                                                                                                 return $this->getName();
-                                                                                                             }
-	
-    public function getId(): ?int
-    {
-        return $this->id;
-    }
+	{
+		return $this->getName();
+	}
 
-    public function getEmail(): ?string
-    {
-        return $this->email;
-    }
+	public function getId(): ?int
+	{
+		return $this->id;
+	}
 
-    public function setEmail(string $email): self
-    {
-        $this->email = $email;
+	public function getEmail(): ?string
+	{
+		return $this->email;
+	}
 
-        return $this;
-    }
+	public function setEmail(string $email): self
+	{
+		$this->email = $email;
 
-    /**
-     * A visual identifier that represents this user.
-     *
-     * @see UserInterface
-     */
-    public function getUserIdentifier(): string
-    {
-        return (string) $this->email;
-    }
+		return $this;
+	}
 
-    /**
-     * @see UserInterface
-     */
-    public function getRoles(): array
-    {
-        $userRoles = $this->getRole();
+	/**
+	 * A visual identifier that represents this user.
+	 *
+	 * @see UserInterface
+	 */
+	public function getUserIdentifier(): string
+	{
+		return (string) $this->email;
+	}
+
+	/**
+	 * @see UserInterface
+	 */
+	public function getRoles(): array
+	{
+		$userRoles = $this->getRole();
 		$roles = [];
 		foreach ($userRoles as $userRole)
 		{
 			$roles[] = $userRole->getRoleName();
 		}
-        // guarantee every user at least has ROLE_USER
+		if (empty($roles))
+		{
+			$roles[] = "ROLE_USER";
+		}
+		// guarantee every user at least has ROLE_USER
 
-        return array_unique($roles);
-    }
+		return array_unique($roles);
+	}
 
-    /*public function setRoles(array $roles): self
-    {
-        $this->roles = $roles;
+	/* public function setRoles(array $roles): self
+	  {
+	  $this->roles = $roles;
 
-        return $this;
-    }
+	  return $this;
+	  }
 	 * 
 	 */
 
-    /**
-     * @see PasswordAuthenticatedUserInterface
-     */
-    public function getPassword(): string
-    {
-        return $this->password;
-    }
+	/**
+	 * @see PasswordAuthenticatedUserInterface
+	 */
+	public function getPassword(): string
+	{
+		return $this->password;
+	}
 
-    public function setPassword(string $password): self
-    {
-        $this->password = $password;
+	public function setPassword(string $password): self
+	{
+		$this->password = $password;
 
-        return $this;
-    }
+		return $this;
+	}
 
-    public function getName(): ?string
-    {
-        return $this->name;
-    }
+	public function getName(): ?string
+	{
+		return $this->name;
+	}
 
-    public function setName(string $name): self
-    {
-        $this->name = $name;
-        return $this;
-    }
-	
-    /**
-     * @see UserInterface
-     */
-    public function eraseCredentials()
-    {
-        // If you store any temporary, sensitive data on the user, clear it here
-        // $this->plainPassword = null;
-    }
+	public function setName(string $name): self
+	{
+		$this->name = $name;
+		return $this;
+	}
 
-    public function isVerified(): bool
-    {
-        return $this->isVerified;
-    }
+	/**
+	 * @see UserInterface
+	 */
+	public function eraseCredentials()
+	{
+		// If you store any temporary, sensitive data on the user, clear it here
+		// $this->plainPassword = null;
+	}
 
-    public function setIsVerified(bool $isVerified): self
-    {
-        $this->isVerified = $isVerified;
+	public function isVerified(): bool
+	{
+		return $this->isVerified;
+	}
 
-        return $this;
-    }
+	public function setIsVerified(bool $isVerified): self
+	{
+		$this->isVerified = $isVerified;
 
-    /**
-     * @return Collection|Owner[]
-     */
-    public function getOwners(): Collection
-    {
-        return $this->owners;
-    }
+		return $this;
+	}
 
-    public function addOwner(Owner $owner): self
-    {
-        if (!$this->owners->contains($owner)) {
-            $this->owners[] = $owner;
-            $owner->setUser($this);
-        }
+	/**
+	 * @return Collection|Owner[]
+	 */
+	public function getOwners(): Collection
+	{
+		return $this->owners;
+	}
 
-        return $this;
-    }
+	public function addOwner(Owner $owner): self
+	{
+		if (!$this->owners->contains($owner))
+		{
+			$this->owners[] = $owner;
+			$owner->setUser($this);
+		}
 
-    public function removeOwner(Owner $owner): self
-    {
-        if ($this->owners->removeElement($owner)) {
-            // set the owning side to null (unless already changed)
-            if ($owner->getUser() === $this) {
-                $owner->setUser(null);
-            }
-        }
+		return $this;
+	}
 
-        return $this;
-    }
+	public function removeOwner(Owner $owner): self
+	{
+		if ($this->owners->removeElement($owner))
+		{
+			// set the owning side to null (unless already changed)
+			if ($owner->getUser() === $this)
+			{
+				$owner->setUser(null);
+			}
+		}
 
-    public function getActiveHoa(): ?Hoa
-    {
-        return $this->activeHoa;
-    }
+		return $this;
+	}
 
-    public function setActiveHoa(?HOA $activeHoa): self
-    {
-        $this->activeHoa = $activeHoa;
+	public function getActiveHoa(): ?Hoa
+	{
+		return $this->activeHoa;
+	}
 
-        return $this;
-    }
+	public function setActiveHoa(?HOA $activeHoa): self
+	{
+		$this->activeHoa = $activeHoa;
 
-    /**
-     * @return Collection|Role[]
-     */
-    public function getRole(): Collection
-    {
-        return $this->role;
-    }
+		return $this;
+	}
 
-    public function addRole(Role $role): self
-    {
-        if (!$this->role->contains($role)) {
-            $this->role[] = $role;
-        }
+	/**
+	 * @return Collection|Role[]
+	 */
+	public function getRole(): Collection
+	{
+		return $this->role;
+	}
 
-        return $this;
-    }
+	public function addRole(Role $role): self
+	{
+		if (!$this->role->contains($role))
+		{
+			$this->role[] = $role;
+		}
 
-    public function removeRole(Role $role): self
-    {
-        $this->role->removeElement($role);
+		return $this;
+	}
 
-        return $this;
-    }
+	public function removeRole(Role $role): self
+	{
+		$this->role->removeElement($role);
+
+		return $this;
+	}
+
 }

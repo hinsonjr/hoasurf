@@ -4,6 +4,7 @@ namespace App\Entity\Accounting;
 
 use App\Repository\Accounting\TransactionRepository;
 use Doctrine\ORM\Mapping as ORM;
+use App\Entity\Accounting\LedgerAccount;
 
 /**
  * @ORM\Entity(repositoryClass=TransactionRepository::class)

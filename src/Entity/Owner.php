@@ -2,6 +2,7 @@
 
 namespace App\Entity;
 
+use App\Entity\Accounting\LedgerAccount;
 use App\Repository\OwnerRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
@@ -10,7 +11,8 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * @ORM\Entity(repositoryClass=OwnerRepository::class)
  */
-class Owner {
+class Owner
+{
 
 	/**
 	 * @ORM\Id
@@ -80,208 +82,229 @@ class Owner {
 	private $ownPercent;
 
 	/**
-	 * @ORM\ManyToMany(targetEntity=App\Entity\Accounting\OwnerAccount::class, mappedBy="owner")
+	 * @ORM\ManyToOne(targetEntity=User::class, inversedBy="owners")
 	 */
-	private $ownerAccounts;
-
-	/**
-	 * @ORM\ManyToMany(targetEntity=App\Entity\Accounting\OwnerInvoice::class, mappedBy="owner")
-	 */
-	private $ownerInvoices;
+	private $user;
 
     /**
-     * @ORM\ManyToOne(targetEntity=User::class, inversedBy="owners")
+     * @ORM\OneToMany(targetEntity=LedgerAccount::class, mappedBy="owner")
      */
-    private $user;
+    private $ledgerAccounts;
 
-	public function __construct() {
-         		$this->ownerAccounts = new ArrayCollection();
-         		$this->ownerInvoices = new ArrayCollection();
-         	}
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $email;
 
-	public function __toString() {
-         		return $this->getName();
-         	}
+	public function __construct()
+                      {
+                          $this->ledgerAccounts = new ArrayCollection();
+                      }
 
-	public function getId(): ?int {
-         		return $this->id;
-         	}
+	public function __toString()
+                           	{
+                           		return $this->getName();
+                           	}
 
-	public function getName(): ?string {
-         		return $this->name;
-         	}
+	public function getId(): ?int
+                           	{
+                           		return $this->id;
+                           	}
 
-	public function setName(string $name): self {
-         		$this->name = $name;
-         
-         		return $this;
-         	}
+	public function getName(): ?string
+                           	{
+                           		return $this->name;
+                           	}
 
-	public function getStartDate(): ?\DateTimeInterface {
-         		return $this->startDate;
-         	}
+	public function setName(string $name): self
+                           	{
+                           		$this->name = $name;
+                           
+                           		return $this;
+                           	}
 
-	public function setStartDate(?\DateTimeInterface $startDate): self {
-         		$this->startDate = $startDate;
-         
-         		return $this;
-         	}
+	public function getStartDate(): ?\DateTimeInterface
+                           	{
+                           		return $this->startDate;
+                           	}
 
-	public function getEndDate(): ?\DateTimeInterface {
-         		return $this->endDate;
-         	}
+	public function setStartDate(?\DateTimeInterface $startDate): self
+                           	{
+                           		$this->startDate = $startDate;
+                           
+                           		return $this;
+                           	}
 
-	public function setEndDate(?\DateTimeInterface $endDate): self {
-         		$this->endDate = $endDate;
-         
-         		return $this;
-         	}
-	public function getAddress(): ?string {
-         		return $this->address;
-         	}
+	public function getEndDate(): ?\DateTimeInterface
+                           	{
+                           		return $this->endDate;
+                           	}
 
-	public function setAddress(?string $address): self {
-         		$this->address = $address;
-         
-         		return $this;
-         	}
+	public function setEndDate(?\DateTimeInterface $endDate): self
+                           	{
+                           		$this->endDate = $endDate;
+                           
+                           		return $this;
+                           	}
 
-	public function getAddress2(): ?string {
-         		return $this->address2;
-         	}
+	public function getAddress(): ?string
+                           	{
+                           		return $this->address;
+                           	}
 
-	public function setAddress2(?string $address2): self {
-         		$this->address2 = $address2;
-         
-         		return $this;
-         	}
+	public function setAddress(?string $address): self
+                           	{
+                           		$this->address = $address;
+                           
+                           		return $this;
+                           	}
 
-	public function getCity(): ?string {
-         		return $this->city;
-         	}
+	public function getAddress2(): ?string
+                           	{
+                           		return $this->address2;
+                           	}
 
-	public function setCity(?string $city): self {
-         		$this->city = $city;
-         
-         		return $this;
-         	}
+	public function setAddress2(?string $address2): self
+                           	{
+                           		$this->address2 = $address2;
+                           
+                           		return $this;
+                           	}
 
-	public function getState(): ?string {
-         		return $this->state;
-         	}
+	public function getCity(): ?string
+                           	{
+                           		return $this->city;
+                           	}
 
-	public function setState(?string $state): self {
-         		$this->state = $state;
-         
-         		return $this;
-         	}
+	public function setCity(?string $city): self
+                           	{
+                           		$this->city = $city;
+                           
+                           		return $this;
+                           	}
 
-	public function getZip(): ?string {
-         		return $this->zip;
-         	}
+	public function getState(): ?string
+                           	{
+                           		return $this->state;
+                           	}
 
-	public function setZip(?string $zip): self {
-         		$this->zip = $zip;
-         
-         		return $this;
-         	}
+	public function setState(?string $state): self
+                           	{
+                           		$this->state = $state;
+                           
+                           		return $this;
+                           	}
 
-	public function getPhone(): ?string {
-         		return $this->phone;
-         	}
+	public function getZip(): ?string
+                           	{
+                           		return $this->zip;
+                           	}
 
-	public function setPhone(?string $phone): self {
-         		$this->phone = $phone;
-         
-         		return $this;
-         	}
+	public function setZip(?string $zip): self
+                           	{
+                           		$this->zip = $zip;
+                           
+                           		return $this;
+                           	}
 
-	public function getUnit(): ?Unit {
-         		return $this->unit;
-         	}
+	public function getPhone(): ?string
+                           	{
+                           		return $this->phone;
+                           	}
 
-	public function setUnit(?Unit $unit): self {
-         		$this->unit = $unit;
-         
-         		return $this;
-         	}
+	public function setPhone(?string $phone): self
+                           	{
+                           		$this->phone = $phone;
+                           
+                           		return $this;
+                           	}
 
-	public function getCountry(): ?string {
-         		return $this->country;
-         	}
+	public function getUnit(): ?Unit
+                           	{
+                           		return $this->unit;
+                           	}
 
-	public function setCountry(?string $country): self {
-         		$this->country = $country;
-         
-         		return $this;
-         	}
+	public function setUnit(?Unit $unit): self
+                           	{
+                           		$this->unit = $unit;
+                           
+                           		return $this;
+                           	}
 
-	public function getOwnPercent(): ?float {
-         		return $this->ownPercent;
-         	}
+	public function getCountry(): ?string
+                           	{
+                           		return $this->country;
+                           	}
 
-	public function setOwnPercent(float $ownPercent): self {
-         		$this->ownPercent = $ownPercent;
-         
-         		return $this;
-         	}
+	public function setCountry(?string $country): self
+                           	{
+                           		$this->country = $country;
+                           
+                           		return $this;
+                           	}
 
-	/**
-	 * @return Collection|OwnerAccount[]
-	 */
-	public function getOwnerAccounts(): Collection {
-         		return $this->ownerAccounts;
-         	}
+	public function getOwnPercent(): ?float
+                           	{
+                           		return $this->ownPercent;
+                           	}
 
-	public function addOwnerAccount(OwnerAccount $ownerAccount): self {
-         		if (!$this->ownerAccounts->contains($ownerAccount)) {
-         			$this->ownerAccounts[] = $ownerAccount;
-         			$ownerAccount->addOwner($this);
-         		}
-         
-         		return $this;
-         	}
+	public function setOwnPercent(float $ownPercent): self
+                           	{
+                           		$this->ownPercent = $ownPercent;
+                           
+                           		return $this;
+                           	}
 
-	public function removeOwnerAccount(OwnerAccount $ownerAccount): self {
-         		if ($this->ownerAccounts->removeElement($ownerAccount)) {
-         			$ownerAccount->removeOwner($this);
-         		}
-         
-         		return $this;
-         	}
+	public function getUser(): ?User
+                           	{
+                           		return $this->user;
+                           	}
 
-	/**
-	 * @return Collection|OwnerInvoice[]
-	 */
-	public function getOwnerInvoices(): Collection {
-         		return $this->ownerInvoices;
-         	}
+	public function setUser(?User $user): self
+                           	{
+                           		$this->user = $user;
+                           
+                           		return $this;
+                           	}
 
-	public function addOwnerInvoice(OwnerInvoice $ownerInvoice): self {
-         		if (!$this->ownerInvoices->contains($ownerInvoice)) {
-         			$this->ownerInvoices[] = $ownerInvoice;
-         			$ownerInvoice->addOwner($this);
-         		}
-         
-         		return $this;
-         	}
-
-	public function removeOwnerInvoice(OwnerInvoice $ownerInvoice): self {
-         		if ($this->ownerInvoices->removeElement($ownerInvoice)) {
-         			$ownerInvoice->removeOwner($this);
-         		}
-         
-         		return $this;
-         	}
-
-    public function getUser(): ?User
+    /**
+     * @return Collection|LedgerAccount[]
+     */
+    public function getLedgerAccounts(): Collection
     {
-        return $this->user;
+        return $this->ledgerAccounts;
     }
 
-    public function setUser(?User $user): self
+    public function addLedgerAccount(LedgerAccount $ledgerAccount): self
     {
-        $this->user = $user;
+        if (!$this->ledgerAccounts->contains($ledgerAccount)) {
+            $this->ledgerAccounts[] = $ledgerAccount;
+            $ledgerAccount->setOwner($this);
+        }
+
+        return $this;
+    }
+
+    public function removeLedgerAccount(LedgerAccount $ledgerAccount): self
+    {
+        if ($this->ledgerAccounts->removeElement($ledgerAccount)) {
+            // set the owning side to null (unless already changed)
+            if ($ledgerAccount->getOwner() === $this) {
+                $ledgerAccount->setOwner(null);
+            }
+        }
+
+        return $this;
+    }
+
+    public function getEmail(): ?string
+    {
+        return $this->email;
+    }
+
+    public function setEmail(?string $email): self
+    {
+        $this->email = $email;
 
         return $this;
     }

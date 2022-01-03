@@ -8,26 +8,23 @@
     <table class="table">
         <thead>
             <tr>
-                <th>Id</th>
+                <th>View</th>
                 <th>Date</th>
                 <th>Amount</th>
                 <th>Debit Account</th>
                 <th>Credit Account</th>
-                <th>actions</th>
+                <th>Edit</th>
             </tr>
         </thead>
         <tbody>
         {% for transaction in transactions %}
             <tr>
-                <td>{{ transaction.id }}</td>
+                <td><a href="{{ path('accounting_transaction_show', {'id': transaction.id}) }}">View</a></td>
                 <td>{{ transaction.date ? transaction.date|date('Y-m-d H:i:s') : '' }}</td>
                 <td>{{ transaction.amount|format_currency('USD') }}</td>
                 <td><a href="{{ path('accounting_ledger_account_show', {'id': transaction.debitAccount.id}) }}">{{ transaction.debitAccount }}</a></td>
-                <td>{{ transaction.creditAccount }}</td>
-                <td>
-                    <a href="{{ path('accounting_transaction_show', {'id': transaction.id}) }}">show</a>
-                    <a href="{{ path('accounting_transaction_edit', {'id': transaction.id}) }}">edit</a>
-                </td>
+                <td><a href="{{ path('accounting_ledger_account_show', {'id': transaction.creditAccount.id}) }}">{{ transaction.creditAccount }}</a></td>
+                <td><a href="{{ path('accounting_transaction_edit', {'id': transaction.id}) }}">Edit</a></td>
             </tr>
         {% else %}
             <tr>

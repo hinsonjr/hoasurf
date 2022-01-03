@@ -45,12 +45,20 @@ class OwnerRepository extends ServiceEntityRepository
 	
 	}
 	
-	public function findOwnerUnits($ownerId)
+	public function findOwnersByUser($user)
 	{
-		$q = $this->createQueryBuilder('p')
-			->from("Units")
-			->where("Unit.ownerId = ".$ownerId)
-			->orderBy('u.unitNumber');
+
+		$entityManager = $this->getEntityManager();
+
+        $query = $entityManager->createQuery(
+            'SELECT o
+            FROM App\Entity\Owner o
+            WHERE o.user = :user
+            ORDER BY o.startDate ASC'
+        )->setParameter('user', $user);
+		$ownerRecords = $query->getResult();
+		
+		return $ownerRecords;
 	}
 
 	public function findHoaCurrentOwners($hoaId)
@@ -64,4 +72,21 @@ class OwnerRepository extends ServiceEntityRepository
 			->orderBy('u.unitNumber');
 	}
 	
+	public function findByUser($user)
+	{
+		$entityManager = $this->getEntityManager();
+		$date = new \DateTime();
+
+		$q = $this->createQueryBuilder('o');
+		$q->where('o.user = :user')
+			->andWhere('o.startDate IS NOT NULL',$q->expr()->orX('o.endDate IS NULL',$q->expr()->gte('o.endDate',':date')))
+			->setParameter('user',$user)
+			->setParameter('date',$date->format("Y-m-d"))
+			->orderBy('o.startDate');
+
+        $query = $q->getQuery();
+
+        $ownerRecords = $query->execute();
+        return $ownerRecords;
+	}
 }

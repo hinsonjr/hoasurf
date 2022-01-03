@@ -5,7 +5,7 @@
  * Please contact hinsonjr@justbiz.biz for information about the software.
  */
 
-namespace App\Traits;
+namespace App\MyTrait;
 
 /**
  * Description of AccountTrait
@@ -15,6 +15,7 @@ namespace App\Traits;
 
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
+use App\Entity\Accounting\Transaction;
 
 trait AccountTransactionTrait
 {
@@ -37,7 +38,7 @@ trait AccountTransactionTrait
         return $this->creditTransactions;
     }
 
-    public function addCreditTransaction(App\Entity\Accounting\Transaction $creditTransaction): self
+    public function addCreditTransaction(Transaction $creditTransaction): self
     {
         if (!$this->creditTransactions->contains($creditTransaction)) {
             $this->creditTransactions[] = $creditTransaction;
@@ -47,7 +48,7 @@ trait AccountTransactionTrait
         return $this;
     }
 
-    public function removeCreditTransaction(App\Entity\Accounting\Transaction $creditTransaction): self
+    public function removeCreditTransaction(Transaction $creditTransaction): self
     {
         if ($this->creditTransactions->removeElement($creditTransaction)) {
             // set the owning side to null (unless already changed)
@@ -66,7 +67,7 @@ trait AccountTransactionTrait
         return $this->debitTransactions;
     }
 
-    public function addDebitTransaction(App\Entity\Accounting\Transaction $debitTransaction): self
+    public function addDebitTransaction(Transaction $debitTransaction): self
     {
         if (!$this->debitTransactions->contains($debitTransaction)) {
             $this->debitTransactions[] = $debitTransaction;
@@ -76,7 +77,7 @@ trait AccountTransactionTrait
         return $this;
     }
 
-    public function removeDebitTransaction(App\Entity\Accounting\Transaction $debitTransaction): self
+    public function removeDebitTransaction(Transaction $debitTransaction): self
     {
         if ($this->debitTransactions->removeElement($debitTransaction)) {
             // set the owning side to null (unless already changed)

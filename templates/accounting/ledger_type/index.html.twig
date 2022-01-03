@@ -8,22 +8,19 @@
     <table class="table">
         <thead>
             <tr>
-                <th>Id</th>
+                <th>View</th>
                 <th>Name</th>
                 <th>IsDebit</th>
-                <th>actions</th>
+                <th>Edit</th>
             </tr>
         </thead>
         <tbody>
         {% for ledger_type in ledger_types %}
             <tr>
-                <td>{{ ledger_type.id }}</td>
+                <td><a href="{{ path('accounting_ledger_type_show', {'id': ledger_type.id}) }}">View</a></td>
                 <td>{{ ledger_type.name }}</td>
                 <td>{{ ledger_type.isDebit ? 'Yes' : 'No' }}</td>
-                <td>
-                    <a href="{{ path('accounting_ledger_type_show', {'id': ledger_type.id}) }}">show</a>
-                    <a href="{{ path('accounting_ledger_type_edit', {'id': ledger_type.id}) }}">edit</a>
-                </td>
+                <td><a href="{{ path('accounting_ledger_type_edit', {'id': ledger_type.id}) }}">Edit</a></td>
             </tr>
         {% else %}
             <tr>

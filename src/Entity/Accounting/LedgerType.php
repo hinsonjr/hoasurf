@@ -22,12 +22,12 @@ class LedgerType
     /**
      * @ORM\Column(type="string", length=24)
      */
-    private $name;
+    protected $name;
 
     /**
      * @ORM\Column(type="boolean")
      */
-    private $isDebit;
+    protected $isDebit;
 
     /**
      * @ORM\OneToMany(targetEntity=LedgerAccount::class, mappedBy="type")

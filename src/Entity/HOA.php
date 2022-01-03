@@ -3,7 +3,6 @@
 namespace App\Entity;
 
 use App\Entity\Accounting\LedgerAccount;
-use App\Entity\Accounting\OwnerInvoice;
 use App\Repository\HOARepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
@@ -52,25 +51,19 @@ class HOA
     private $maintenanceObjects;
 
     /**
-     * @ORM\ManyToMany(targetEntity=Accounting\OwnerInvoice::class, mappedBy="hoa")
-     */
-    private $ownerInvoices;
-
-    /**
-     * @ORM\ManyToMany(targetEntity=Accounting\LedgerAccount::class, mappedBy="hoa")
-     */
-    private $ledgerAccounts;
-
-    /**
      * @ORM\Column(type="string", length=25, nullable=true)
      */
     private $ShortName;
+
+    /**
+     * @ORM\OneToMany(targetEntity=LedgerAccount::class, mappedBy="hoa")
+     */
+    private $ledgerAccounts;
 
     public function __construct()
     {
         $this->buildings = new ArrayCollection();
         $this->maintenanceObjects = new ArrayCollection();
-        $this->ownerInvoices = new ArrayCollection();
         $this->ledgerAccounts = new ArrayCollection();
     }
 	
@@ -192,29 +185,14 @@ class HOA
         return $this;
     }
 
-    /**
-     * @return Collection|OwnerInvoice[]
-     */
-    public function getOwnerInvoices(): Collection
+    public function getShortName(): ?string
     {
-        return $this->ownerInvoices;
+        return $this->ShortName;
     }
 
-    public function addOwnerInvoice(OwnerInvoice $ownerInvoice): self
+    public function setShortName(?string $ShortName): self
     {
-        if (!$this->ownerInvoices->contains($ownerInvoice)) {
-            $this->ownerInvoices[] = $ownerInvoice;
-            $ownerInvoice->addHoa($this);
-        }
-
-        return $this;
-    }
-
-    public function removeOwnerInvoice(OwnerInvoice $ownerInvoice): self
-    {
-        if ($this->ownerInvoices->removeElement($ownerInvoice)) {
-            $ownerInvoice->removeHoa($this);
-        }
+        $this->ShortName = $ShortName;
 
         return $this;
     }
@@ -231,7 +209,7 @@ class HOA
     {
         if (!$this->ledgerAccounts->contains($ledgerAccount)) {
             $this->ledgerAccounts[] = $ledgerAccount;
-            $ledgerAccount->addHoa($this);
+            $ledgerAccount->setHoa($this);
         }
 
         return $this;
@@ -240,20 +218,11 @@ class HOA
     public function removeLedgerAccount(LedgerAccount $ledgerAccount): self
     {
         if ($this->ledgerAccounts->removeElement($ledgerAccount)) {
-            $ledgerAccount->removeHoa($this);
+            // set the owning side to null (unless already changed)
+            if ($ledgerAccount->getHoa() === $this) {
+                $ledgerAccount->setHoa(null);
+            }
         }
-
-        return $this;
-    }
-
-    public function getShortName(): ?string
-    {
-        return $this->ShortName;
-    }
-
-    public function setShortName(?string $ShortName): self
-    {
-        $this->ShortName = $ShortName;
 
         return $this;
     }

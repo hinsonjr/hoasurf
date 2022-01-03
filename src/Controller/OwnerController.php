@@ -103,4 +103,16 @@ class OwnerController extends AbstractController
 
         return $this->redirectToRoute('owner_index', [], Response::HTTP_SEE_OTHER);
     }
+	
+    #[Route('/generateAccounts', name: 'owner_generate_accounts', methods: ['GET'])]
+    public function generateAccounts(EntityManagerInterface $entityManager): Response
+    {
+        if ($this->isCsrfTokenValid('delete'.$owner->getId(), $request->request->get('_token'))) {
+            $entityManager->remove($owner);
+            $entityManager->flush();
+        }
+
+        return $this->redirectToRoute('owner_index', [], Response::HTTP_SEE_OTHER);
+    }
+	
 }

@@ -8,26 +8,23 @@
     <table class="table">
         <thead>
             <tr>
-                <th>Id</th>
+                <th>View</th>
                 <th>Name</th>
                 <th>Type</th>
                 <th>Balance</th>
                 <th>Start Balance</th>
-                <th>actions</th>
+                <th>Edit</th>
             </tr>
         </thead>
         <tbody>
         {% for ledger_account in ledger_accounts %}
             <tr>
-                <td>{{ ledger_account.id }}</td>
+                <td><a href="{{ path('accounting_ledger_account_show', {'id': ledger_account.id}) }}">View</a></td>
                 <td>{{ ledger_account.name }}</td>
                 <td>{{ ledger_account.type }}</td>
                 <td>{{ ledger_account.balance }}</td>
                 <td>{{ ledger_account.startBalance }}</td>
-                <td>
-                    <a href="{{ path('accounting_ledger_account_show', {'id': ledger_account.id}) }}">show</a>
-                    <a href="{{ path('accounting_ledger_account_edit', {'id': ledger_account.id}) }}">edit</a>
-                </td>
+                <td><a href="{{ path('accounting_ledger_account_edit', {'id': ledger_account.id}) }}">edit</a></td>
             </tr>
         {% else %}
             <tr>

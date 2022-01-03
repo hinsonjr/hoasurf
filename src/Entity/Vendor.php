@@ -2,6 +2,7 @@
 
 namespace App\Entity;
 
+use App\Entity\Accounting\LedgerAccount;
 use App\Repository\VendorRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
@@ -54,9 +55,15 @@ class Vendor
      */
     private $maintenanceObjects;
 
+    /**
+     * @ORM\OneToMany(targetEntity=LedgerAccount::class, mappedBy="vendor")
+     */
+    private $ledgerAccounts;
+
     public function __construct()
     {
         $this->maintenanceObjects = new ArrayCollection();
+        $this->ledgerAccounts = new ArrayCollection();
     }
 
     public function __toString()
@@ -165,6 +172,36 @@ class Vendor
             // set the owning side to null (unless already changed)
             if ($maintenanceObject->getVendor() === $this) {
                 $maintenanceObject->setVendor(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|LedgerAccount[]
+     */
+    public function getLedgerAccounts(): Collection
+    {
+        return $this->ledgerAccounts;
+    }
+
+    public function addLedgerAccount(LedgerAccount $ledgerAccount): self
+    {
+        if (!$this->ledgerAccounts->contains($ledgerAccount)) {
+            $this->ledgerAccounts[] = $ledgerAccount;
+            $ledgerAccount->setVendor($this);
+        }
+
+        return $this;
+    }
+
+    public function removeLedgerAccount(LedgerAccount $ledgerAccount): self
+    {
+        if ($this->ledgerAccounts->removeElement($ledgerAccount)) {
+            // set the owning side to null (unless already changed)
+            if ($ledgerAccount->getVendor() === $this) {
+                $ledgerAccount->setVendor(null);
             }
         }
 

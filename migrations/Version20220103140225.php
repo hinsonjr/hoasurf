@@ -10,7 +10,7 @@ use Doctrine\Migrations\AbstractMigration;
 /**
  * Auto-generated Migration: Please modify to your needs!
  */
-final class Version20211220220205 extends AbstractMigration
+final class Version20220103140225 extends AbstractMigration
 {
     public function getDescription(): string
     {
@@ -20,14 +20,14 @@ final class Version20211220220205 extends AbstractMigration
     public function up(Schema $schema): void
     {
         // this up() migration is auto-generated, please modify it to your needs
-        $this->addSql('ALTER TABLE ledger_account ADD CONSTRAINT FK_B3339695C54C8C93 FOREIGN KEY (type_id) REFERENCES ledger_type (id)');
-        $this->addSql('CREATE INDEX IDX_B3339695C54C8C93 ON ledger_account (type_id)');
+        $this->addSql('CREATE TABLE system_settings (id INT AUTO_INCREMENT NOT NULL, name VARCHAR(255) NOT NULL, value VARCHAR(255) DEFAULT NULL, last_update DATETIME NOT NULL, PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4 COLLATE `utf8mb4_unicode_ci` ENGINE = InnoDB');
+        $this->addSql('ALTER TABLE owner ADD email VARCHAR(255) DEFAULT NULL');
     }
 
     public function down(Schema $schema): void
     {
         // this down() migration is auto-generated, please modify it to your needs
-        $this->addSql('ALTER TABLE ledger_account DROP FOREIGN KEY FK_B3339695C54C8C93');
-        $this->addSql('DROP INDEX IDX_B3339695C54C8C93 ON ledger_account');
+        $this->addSql('DROP TABLE system_settings');
+        $this->addSql('ALTER TABLE owner DROP email');
     }
 }
