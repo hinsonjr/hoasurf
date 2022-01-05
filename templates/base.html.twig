@@ -2,54 +2,81 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <meta charset="UTF-8">
-        <title>{% block title %}Hoa Surf!{% endblock %}</title>
-        <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 128 128%22><text y=%221.2em%22 font-size=%2296%22>⚫️</text></svg>">
-        {# Run `composer require symfony/webpack-encore-bundle` to start using Symfony UX #}
-        {% block stylesheets %}
-            <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
-            {{ encore_entry_link_tags('app') }}
-        {% endblock %}
+        {% block head %}
+            <meta charset="UTF-8">
+            <title>{% block title %}Hoa Surf!{% endblock %}</title>
+            <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 128 128%22><text y=%221.2em%22 font-size=%2296%22>⚫️</text></svg>">
+            {# Run `composer require symfony/webpack-encore-bundle` to start using Symfony UX #}
+            {% block stylesheets %}
+                <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+                {{ encore_entry_link_tags('admin') }}
+            {% endblock %}
 
-        {% block javascripts %}
-            <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
-            <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>            
-            <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>            <link rel="stylesheet" href="public/assets/css/base.css">
-            
-            {# encore_entry_script_tags('app') #}
+            {% block javascripts %}
+                <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+                <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>            
+                <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>            <link rel="stylesheet" href="public/assets/css/base.css">
+
+                {{ encore_entry_script_tags('admin') }}
+            {% endblock %}
         {% endblock %}
     </head>
     <body>
         {% block body %}
             <div class="banner">
-                <div class="banner-container container-fluid">
+                <div class="banner-container">
                     <div class="container-body">
-                        <nav id="navbar" class="navbar navbar-expand-lg navbar-light " style="background-color: #e3f2fd;">
+                        <nav id="navbar flex-column" class="navbar navbar-expand-lg navbar-light " style="background-color: #e3f2fd;">
                             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                               <span class="navbar-toggler-icon"></span>
                             </button>                
                             {% block navbar %}
                             <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                              <ul class="navbar-nav mr-auto">
-                                <li class="nav-item active">
-                                  <a class="nav-link" href="{{ path('admin_dash') }}">Admin Dash</a><span class="sr-only"></span></a>
-                                </li>
-                                <li class="nav-item">
-                                  <a class="nav-link" href="{{ path('owner_index') }}">Owners</a>
-                                </li>
-                                <li class="nav-item">
-                                  <a class="nav-link" href="{{ path('unit_index') }}">Units</a>
-                                </li>
-                                <li class="nav-item">
-                                  <a class="nav-link" href="{{ path('building_index') }}">Buldings</a>
-                                </li>
-                              </ul>
-                            {% endblock %}
+                                <div class="icon"><img=
+                              <div class="navbar-nav">
+                                {% block navitems %}
+                                  <a class="nav-item nav-link" href="{{ path('admin_dash') }}">Admin Dash</a><span class="sr-only"></span></a>
+                                  <a class="nav-item nav-link" href="{{ path('hoa_index') }}">HOAs</a>
+                                  <a class="nav-item nav-link" href="{{ path('building_index') }}">Buildings</a>
+                                  <a class="nav-item nav-link" href="{{ path('owner_index') }}">Owners</a>
+                                  <a class="nav-item nav-link" href="{{ path('unit_index') }}">Units</a>
+                                  <a class="nav-item nav-link" href="{{ path('vendor_index') }}">Vendors</a>
+                                  <a class="nav-item nav-link" href="{{ path('maintenance_object_index') }}">Maintenance</a>
+
+                                  <div id="nav-user" class="nav-item dropdown navDropdown">
+                                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                      Accounting
+                                    </a>
+                                    <div class="dropdown-menu navDropdown" aria-labelledby="acctDropdownMenuLink">
+                                        <a class="dropdown-item" href="{{  path('accounting_transaction_index') }}" >Transactions</a>
+                                        <a class="dropdown-item" href="{{  path('accounting_ledger_account_index') }}" >Accounts</a>
+                                        <a class="dropdown-item" href="{{  path('accounting_ledger_type_index') }}" >Types</a>
+                                    </div>
+                                </div>
+                                  
+                                {% endblock %}
+                              </div>
                             </div>
+                            <div id="nav-user" class="nav-item dropdown navDropdown">
+                                {%  if app.user %}
+                                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                  User
+                                </a>
+                                <div class="dropdown-menu navDropdown" aria-labelledby="navbarDropdownMenuLink">
+                                    <a class="dropdown-item" >{{ app.user.email }}</a>
+                                    <a class="dropdown-item" >{{ app.user.roles[0] }}</a>
+                                    <a class="dropdown-item nav-link" href="/logout">Logout</a>
+                                </div>
+                                {%  elseif app.request.get('_route') == "login" %}
+                                    <div class="dropdown-item nav-link"><a href="{{  path('app_register') }}">Register</a></div>
+                                {%  else %}
+                                    <div class="dropdown-item nav-link"><a href="{{  path('login') }}">Login</a></div>
+                                {% endif %}
+                            </div>
+                            {% endblock %}
                         </nav>
                     </div>
                 </div>
-
             <div id="content">
                 {% block content %}{% endblock %}
             </div>

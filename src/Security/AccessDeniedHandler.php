@@ -30,7 +30,7 @@ class AccessDeniedHandler implements AccessDeniedHandlerInterface
         // ...
 		//$attrs = $this->getAttributes();
 		//var_dump($attrs);
-		// var_dump($this->security->getUser()->getRoles());
+		var_dump($this->security->getUser()->getRoles());
         return new Response("Hum - something aint right", 403);
     }
 }
