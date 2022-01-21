@@ -11,7 +11,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
-#[Route('/system/settings')]
+#[Route('admin/settings')]
 class SystemSettingsController extends AbstractController
 {
     #[Route('/', name: 'system_settings_index', methods: ['GET'])]

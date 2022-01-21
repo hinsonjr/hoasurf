@@ -12,8 +12,9 @@
         <div form-control row>
             <label for="search">Filter by Building</label>
             <select id="buildingId" name="buildingId">
+                <option name='choose' value=''>Choose</option>
                 {% for building in buildings %}
-                    <option name="{{ building.name}}" value="{{ building.id }}">{{ building.name }}</option>
+                    <option name="{{ building.name}}" value="{{ building.id }}" {{ buildingId == building.id ? 'selected' }}>{{ building.name }}</option>
                 {% endfor %}
             </select>
         </div>

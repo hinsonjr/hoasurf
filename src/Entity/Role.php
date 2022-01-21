@@ -35,7 +35,7 @@ class Role
     private $status;
 
     /**
-     * @ORM\ManyToMany(targetEntity=User::class, mappedBy="role")
+     * @ORM\ManyToMany(targetEntity=User::class, mappedBy="roles")
      */
     private $users;
 
@@ -46,7 +46,7 @@ class Role
 	
 	public function __toString()
 	{
-        return $this->name;
+        return $this->getName();
 	}
 
     public function getId(): ?int

@@ -35,6 +35,7 @@ class UnitController extends AbstractController
 		}
         return $this->render('unit/index.html.twig', [
             'units' => $units,
+			'buildingId' => $buildingId,
             'buildings' => $buildingRepository->findAll(),
         ]);
     }

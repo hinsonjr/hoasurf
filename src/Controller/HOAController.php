@@ -42,7 +42,7 @@ class HOAController extends AbstractController
         ]);
     }
 
-    #[Route('/{id}', name: 'hoa_show', methods: ['GET'])]
+		#[Route('/{id}', name: 'hoa_show', methods: ['GET'])]
     public function show(HOA $hOA, HOARepository $hOARepository): Response
     {
 		$owners = $hOARepository->findHoaUnitOwners($hOA);

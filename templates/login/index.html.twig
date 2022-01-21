@@ -3,26 +3,49 @@
 {% block title %}Hello LoginController!{% endblock %}
 
 {% block content %}
-    {% if error %}
-        <div>{{ error.messageKey|trans(error.messageData, 'security') }}</div>
-    {% endif %}
 
-    <form action="{{ path('login') }}" method="post">
-        <label for="username">Email:</label>
-        <input class="form-control" type="text" id="username" name="_username" value="{{ last_username }}"/>
-
-        <label for="password">Password:</label>
-        <input class="form-control" type="password" id="password" name="_password"/>
-
-        {# If you want to control the URL the user is redirected to on success #}
-        {% if is_granted('ROLE_HOA_ADMIN') %}
-            <input type="hidden" name="_target_path" value="/admin"/>
-        {% elseif is_granted('ROLE_HOA_OWNER') %}
-            <input type="hidden" name="_target_path" value="/owner"/>
-        {% else %}
-            <input type="hidden" name="_target_path" value="/"/>
+    <div class="container">
+        {% if error %}
+        <div class="row">
+            <div class="col-md-10 ml-md-auto">
+                <span class="label label-warning">
+                {{ error.messageKey|trans(error.messageData, 'security') }}
+                </span>
+            </div>
+        </div>
         {% endif %}
-
-        <button class="form-control btn btn-info" type="submit">login</button>
-    </form>
+        <div class="row">
+            <div class="col-md-10 ml-md-auto">
+                <div class="card bg-light mb-3 mt-5" style="width: 800px">
+                    <div class="card-body">
+                        <div class="card-header mb-3">Login Form</div> 
+                        <form action="{{ path('login') }}" method="post">
+                            <input type="hidden" name="_csrf_token"
+                                   value="{{ csrf_token('authenticate') }}"
+                            >                            
+                            <div class="form_group">
+                                <div class="col-md-12 mb-3">
+                                    <label for="username">Email:</label>
+                                    <input class="form-control" type="text" id="username" name="email" value="{{ last_username }}"/>
+                                </div>
+                            </div>
+                            <div class="form_group">
+                                <div class="col-md-12 mb-3">
+                                    <label for="password">Password:</label>
+                                    <input class="form-control" type="password" id="password" name="password"/>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="col-md-8 col-md-offset-4" style="margin-top:5px;">
+                                    <button type="submit" class="btn btn-primary">
+                                        <i class="fa fa-btn fa-user"></i> Login
+                                    </button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 {% endblock %}

@@ -37,7 +37,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 	private $name;
 
 	/**
-	 * @ORM\Column(type="json")
+	 * @ORM\ManyToMany(targetEntity=Role::class, inversedBy="users")
 	 */
 	private $roles = [];
 
@@ -63,14 +63,14 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 	private $activeHoa;
 
 	/**
-	 * @ORM\ManyToMany(targetEntity=Role::class, inversedBy="users")
+	 * @ORM\Column(type="datetime", nullable=true)
 	 */
-	private $role;
+	private $lastLogin;
 
 	public function __construct()
 	{
 		$this->owners = new ArrayCollection();
-		$this->role = new ArrayCollection();
+		$this->roles = new ArrayCollection();
 	}
 
 	public function __toString()
@@ -110,7 +110,8 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 	 */
 	public function getRoles(): array
 	{
-		$userRoles = $this->getRole();
+		$userRoles = $this->roles;
+		// guarantee every user at least has ROLE_USER
 		$roles = [];
 		foreach ($userRoles as $userRole)
 		{
@@ -120,8 +121,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 		{
 			$roles[] = "ROLE_USER";
 		}
-		// guarantee every user at least has ROLE_USER
-
 		return array_unique($roles);
 	}
 
@@ -226,27 +225,14 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 		return $this;
 	}
 
-	/**
-	 * @return Collection|Role[]
-	 */
-	public function getRole(): Collection
+	public function getLastLogin(): ?\DateTimeInterface
 	{
-		return $this->role;
+		return $this->lastLogin;
 	}
 
-	public function addRole(Role $role): self
+	public function setLastLogin(?\DateTimeInterface $lastLogin): self
 	{
-		if (!$this->role->contains($role))
-		{
-			$this->role[] = $role;
-		}
-
-		return $this;
-	}
-
-	public function removeRole(Role $role): self
-	{
-		$this->role->removeElement($role);
+		$this->lastLogin = $lastLogin;
 
 		return $this;
 	}

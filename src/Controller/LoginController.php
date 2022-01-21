@@ -22,5 +22,16 @@ class LoginController extends AbstractController {
 				'error' => $error,
 		]);
 	}
+	
+    public function onAuthenticationSuccess(Request $request, TokenInterface $token, string $firewallName): ?Response
+    {
+        // on success, let the request continue
+		$user = $token->getUser();
+		if ($user->isGranted('ROLE_SUPER_ADMIN'))
+		{
+			return new RedirectResponse($this->router->generate('admin_dash'));
+		}
+        return null;
+    }	
 
 }
