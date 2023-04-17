@@ -25,7 +25,7 @@ class OwnerDashController extends AbstractController
     {
 		$repo = $this->doctrine->getRepository(Owner::class);
 		$ownerRecords = $repo->findByUser($this->security->getUser());
-		
+		/********$repo->findTransactions(Hoa $hoa, $cnt);**/ 
 		$heading = '<th style="padding-right:10px">Account</th><th style="padding-right:10px">isDebit</th><th style="padding-right:10px">Previous Balance</th><th style="padding-right:10px">Updated Balance</th>';
 		$results = [];
         return $this->render('owner_dash/index.html.twig', [

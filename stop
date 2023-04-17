@@ -1,0 +1,88 @@
+warning: LF will be replaced by CRLF in src/Entity/User.php.
+The file will have its original line endings in your working directory
+[1mdiff --git a/src/Entity/User.php b/src/Entity/User.php[m
+[1mindex 9cfb471..56a271a 100644[m
+[1m--- a/src/Entity/User.php[m
+[1m+++ b/src/Entity/User.php[m
+[36m@@ -37,7 +37,7 @@[m [mclass User implements UserInterface, PasswordAuthenticatedUserInterface[m
+ 	private $name;[m
+ [m
+ 	/**[m
+[31m-	 * @ORM\Column(type="json")[m
+[32m+[m	[32m * @ORM\ManyToMany(targetEntity=Role::class, mappedBy="user")[m
+ 	 */[m
+ 	private $roles = [];[m
+ [m
+[36m@@ -63,14 +63,14 @@[m [mclass User implements UserInterface, PasswordAuthenticatedUserInterface[m
+ 	private $activeHoa;[m
+ [m
+ 	/**[m
+[31m-	 * @ORM\ManyToMany(targetEntity=Role::class, inversedBy="users")[m
+[32m+[m	[32m * @ORM\Column(type="datetime", nullable=true)[m
+ 	 */[m
+[31m-	private $role;[m
+[32m+[m	[32mprivate $lastLogin;[m
+ [m
+ 	public function __construct()[m
+ 	{[m
+ 		$this->owners = new ArrayCollection();[m
+[31m-		$this->role = new ArrayCollection();[m
+[32m+[m		[32m$this->roles = new ArrayCollection();[m
+ 	}[m
+ [m
+ 	public function __toString()[m
+[36m@@ -110,19 +110,10 @@[m [mclass User implements UserInterface, PasswordAuthenticatedUserInterface[m
+ 	 */[m
+ 	public function getRoles(): array[m
+ 	{[m
+[31m-		$userRoles = $this->getRole();[m
+[31m-		$roles = [];[m
+[31m-		foreach ($userRoles as $userRole)[m
+[31m-		{[m
+[31m-			$roles[] = $userRole->getRoleName();[m
+[31m-		}[m
+[31m-		if (empty($roles))[m
+[31m-		{[m
+[31m-			$roles[] = "ROLE_USER";[m
+[31m-		}[m
+[32m+[m[32m        $roles = $this->roles;[m
+         // guarantee every user at least has ROLE_USER[m
+[31m-[m
+[31m-		return array_unique($roles);[m
+[32m+[m[32m        $roles[] = 'ROLE_USER';[m
+[32m+[m[32m        return array_unique( (array) $roles);[m
+ 	}[m
+ [m
+ 	/* public function setRoles(array $roles): self[m
+[36m@@ -226,27 +217,14 @@[m [mclass User implements UserInterface, PasswordAuthenticatedUserInterface[m
+ 		return $this;[m
+ 	}[m
+ [m
+[31m-	/**[m
+[31m-	 * @return Collection|Role[][m
+[31m-	 */[m
+[31m-	public function getRole(): Collection[m
+[31m-	{[m
+[31m-		return $this->role;[m
+[31m-	}[m
+[31m-[m
+[31m-	public function addRole(Role $role): self[m
+[31m-	{[m
+[31m-		if (!$this->role->contains($role))[m
+[32m+[m	[32mpublic function getLastLogin(): ?\DateTimeInterface[m
+ 	{[m
+[31m-			$this->role[] = $role;[m
+[31m-		}[m
+[31m-[m
+[31m-		return $this;[m
+[32m+[m		[32mreturn $this->lastLogin;[m
+ 	}[m
+ [m
+[31m-	public function removeRole(Role $role): self[m
+[32m+[m	[32mpublic function setLastLogin(?\DateTimeInterface $lastLogin): self[m
+ 	{[m
+[31m-		$this->role->removeElement($role);[m
+[32m+[m		[32m$this->lastLogin = $lastLogin;[m
+ [m
+ 		return $this;[m
+ 	}[m

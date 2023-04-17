@@ -18,7 +18,7 @@ class Building2Type extends AbstractType
             ->add('city')
             ->add('state')
             ->add('zip')
-            ->add('hOA')
+            ->add('hoa')
         ;
     }
 

@@ -5,5 +5,12 @@ body {
 
 #content {
     background-color: lightgray;
+    border-color: red;
+    border-width: 10px;
+    border-radius: 10px;
+}
 
+.wrapper {
+    margin:auto;
+    padding:100px;
 }

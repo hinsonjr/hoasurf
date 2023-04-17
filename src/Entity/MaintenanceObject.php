@@ -48,12 +48,11 @@ class MaintenanceObject
     private $location;
 
     /**
-     * @ORM\ManyToOne(targetEntity=HOA::class, inversedBy="maintenanceObjects")
-     * @ORM\JoinColumn(nullable=false)
+     * @ORM\ManyToOne(targetEntity=Hoa::class, inversedBy="maintenanceObjects")
      */
     private $hoa;
 
-	
+
     public function __toString()
     {
         return $this->name;
@@ -141,10 +140,11 @@ class MaintenanceObject
         return $this->hoa;
     }
 
-    public function setHoa(?HOA $hoa): self
+    public function setHoa(?Hoa $hoa): self
     {
         $this->hoa = $hoa;
 
         return $this;
     }
+
 }

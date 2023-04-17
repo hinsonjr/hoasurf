@@ -1,40 +1,12 @@
 {% extends 'admin-base.html.twig' %}
 
-{% block title %}Select Active HOA{% endblock %}
+{% block title %}Edit Hoa{% endblock %}
 
 {% block content %}
-    
-        <div class="container">
-        {% if error %}
-        <div class="row">
-            <div class="col-md-10 ml-md-auto">
-                <span class="label label-warning">
-                {{ error.messageKey|trans(error.messageData, 'security') }}
-                </span>
-            </div>
-        </div>
-        {% endif %}
-        <div class="row">
-            <div class="col-md-10 ml-md-auto">
-                <div class="card bg-light mb-3 mt-5" style="width: 800px">
-                    <div class="card-body">
-                        <div class="card-header mb-3">Select your Active HOA</div> 
-                        <p>You can only be active in one HOA at a time. 
-                        {{ form_start(form) }}
+    <h1>Select Active HOA</h1>
 
-                            <div class="form_group">
-                                <div class="col-md-12 mb-3">
-                                    {{  form_widget(form.activeHoa) }}
-                                </div>
-                            </div>
-                            <div class="form_group">
-                                <div class="col-md-12 mb-3">
-                                    {{  form_widget(form.save) }}
-                                </div>
-                            </div>
-                        {{ form_end(form) }}
-                    </div>
-                </div>
-            </div>
-        </div>
+    {{ include('hoa/_form.html.twig', {'button_label': 'Update'}) }}
+
+    <a href="{{ path('hoa_index') }}">back to list</a>
+
 {% endblock %}

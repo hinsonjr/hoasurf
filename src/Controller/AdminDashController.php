@@ -14,8 +14,11 @@ class AdminDashController extends AbstractController
     #[Route('/admin/dash', name: 'admin_dash')]
     public function index(): Response
     {
+		$user = $this->getUser();
+		$activeHoa = $user->getActiveHoa();
         return $this->render('admin_dash/index.html.twig', [
             'controller_name' => 'AdminDashController',
+			'activeHoa' => $activeHoa,
         ]);
     }
 

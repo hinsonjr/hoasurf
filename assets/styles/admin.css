@@ -3,15 +3,24 @@ body {
     margin: 0;
 }
 
-#content {
-    background-color: #ffffff;
-    font-size: 1.2em;
-    margin-left: 5px;
-    margin-right: 5px;
 
-}
-
-#nav-user {
+#userDropdown {
     float:right;
 }
 
+
+#content {
+    font-size: 1.2em;
+    padding: 15px;
+    margin:auto;
+    background-color: lightgray;
+}
+
+.wrapper {
+    border-color: lightgray;
+    border-width: 10px;
+    border-radius: 10px;
+    margin:auto;
+    padding:30px;
+    background-color: white;
+}

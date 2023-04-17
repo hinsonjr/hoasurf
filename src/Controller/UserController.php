@@ -3,8 +3,8 @@
 namespace App\Controller;
 
 use App\Entity\User;
-use App\Entity\HOA;
-use App\Repository\HOARepository;
+use App\Entity\Hoa;
+use App\Repository\HoaRepository;
 use App\Form\UserType;
 use App\Repository\UserRepository;
 use Doctrine\ORM\EntityManagerInterface;
@@ -13,6 +13,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
+use Symfony\Component\Form\Extension\Core\Type\HiddenType;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 
@@ -28,12 +29,19 @@ class UserController extends AbstractController
     }
 
 	
-    #[Route('/selecthoa', name: 'user_select_hoa', methods: ['GET', 'POST'])]
+    #[Route('/selecthoa/{target}', name: 'user_select_hoa', methods: ['GET', 'POST'])]
     public function selectHoa($target = "", Request $request, UserRepository $userRepository, EntityManagerInterface $em, HOARepository $hoaRepo): Response
     {
-		if ($target == "")
+		if (empty($target))
 		{
-			$target = $_REQUEST['target'];
+			if (array_key_exists('form[target]',$_REQUEST))
+			{
+				$target = $_REQUEST['form[target]'];
+			}
+			else
+			{
+				$target = "";
+			}
 		}
 		$user = $this->getUser();
 		if (in_array('ROLE_SUPER_ADMIN', $user->getRoles()))
@@ -52,20 +60,21 @@ class UserController extends AbstractController
 			->add('activeHoa', EntityType::class, [
 				'class' => HOA::class,
 				'choices' => $userHoas])
+			->add('target', HiddenType::class, ['data' => $target, 'mapped' => false])
             ->add('save', SubmitType::class, ['label' => 'Set Active HOA'])
             ->getForm();		
 		$form->handleRequest($request);
         if ($form->isSubmitted()) {
 			$hoa = $form->get('activeHoa')->getData();
 			$user->setActiveHoa($hoa);
+			$em->persist($user);
+			$em->flush();
 			
 			if ($user->getActiveHoa())
 			{
-				$em->persist($user);
-				$em->flush();
 				if ($target)
 				{
-					return new RedirectResponse($target);
+					return $this->redirectToRoute($target);
 				}				
 				return $this->redirectToRoute('home');
 			}
