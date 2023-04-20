@@ -5,6 +5,7 @@ namespace App\Entity\Accounting;
 use App\Repository\Accounting\TransactionRepository;
 use Doctrine\ORM\Mapping as ORM;
 use App\Entity\Accounting\LedgerAccount;
+use App\Service\Dbg;
 
 /**
  * @ORM\Entity(repositoryClass=TransactionRepository::class)
@@ -46,9 +47,21 @@ class Transaction
 	 */
 	private $deleted;
 
-	public function __construct()
+	public function __construct($debitAcct = null, $creditAcct = null)
 	{
 		$this->date = new \DateTime();
+//		$this->dbg = new Dbg();
+//
+//		$this->dbg->log("DebitAcct=",$debitAcct->name,2);
+//		$this->dbg->log("CreditAcct=",$creditAcct->name,2);
+		if ($debitAcct)
+		{
+			$this->setDebitAccount($debitAcct);
+		}
+		if ($creditAcct)
+		{
+			$this->setCreditAccount($creditAcct);
+		}
 	}
 
 	public function getId(): ?int

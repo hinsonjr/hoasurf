@@ -1,0 +1,11 @@
+{% extends 'admin-base.html.twig' %}
+
+{% block title %}New Hoa{% endblock %}
+
+{% block content %}
+    <h1>Create new Hoa</h1>
+
+    {{ include('hoa/_form.html.twig') }}
+
+    <a href="{{ path('hoa_index') }}">back to list</a>
+{% endblock %}

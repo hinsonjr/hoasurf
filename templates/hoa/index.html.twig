@@ -1,0 +1,43 @@
+{% extends 'admin-base.html.twig' %}
+
+{% block title %}Hoa index{% endblock %}
+
+{% block content %}
+    <h1>Hoa index</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Name</th>
+                <th>ShortName</th>
+                <th>AdminName</th>
+                <th>AdminPhone</th>
+                <th>AdminEmail</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for hoa in hoas %}
+            <tr>
+                <td>{{ hoa.id }}</td>
+                <td>{{ hoa.name }}</td>
+                <td>{{ hoa.shortName }}</td>
+                <td>{{ hoa.adminName }}</td>
+                <td>{{ hoa.adminPhone }}</td>
+                <td>{{ hoa.adminEmail }}</td>
+                <td>
+                    <a href="{{ path('hoa_show', {'id': hoa.id}) }}">show</a>
+                    <a href="{{ path('hoa_edit', {'id': hoa.id}) }}">edit</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="7">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{{ path('hoa_new') }}">Create new</a>
+{% endblock %}

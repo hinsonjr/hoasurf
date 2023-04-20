@@ -1,0 +1,15 @@
+{# empty Twig template #}
+<table>
+    <thead>
+        <tr>
+            <th>Debit Account</th>
+            <th>Credit Account</th>
+            <th>Amount</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for transaction in transactions %}
+            <tr><td>transaction.debitAccount</td><td>transaction.creditAccount</td><td>transaction.amount</td></tr>
+        {% endfor %}
+    </tbody>
+</table>
