@@ -5,71 +5,63 @@ namespace App\Entity;
 use App\Repository\SystemSettingsRepository;
 use Doctrine\ORM\Mapping as ORM;
 
-/**
- * @ORM\Entity(repositoryClass=SystemSettingsRepository::class)
- */
+#[ORM\Entity(repositoryClass: SystemSettingsRepository::class)]
 class SystemSettings
 {
-    /**
-     * @ORM\Id
-     * @ORM\GeneratedValue
-     * @ORM\Column(type="integer")
-     */
-    private $id;
 
-    /**
-     * @ORM\Column(type="string", length=255)
-     */
-    private $name;
+	#[ORM\Id]
+	#[ORM\GeneratedValue]
+	#[ORM\Column(type: "integer")]
+	private $id;
 
-    /**
-     * @ORM\Column(type="string", length=255, nullable=true)
-     */
-    private $value;
+	#[ORM\Column(type: "string", length: 255)]
+	private $name;
 
-    /**
-     * @ORM\Column(type="datetime")
-     */
-    private $lastUpdate;
+	#[ORM\Column(type: "string", length: 255, nullable: true)]
+	private $value;
 
-    public function getId(): ?int
-    {
-        return $this->id;
-    }
+	#[ORM\Column(type: "datetime")]
+	private $lastUpdate;
 
-    public function getName(): ?string
-    {
-        return $this->name;
-    }
+	public function getId(): ?int
+	{
+		return $this->id;
+	}
 
-    public function setName(string $name): self
-    {
-        $this->name = $name;
+	public function getName(): ?string
+	{
+		return $this->name;
+	}
 
-        return $this;
-    }
+	public function setName(string $name): self
+	{
+		$this->name = $name;
 
-    public function getValue(): ?string
-    {
-        return $this->value;
-    }
+		return $this;
+	}
 
-    public function setValue(?string $value): self
-    {
-        $this->value = $value;
+	public function getValue(): ?string
+	{
+		return $this->value;
+	}
 
-        return $this;
-    }
+	public function setValue(?string $value): self
+	{
+		$this->value = $value;
 
-    public function getLastUpdate(): ?\DateTimeInterface
-    {
-        return $this->lastUpdate;
-    }
+		return $this;
+	}
 
-    public function setLastUpdate(\DateTimeInterface $lastUpdate): self
-    {
-        $this->lastUpdate = $lastUpdate;
+	public function getLastUpdate(): ?\DateTimeInterface
+	{
+		return $this->lastUpdate;
+	}
 
-        return $this;
-    }
+	public function setLastUpdate(\DateTimeInterface $lastUpdate): self
+	{
+		$this->lastUpdate = $lastUpdate;
+
+		return $this;
+	}
+
 }

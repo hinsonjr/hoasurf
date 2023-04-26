@@ -7,44 +7,30 @@ use Doctrine\ORM\Mapping as ORM;
 use App\Entity\Accounting\LedgerAccount;
 use App\Service\Dbg;
 
-/**
- * @ORM\Entity(repositoryClass=TransactionRepository::class)
- */
+#[ORM\Entity(repositoryClass: TransactionRepository::class)]
 class Transaction
 {
 
-	/**
-	 * @ORM\Id
-	 * @ORM\GeneratedValue
-	 * @ORM\Column(type="integer")
-	 */
+	#[ORM\Id]
+	#[ORM\GeneratedValue]
+	#[ORM\Column(type: "integer")]
 	private $id;
 
-	/**
-	 * @ORM\Column(type="datetime")
-	 */
+	#[ORM\Column(type: "datetime")]
 	private $date;
 
-	/**
-	 * @ORM\Column(type="decimal", precision=12, scale=2)
-	 */
+	#[ORM\Column(type: "decimal", precision: 12, scale: 2)]
 	private $amount;
 
-	/**
-	 * @ORM\ManyToOne(targetEntity=LedgerAccount::class, inversedBy="creditTransactions")
-	 * @ORM\JoinColumn(nullable=false)
-	 */
+	#[ORM\ManyToOne(targetEntity: LedgerAccount::class, inversedBy: "creditTransactions")]
+	#[ORM\JoinColumn(nullable: false)]
 	private $creditAccount;
 
-	/**
-	 * @ORM\ManyToOne(targetEntity=LedgerAccount::class, inversedBy="debitTransactions")
-	 * @ORM\JoinColumn(nullable=false)
-	 */
+	#[ORM\ManyToOne(targetEntity: LedgerAccount::class, inversedBy: "debitTransactions")]
+	#[ORM\JoinColumn(nullable: false)]
 	private $debitAccount;
 
-	/**
-	 * @ORM\Column(type="boolean", options={"default":0})
-	 */
+	#[ORM\Column(type: "boolean")]
 	private $deleted;
 
 	public function __construct($debitAcct = null, $creditAcct = null)

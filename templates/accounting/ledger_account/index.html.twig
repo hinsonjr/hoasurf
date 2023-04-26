@@ -1,4 +1,4 @@
-{% extends 'admin-base.html.twig' %}
+{% extends 'acct-base.html.twig' %}
 
 {% block title %}LedgerAccount index{% endblock %}
 
@@ -20,7 +20,7 @@
         {% for ledger_account in ledger_accounts %}
             <tr>
                 <td><a href="{{ path('accounting_ledger_account_show', {'id': ledger_account.id}) }}">View</a></td>
-                <td><a href="{{ path('accounting_ledger_account_show', {'id': ledger_account.id}) }}">Add Debit/Credit</a></td>
+                <td><a href="{{ path('accounting_transaction_new', {'creditAcctId': ledger_account.id, 'debitAcctId': ledger_account.id}) }}">Add Transaction</a></td>
                 <td>{{ ledger_account.name }}</td>
                 <td>{{ ledger_account.type }}</td>
                 <td>{{ ledger_account.balance }}</td>

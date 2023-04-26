@@ -7,57 +7,37 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
-/**
- * @ORM\Entity(repositoryClass=BuildingRepository::class)
- */
+ #[ORM\Entity(repositoryClass: BuildingRepository::class)]
 class Building
 {
-    /**
-     * @ORM\Id
-     * @ORM\GeneratedValue
-     * @ORM\Column(type="integer")
-     */
+    #[ORM\Id]
+     #[ORM\GeneratedValue]
+     #[ORM\Column(type: "integer")]
     private $id;
 
-    /**
-     * @ORM\Column(type="string", length=100)
-     */
+    #[ORM\Column(type: "string", length: 100)]
     private $name;
 
-    /**
-     * @ORM\Column(type="string", length=128)
-     */
+    #[ORM\Column(type: "string", length: 128)]
     private $address1;
 
-    /**
-     * @ORM\Column(type="string", length=128, nullable=true)
-     */
+    #[ORM\Column(type: "string", length: 128, nullable: true)]
     private $address2;
 
-    /**
-     * @ORM\Column(type="string", length=128, nullable=true)
-     */
+    #[ORM\Column(type: "string", length: 128, nullable: true)]
     private $city;
 
-    /**
-     * @ORM\Column(type="string", length=128, nullable=true)
-     */
+    #[ORM\Column(type: "string", length: 128, nullable: true)]
     private $state;
 
-    /**
-     * @ORM\Column(type="string", length=10)
-     */
+    #[ORM\Column(type: "string", length: 10)]
     private $zip;
 
-    /**
-     * @ORM\OneToMany(targetEntity=Unit::class, mappedBy="building")
-     */
+    #[ORM\OneToMany(targetEntity: Unit::class, mappedBy: "building")]
     private $units;
 
-    /**
-     * @ORM\ManyToOne(targetEntity=Hoa::class, inversedBy="buildings")
-     * @ORM\JoinColumn(nullable=false)
-     */
+    #[ORM\ManyToOne(targetEntity: Hoa::class, inversedBy: "buildings")]
+     #[ORM\JoinColumn(nullable: false)]
     private $hoa;
 
     public function __construct()
@@ -147,9 +127,7 @@ class Building
         return $this;
     }
 
-    /**
-     * @return Collection|Unit[]
-     */
+//    @return Collection|Unit[]
     public function getUnits(): Collection
     {
         return $this->units;

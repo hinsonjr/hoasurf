@@ -24,3 +24,7 @@ body {
     padding:30px;
     background-color: white;
 }
+
+.nav-item, .nav-link {
+    color: white !important;
+}

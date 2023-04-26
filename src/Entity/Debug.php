@@ -3,6 +3,7 @@
 /*
  * This software is copyright to Hinson Stephens of Just Biz, Inc.
  * Please contact hinsonjr@justbiz.biz for information about the software.
+ * 
  */
 
 namespace App\Entity;
@@ -13,91 +14,94 @@ use Doctrine\ORM\Mapping as ORM;
 #[ORM\Entity(repositoryClass: DebugRepository::class)]
 class Debug
 {
-    #[ORM\Id]
-    #[ORM\GeneratedValue]
-    #[ORM\Column(type: 'integer')]
-    private $id;
 
-    #[ORM\Column(type: 'string', length: 80)]
-    private $name;
+	#[ORM\Id]
+	#[ORM\GeneratedValue]
+	#[ORM\Column(type: 'integer')]
+	private $id;
 
-    #[ORM\Column(type: 'text', nullable: true)]
-    private $data;
+	#[ORM\Column(type: 'string', length: 80)]
+	private $name;
 
-    #[ORM\Column(type: 'integer', nullable: true, options: ['default' => 5])]
-    private $level;
+	#[ORM\Column(type: 'text', nullable: true)]
+	private $data;
 
-    /**
-     * @var \DateTime|null
-     */
-    #[ORM\Column(name: 'log_at', type: 'date', nullable: true)]
-    private $logAt;
+	#[ORM\Column(type: 'integer', nullable: true, options: ['default' => 5])]
+	private $level;
 
-    #[ORM\Column(type: 'datetime')]
-    private $logTime;
+	/*
+	 *    @var \DateTime|null
+	 */
 
-    public function getId(): ?int
-    {
-        return $this->id;
-    }
+	#[ORM\Column(name: 'log_at', type: 'date', nullable: true)]
+	private $logAt;
 
-    public function getName(): ?string
-    {
-        return $this->name;
-    }
+	#[ORM\Column(type: 'datetime')]
+	private $logTime;
 
-    public function setName(string $name): self
-    {
-        $this->name = $name;
+	public function getId(): ?int
+	{
+		return $this->id;
+	}
 
-        return $this;
-    }
+	public function getName(): ?string
+	{
+		return $this->name;
+	}
 
-    public function getData(): ?string
-    {
-        return $this->data;
-    }
+	public function setName(string $name): self
+	{
+		$this->name = $name;
 
-    public function setData(?string $data): self
-    {
-        $this->data = $data;
+		return $this;
+	}
 
-        return $this;
-    }
+	public function getData(): ?string
+	{
+		return $this->data;
+	}
 
-    public function getLevel(): ?int
-    {
-        return $this->level;
-    }
+	public function setData(?string $data): self
+	{
+		$this->data = $data;
 
-    public function setLevel(?int $level): self
-    {
-        $this->level = $level;
+		return $this;
+	}
 
-        return $this;
-    }
+	public function getLevel(): ?int
+	{
+		return $this->level;
+	}
 
-    public function getLogAt(): ?\DateTimeImmutable
-    {
-        return $this->logAt;
-    }
+	public function setLevel(?int $level): self
+	{
+		$this->level = $level;
 
-    public function setLogAt(\DateTimeImmutable $logAt): self
-    {
-        $this->logAt = $logAt;
+		return $this;
+	}
 
-        return $this;
-    }
+	public function getLogAt(): ?\DateTimeImmutable
+	{
+		return $this->logAt;
+	}
 
-    public function getLogTime(): ?\DateTimeInterface
-    {
-        return $this->logTime;
-    }
+	public function setLogAt(\DateTimeImmutable $logAt): self
+	{
+		$this->logAt = $logAt;
 
-    public function setLogTime(\DateTimeInterface $logTime): self
-    {
-        $this->logTime = $logTime;
+		return $this;
+	}
 
-        return $this;
-    }
+	public function getLogTime(): ?\DateTimeInterface
+	{
+		return $this->logTime;
+	}
+
+	public function setLogTime(\DateTimeInterface $logTime): self
+	{
+		$this->logTime = $logTime;
+
+		return $this;
+	}
+
 }

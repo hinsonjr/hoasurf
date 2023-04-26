@@ -25,8 +25,10 @@ class TransactionController extends AbstractController
     #[Route('/new', name: 'accounting_transaction_new', methods: ['GET', 'POST'])]
     public function new(Request $request, EntityManagerInterface $entityManager): Response
     {
-		$creditAcct = $entityManager->getRepository(\app\Entity\Accounting\LedgerAccount::class)->findOneById($request->get('creditAcctId'));
-		$debitAcct = $entityManager->getRepository(\app\Entity\Accounting\LedgerAccount::class)->findOneById($request->get('debitAcctId'));
+//		echo "CreditAcctId =" . $request->query->get('creditAcctId') . "<br>";
+		$creditAcct = $entityManager->getRepository(\app\Entity\Accounting\LedgerAccount::class)->findOneById($request->query->get('creditAcctId'));
+		$debitAcct = $entityManager->getRepository(\app\Entity\Accounting\LedgerAccount::class)->findOneById($request->query->get('debitAcctId'));
+//		echo "CreditAcct =" . $creditAcct->getName() . "<br>";
         $transaction = new Transaction($creditAcct,$debitAcct);
 //		$data = ['data' => ['DebitAccount' => $debitAcct, 'CreditAccount' => $creditAcct]];
         $form = $this->createForm(TransactionType::class, $transaction);

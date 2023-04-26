@@ -11,63 +11,41 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
-/**
- * @ORM\Entity(repositoryClass=LedgerAccountRepository::class)
- */
+#[ORM\Entity(repositoryClass: LedgerAccountRepository::class)]
 class LedgerAccount
 {
 
-	/**
-	 * @ORM\Id
-	 * @ORM\GeneratedValue
-	 * @ORM\Column(type="integer")
-	 */
+	#[ORM\Id]
+	#[ORM\GeneratedValue]
+	#[ORM\Column(type: "integer")]
 	private $id;
 
-	/**
-	 * @ORM\Column(type="string", length=255)
-	 */
+	#[ORM\Column(type: "string", length: 255)]
 	private $name;
 
-	/**
-	 * @ORM\Column(type="decimal", precision=12, scale=2, options={"default": 0})
-	 */
+	#[ORM\Column(type: "decimal", precision: 12, scale: 2)]
 	protected $balance;
 
-	/**
-	 * @ORM\Column(type="decimal", precision=12, scale=2, options={"default": 0})
-	 */
+	#[ORM\Column(type: "decimal", precision: 12, scale: 2)]
 	protected $startBalance;
 
-	/**
-	 * @ORM\ManyToOne(targetEntity=LedgerType::class, inversedBy="ledgerAccounts")
-	 * @ORM\JoinColumn(nullable=false)
-	 */
+	#[ORM\ManyToOne(targetEntity: LedgerType::class, inversedBy: "ledgerAccounts")]
+	#[ORM\JoinColumn(nullable: false)]
 	protected $type;
 
-	/**
-	 * @ORM\OneToMany(targetEntity=Transaction::class, mappedBy="creditAccount")
-	 */
+	#[ORM\OneToMany(targetEntity: Transaction::class, mappedBy: "creditAccount")]
 	protected $creditTransactions;
 
-	/**
-	 * @ORM\OneToMany(targetEntity=Transaction::class, mappedBy="debitAccount")
-	 */
+	#[ORM\OneToMany(targetEntity: Transaction::class, mappedBy: "debitAccount")]
 	protected $debitTransactions;
 
-	/**
-	 * @ORM\ManyToOne(targetEntity=Owner::class, inversedBy="ledgerAccounts")
-	 */
+	#[ORM\ManyToOne(targetEntity: Owner::class, inversedBy: "ledgerAccounts")]
 	private $owner;
 
-	/**
-	 * @ORM\ManyToOne(targetEntity=Vendor::class, inversedBy="ledgerAccounts")
-	 */
+	#[ORM\ManyToOne(targetEntity: Vendor::class, inversedBy: "ledgerAccounts")]
 	private $vendor;
 
-	/**
-	 * @ORM\ManyToOne(targetEntity=Hoa::class, inversedBy="ledgerAccounts")
-	 */
+	#[ORM\ManyToOne(targetEntity: Hoa::class, inversedBy: "ledgerAccounts")]
 	private $hoa;
 
 	public function __construct()
@@ -134,9 +112,7 @@ class LedgerAccount
 		return $this;
 	}
 
-	/**
-	 * @return Collection|Transaction[]
-	 */
+//		 * @return Collection|Transaction[]
 	public function getCreditTransactions(): Collection
 	{
 		return $this->creditTransactions;
@@ -157,7 +133,7 @@ class LedgerAccount
 	{
 		if ($this->creditTransactions->removeElement($creditTransaction))
 		{
-			// set the owning side to null (unless already changed)
+// set the owning side to null (unless already changed)
 			if ($creditTransaction->getCreditAccount() === $this)
 			{
 				$creditTransaction->setCreditAccount(null);
@@ -166,9 +142,7 @@ class LedgerAccount
 		return $this;
 	}
 
-	/**
-	 * @return Collection|Transaction[]
-	 */
+//* @return Collection|Transaction[]
 	public function getDebitTransactions(): Collection
 	{
 		return $this->debitTransactions;
@@ -189,7 +163,7 @@ class LedgerAccount
 	{
 		if ($this->debitTransactions->removeElement($debitTransaction))
 		{
-			// set the owning side to null (unless already changed)
+// set the owning side to null (unless already changed)
 			if ($debitTransaction->getDebitAccount() === $this)
 			{
 				$debitTransaction->setDebitAccount(null);

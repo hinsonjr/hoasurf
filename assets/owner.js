@@ -12,4 +12,8 @@ Owner.Search = function(searchForm)
 	
 };
 
+Owner.validateUnit = function()
+{
+	
+};
 

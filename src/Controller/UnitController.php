@@ -76,9 +76,16 @@ class UnitController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $entityManager->flush();
+//			if ($this->validateUnit($form))
+//			{
+				$entityManager->flush();
 
-            return $this->redirectToRoute('unit_index', [], Response::HTTP_SEE_OTHER);
+				return $this->redirectToRoute('unit_index', [], Response::HTTP_SEE_OTHER);
+//			}
+//			else
+//			{
+//				// Handle unit / owner assignmeent?
+//			}
         }
 
         return $this->renderForm('unit/edit.html.twig', [

@@ -8,203 +8,187 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
-/**
- * @ORM\Entity(repositoryClass=VendorRepository::class)
- */
+#[ORM\Entity(repositoryClass: VendorRepository::class)]
 class Vendor
 {
-    /**
-     * @ORM\Id
-     * @ORM\GeneratedValue
-     * @ORM\Column(type="integer")
-     */
-    private $id;
 
-    /**
-     * @ORM\Column(type="string", length=255)
-     */
-    private $name;
+	#[ORM\Id]
+	#[ORM\GeneratedValue]
+	#[ORM\Column(type: "integer")]
+	private $id;
 
-    /**
-     * @ORM\Column(type="string", length=255, nullable=true)
-     */
-    private $contactName;
+	#[ORM\Column(type: "string", length: 255)]
+	private $name;
 
-    /**
-     * @ORM\Column(type="string", length=20)
-     */
-    private $contactNumber;
+	#[ORM\Column(type: "string", length: 255, nullable: true)]
+	private $contactName;
 
-    /**
-     * @ORM\Column(type="string", length=255, nullable=true)
-     */
-    private $contactEmail;
+	#[ORM\Column(type: "string", length: 20)]
+	private $contactNumber;
 
-    /**
-     * @ORM\Column(type="string", length=255, nullable=true)
-     */
-    private $type;
+	#[ORM\Column(type: "string", length: 255, nullable: true)]
+	private $contactEmail;
 
-    /**
-     * @ORM\Column(type="text", nullable=true)
-     */
-    private $description;
+	#[ORM\Column(type: "string", length: 255, nullable: true)]
+	private $type;
 
-    /**
-     * @ORM\OneToMany(targetEntity=MaintenanceObject::class, mappedBy="vendor")
-     */
-    private $maintenanceObjects;
+	#[ORM\Column(type: "text", nullable: true)]
+	private $description;
 
-    /**
-     * @ORM\OneToMany(targetEntity=LedgerAccount::class, mappedBy="vendor")
-     */
-    private $ledgerAccounts;
+	#[ORM\OneToMany(targetEntity: MaintenanceObject::class, mappedBy: "vendor")]
+	private $maintenanceObjects;
 
-    public function __construct()
-    {
-        $this->maintenanceObjects = new ArrayCollection();
-        $this->ledgerAccounts = new ArrayCollection();
-    }
+	#[ORM\OneToMany(targetEntity: LedgerAccount::class, mappedBy: "vendor")]
+	private $ledgerAccounts;
 
-    public function __toString()
-    {
-        return $this->name;
-    }
+	public function __construct()
+	{
+		$this->maintenanceObjects = new ArrayCollection();
+		$this->ledgerAccounts = new ArrayCollection();
+	}
 
-    public function getId(): ?int
-    {
-        return $this->id;
-    }
+	public function __toString()
+	{
+		return $this->name;
+	}
 
-    public function getName(): ?string
-    {
-        return $this->name;
-    }
+	public function getId(): ?int
+	{
+		return $this->id;
+	}
 
-    public function setName(string $name): self
-    {
-        $this->name = $name;
+	public function getName(): ?string
+	{
+		return $this->name;
+	}
 
-        return $this;
-    }
+	public function setName(string $name): self
+	{
+		$this->name = $name;
 
-    public function getContactName(): ?string
-    {
-        return $this->contactName;
-    }
+		return $this;
+	}
 
-    public function setContactName(?string $contactName): self
-    {
-        $this->contactName = $contactName;
+	public function getContactName(): ?string
+	{
+		return $this->contactName;
+	}
 
-        return $this;
-    }
+	public function setContactName(?string $contactName): self
+	{
+		$this->contactName = $contactName;
 
-    public function getContactNumber(): ?string
-    {
-        return $this->contactNumber;
-    }
+		return $this;
+	}
 
-    public function setContactNumber(string $contactNumber): self
-    {
-        $this->contactNumber = $contactNumber;
+	public function getContactNumber(): ?string
+	{
+		return $this->contactNumber;
+	}
 
-        return $this;
-    }
+	public function setContactNumber(string $contactNumber): self
+	{
+		$this->contactNumber = $contactNumber;
 
-    public function getContactEmail(): ?string
-    {
-        return $this->contactEmail;
-    }
+		return $this;
+	}
 
-    public function setContactEmail(?string $contactEmail): self
-    {
-        $this->contactEmail = $contactEmail;
+	public function getContactEmail(): ?string
+	{
+		return $this->contactEmail;
+	}
 
-        return $this;
-    }
+	public function setContactEmail(?string $contactEmail): self
+	{
+		$this->contactEmail = $contactEmail;
 
-    public function getType(): ?string
-    {
-        return $this->type;
-    }
+		return $this;
+	}
 
-    public function setType(?string $type): self
-    {
-        $this->type = $type;
+	public function getType(): ?string
+	{
+		return $this->type;
+	}
 
-        return $this;
-    }
+	public function setType(?string $type): self
+	{
+		$this->type = $type;
 
-    public function getDescription(): ?string
-    {
-        return $this->description;
-    }
+		return $this;
+	}
 
-    public function setDescription(?string $description): self
-    {
-        $this->description = $description;
+	public function getDescription(): ?string
+	{
+		return $this->description;
+	}
 
-        return $this;
-    }
+	public function setDescription(?string $description): self
+	{
+		$this->description = $description;
 
-    /**
-     * @return Collection|MaintenanceObject[]
-     */
-    public function getMaintenanceObjects(): Collection
-    {
-        return $this->maintenanceObjects;
-    }
+		return $this;
+	}
 
-    public function addMaintenanceObject(MaintenanceObject $maintenanceObject): self
-    {
-        if (!$this->maintenanceObjects->contains($maintenanceObject)) {
-            $this->maintenanceObjects[] = $maintenanceObject;
-            $maintenanceObject->setVendor($this);
-        }
+//    @return Collection|MaintenanceObject[]
+	public function getMaintenanceObjects(): Collection
+	{
+		return $this->maintenanceObjects;
+	}
 
-        return $this;
-    }
+	public function addMaintenanceObject(MaintenanceObject $maintenanceObject): self
+	{
+		if (!$this->maintenanceObjects->contains($maintenanceObject))
+		{
+			$this->maintenanceObjects[] = $maintenanceObject;
+			$maintenanceObject->setVendor($this);
+		}
 
-    public function removeMaintenanceObject(MaintenanceObject $maintenanceObject): self
-    {
-        if ($this->maintenanceObjects->removeElement($maintenanceObject)) {
-            // set the owning side to null (unless already changed)
-            if ($maintenanceObject->getVendor() === $this) {
-                $maintenanceObject->setVendor(null);
-            }
-        }
+		return $this;
+	}
 
-        return $this;
-    }
+	public function removeMaintenanceObject(MaintenanceObject $maintenanceObject): self
+	{
+		if ($this->maintenanceObjects->removeElement($maintenanceObject))
+		{
+			// set the owning side to null (unless already changed)
+			if ($maintenanceObject->getVendor() === $this)
+			{
+				$maintenanceObject->setVendor(null);
+			}
+		}
 
-    /**
-     * @return Collection|LedgerAccount[]
-     */
-    public function getLedgerAccounts(): Collection
-    {
-        return $this->ledgerAccounts;
-    }
+		return $this;
+	}
 
-    public function addLedgerAccount(LedgerAccount $ledgerAccount): self
-    {
-        if (!$this->ledgerAccounts->contains($ledgerAccount)) {
-            $this->ledgerAccounts[] = $ledgerAccount;
-            $ledgerAccount->setVendor($this);
-        }
+//    @return Collection|LedgerAccount[]
+	public function getLedgerAccounts(): Collection
+	{
+		return $this->ledgerAccounts;
+	}
 
-        return $this;
-    }
+	public function addLedgerAccount(LedgerAccount $ledgerAccount): self
+	{
+		if (!$this->ledgerAccounts->contains($ledgerAccount))
+		{
+			$this->ledgerAccounts[] = $ledgerAccount;
+			$ledgerAccount->setVendor($this);
+		}
 
-    public function removeLedgerAccount(LedgerAccount $ledgerAccount): self
-    {
-        if ($this->ledgerAccounts->removeElement($ledgerAccount)) {
-            // set the owning side to null (unless already changed)
-            if ($ledgerAccount->getVendor() === $this) {
-                $ledgerAccount->setVendor(null);
-            }
-        }
+		return $this;
+	}
 
-        return $this;
-    }
+	public function removeLedgerAccount(LedgerAccount $ledgerAccount): self
+	{
+		if ($this->ledgerAccounts->removeElement($ledgerAccount))
+		{
+			// set the owning side to null (unless already changed)
+			if ($ledgerAccount->getVendor() === $this)
+			{
+				$ledgerAccount->setVendor(null);
+			}
+		}
+
+		return $this;
+	}
+
 }

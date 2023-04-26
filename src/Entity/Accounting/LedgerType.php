@@ -7,99 +7,92 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
-/**
- * @ORM\Entity(repositoryClass=LedgerTypeRepository::class)
- */
+#[ORM\Entity(repositoryClass: LedgerTypeRepository::class)]
 class LedgerType
 {
-    /**
-     * @ORM\Id
-     * @ORM\GeneratedValue
-     * @ORM\Column(type="integer")
-     */
-    private $id;
 
-    /**
-     * @ORM\Column(type="string", length=24)
-     */
-    protected $name;
+	#[ORM\Id]
+	#[ORM\GeneratedValue]
+	#[ORM\Column(type: "integer")]
+	private $id;
 
-    /**
-     * @ORM\Column(type="boolean")
-     */
-    protected $isDebit;
+	#[ORM\Column(type: "string", length: 24)]
+	protected $name;
 
-    /**
-     * @ORM\OneToMany(targetEntity=LedgerAccount::class, mappedBy="type")
-     */
-    private $ledgerAccounts;
+	#[ORM\Column(type: "boolean")]
+	protected $isDebit;
 
-    public function __construct()
-    {
-        $this->ledgerAccounts = new ArrayCollection();
-    }
+	#[ORM\OneToMany(targetEntity: LedgerAccount::class, mappedBy: "type")]
+	private $ledgerAccounts;
 
-    public function __toString()
-    {
-        return $this->getName();
-    }
+	public function __construct()
+	{
+		$this->ledgerAccounts = new ArrayCollection();
+	}
 
-    public function getId(): ?int
-    {
-        return $this->id;
-    }
+	public function __toString()
+	{
+		return $this->getName();
+	}
 
-    public function getName(): ?string
-    {
-        return $this->name;
-    }
+	public function getId(): ?int
+	{
+		return $this->id;
+	}
 
-    public function setName(string $name): self
-    {
-        $this->name = $name;
+	public function getName(): ?string
+	{
+		return $this->name;
+	}
 
-        return $this;
-    }
+	public function setName(string $name): self
+	{
+		$this->name = $name;
 
-    public function getIsDebit(): ?bool
-    {
-        return $this->isDebit;
-    }
+		return $this;
+	}
 
-    public function setIsDebit(bool $isDebit): self
-    {
-        $this->isDebit = $isDebit;
+	public function getIsDebit(): ?bool
+	{
+		return $this->isDebit;
+	}
 
-        return $this;
-    }
+	public function setIsDebit(bool $isDebit): self
+	{
+		$this->isDebit = $isDebit;
 
-    /**
-     * @return Collection|LedgerAccount[]
-     */
-    public function getLedgerAccounts(): Collection
-    {
-        return $this->ledgerAccounts;
-    }
+		return $this;
+	}
 
-    public function addLedgerAccount(LedgerAccount $ledgerAccount): self
-    {
-        if (!$this->ledgerAccounts->contains($ledgerAccount)) {
-            $this->ledgerAccounts[] = $ledgerAccount;
-            $ledgerAccount->setType($this);
-        }
+//    @return Collection|LedgerAccount[]
+	public function getLedgerAccounts(): Collection
+	{
+		return $this->ledgerAccounts;
+	}
 
-        return $this;
-    }
+	public function addLedgerAccount(LedgerAccount $ledgerAccount): self
+	{
+		if (!$this->ledgerAccounts->contains($ledgerAccount))
+		{
+			$this->ledgerAccounts[] = $ledgerAccount;
+			$ledgerAccount->setType($this);
+		}
 
-    public function removeLedgerAccount(LedgerAccount $ledgerAccount): self
-    {
-        if ($this->ledgerAccounts->removeElement($ledgerAccount)) {
-            // set the owning side to null (unless already changed)
-            if ($ledgerAccount->getType() === $this) {
-                $ledgerAccount->setType(null);
-            }
-        }
+		return $this;
+	}
 
-        return $this;
-    }
+	public function removeLedgerAccount(LedgerAccount $ledgerAccount): self
+	{
+		if ($this->ledgerAccounts->removeElement($ledgerAccount))
+		{
+			// set the owning side to null (unless already changed)
+			if ($ledgerAccount->getType() === $this)
+			{
+				$ledgerAccount->setType(null);
+			}
+		}
+
+		return $this;
+	}
+
 }
