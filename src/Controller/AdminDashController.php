@@ -59,8 +59,11 @@ class AdminDashController extends AbstractController
 			}
 			$account->setBalance($balance);
 			$entityManager->persist($account);
-			$results[] = [$account->getName(), $account->getType()->getIsDebit() ? "true " : "false ",
-				"$".number_format($previousBalance,2),"$".number_format($balance,2)];
+			if ($balance != 0)
+			{
+				$results[] = [$account->getName(), $account->getType()->getIsDebit() ? "true " : "false ",
+					"$".number_format($previousBalance,2),"$".number_format($balance,2)];
+			}
 		}
 		$entityManager->flush();
 		

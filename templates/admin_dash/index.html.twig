@@ -1,6 +1,6 @@
 {% extends 'admin-base.html.twig' %}
 
-{% block title %}Hello AdminDashController!{% endblock %}
+{% block title %}Admin Dashboard!{% endblock %}
 
 {% block content %}
 
@@ -14,20 +14,27 @@
                 </h4>
             </div>
             <div class="row">
-                <div class="col-sm jumbotron jumbotron-fluid text-light bg-secondary">
-                    <div class="container">
-                        <h2>Financials</h2>
-                        {{  include('accounting/transaction/transactionTable.html.twig',{'accounts': activeHoa.ledgerAccounts }) }}
+                <div class="col-sm  ">
+                    <div class="container section-border">
+                        <h3>Account Balances</h3>
+                        <div class="">
+                            {{  include('accounting/transaction/transactionTable.html.twig',{'accounts': activeHoa.ledgerAccounts }) }}
+                        </div>
                     </div>
                 </div>
-                <div class="col-sm jumbotron jumbotron-fluid">
-                    <div class="container">
-                        <h2>Unit Info</h2>
+                <div class="col-sm  ">
+                    <div class="container section-border">
+                        <h3>Unit Info</h3>
+                        <div class="">
+                            
+                        </div>
                     </div>
                 </div>
-                <div class="col-sm jumbotron jumbotron-fluid">
-                    <div class="container">
-                        <h2>Service Requests</h2>
+                <div class="col-sm  ">
+                    <div class="container section-border">
+                        <h3>Service Requests</h3>
+                        <div class="">
+                        </div>
                     </div>
                 </div>
             </div>

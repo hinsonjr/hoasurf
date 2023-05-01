@@ -27,7 +27,7 @@
             <div class="banner">
                 <div class="banner-container">
                     <div class="container-body">
-                        <nav id="navbar" class="navbar flex-column navbar-expand-lg navbar-light bg-primary">
+                        <nav id="navbar" class="navbar navbar-expand-lg navbar-light bg-primary">
                             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                               <span class="navbar-toggler-icon"></span>
                             </button>                
@@ -39,7 +39,7 @@
                                   <a class="nav-item nav-link" href="{{ path('admin_dash') }}">Admin Dash</a><span class="sr-only"></span></a>
                                   <a class="nav-item nav-link" href="{{ path('hoa_index') }}">HOAs</a>
                                   <a class="nav-item nav-link" href="{{ path('building_index') }}">Buildings</a>
-                                  <a class="nav-item nav-link" href="{{ path('owner_index') }}">Owners</a>
+                                  <a class="nav-item nav-link" href="{{ path('app_owner_index') }}">Owners</a>
                                   <a class="nav-item nav-link" href="{{ path('unit_index') }}">Units</a>
                                   <a class="nav-item nav-link" href="{{ path('vendor_index') }}">Vendors</a>
                                   <a class="nav-item nav-link" href="{{ path('maintenance_object_index') }}">Maintenance</a>
@@ -72,10 +72,9 @@
                         </nav>
                     </div>
                 </div>
-
+        {% endblock %}
             <div id="content">
                 {% block content %}{% endblock %}
-            </div>
-        {% endblock %}
+            </div>        
     </body>
 </html>

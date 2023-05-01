@@ -11,6 +11,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Doctrine\Common\Util\Debug;
 
 #[Route('/admin/unit')]
 class UnitController extends AbstractController
@@ -31,7 +32,8 @@ class UnitController extends AbstractController
 		}
 		foreach ($units as $key => $unit)
 		{
-			$units[$key]->currentOwner = $unitRepository->findCurrentOwners($unit->getId());
+			$owners = $unit->getOwners();
+//			Debug::dump($owners);
 		}
         return $this->render('unit/index.html.twig', [
             'units' => $units,
@@ -104,4 +106,30 @@ class UnitController extends AbstractController
 
         return $this->redirectToRoute('unit_index', [], Response::HTTP_SEE_OTHER);
     }
+	
+
+    #[Route('/{id}/change-owner', name: 'unit_change_owner', methods: ['GET', 'POST'])]
+    public function changeOwner(Request $request, Unit $unit, EntityManagerInterface $entityManager): Response
+    {
+        $form = $this->createForm(UnitChangeOwner::class, $unit);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+//			if ($this->validateUnit($form))
+//			{
+				$entityManager->flush();
+
+				return $this->redirectToRoute('unit_index', [], Response::HTTP_SEE_OTHER);
+//			}
+//			else
+//			{
+//				// Handle unit / owner assignmeent?
+//			}
+        }
+
+        return $this->renderForm('unit/edit.html.twig', [
+            'unit' => $unit,
+            'form' => $form,
+        ]);
+    }	
 }

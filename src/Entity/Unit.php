@@ -12,147 +12,143 @@ class Unit
 {
 
 	#[ORM\Id]
-	#[ORM\GeneratedValue]
-	#[ORM\Column(type: "integer")]
-	private $id;
+                           	#[ORM\GeneratedValue]
+                           	#[ORM\Column(type: "integer")]
+                           	private $id;
 
 	#[ORM\Column(type: "string", length: 30)]
-	private $unitNumber;
+                           	private $unitNumber;
 
 	#[ORM\Column(type: "text", nullable: true)]
-	private $description;
+                           	private $description;
 
 	#[ORM\Column(type: "string", length: 10, nullable: true)]
-	private $sf;
+                           	private $sf;
 
 	#[ORM\Column(type: "string", length: 5, nullable: true)]
-	private $beds;
+                           	private $beds;
 
 	#[ORM\Column(type: "string", length: 5, nullable: true)]
-	private $baths;
+                           	private $baths;
 
 	#[ORM\ManyToOne(targetEntity: Building::class, inversedBy: "units")]
-	private $building;
+                           	private $building;
 
-	#[ORM\OneToMany(targetEntity: Owner::class, mappedBy: "unit")]
-	private $owners;
+    #[ORM\ManyToMany(targetEntity: Owner::class, mappedBy: 'units')]
+    private Collection $owners;
 
 	public function __construct()
-	{
-		$this->owners = new ArrayCollection();
-	}
+             {
+                 $this->owners = new ArrayCollection();
+             }
 
 	public function __toString()
-	{
-		return $this->getUnitNumber() . "-" . $this->getBuilding();
-	}
+                           	{
+                           		return $this->getUnitNumber() . "-" . $this->getBuilding();
+                           	}
 
 	public function getId(): ?int
-	{
-		return $this->id;
-	}
+                           	{
+                           		return $this->id;
+                           	}
 
 	public function getUnitNumber(): ?string
-	{
-		return $this->unitNumber;
-	}
+                           	{
+                           		return $this->unitNumber;
+                           	}
 
 	public function setUnitNumber(string $unitNumber): self
-	{
-		$this->unitNumber = $unitNumber;
-
-		return $this;
-	}
+                           	{
+                           		$this->unitNumber = $unitNumber;
+                           
+                           		return $this;
+                           	}
 
 	public function getDescription()
-	{
-		return $this->description;
-	}
+                           	{
+                           		return $this->description;
+                           	}
 
 	public function setDescription($description): self
-	{
-		$this->description = $description;
-
-		return $this;
-	}
+                           	{
+                           		$this->description = $description;
+                           
+                           		return $this;
+                           	}
 
 	public function getSf(): ?string
-	{
-		return $this->sf;
-	}
+                           	{
+                           		return $this->sf;
+                           	}
 
 	public function setSf(?string $sf): self
-	{
-		$this->sf = $sf;
-
-		return $this;
-	}
+                           	{
+                           		$this->sf = $sf;
+                           
+                           		return $this;
+                           	}
 
 	public function getBeds(): ?string
-	{
-		return $this->beds;
-	}
+                           	{
+                           		return $this->beds;
+                           	}
 
 	public function setBeds(?string $beds): self
-	{
-		$this->beds = $beds;
-
-		return $this;
-	}
+                           	{
+                           		$this->beds = $beds;
+                           
+                           		return $this;
+                           	}
 
 	public function getBaths(): ?string
-	{
-		return $this->baths;
-	}
+                           	{
+                           		return $this->baths;
+                           	}
 
 	public function setBaths(?string $baths): self
-	{
-		$this->baths = $baths;
-
-		return $this;
-	}
+                           	{
+                           		$this->baths = $baths;
+                           
+                           		return $this;
+                           	}
 
 	public function getBuilding(): ?building
-	{
-		return $this->building;
-	}
+                           	{
+                           		return $this->building;
+                           	}
 
 	public function setBuilding(?building $building): self
-	{
-		$this->building = $building;
+                           	{
+                           		$this->building = $building;
+                           
+                           		return $this;
+                           	}
 
-		return $this;
-	}
+    /**
+     * @return Collection<int, Owner>
+     */
+    public function getOwners(): Collection
+    {
+        return $this->owners;
+    }
 
-//    @return Collection|Owner[]
-	public function getOwners(): Collection
-	{
-		return $this->owners;
-	}
+    public function addOwner(Owner $owner): self
+    {
+        if (!$this->owners->contains($owner)) {
+            $this->owners->add($owner);
+            $owner->addUnit($this);
+        }
 
-	public function addOwner(Owner $owner): self
-	{
-		if (!$this->owners->contains($owner))
-		{
-			$this->owners[] = $owner;
-			$owner->setUnit($this);
-		}
+        return $this;
+    }
 
-		return $this;
-	}
+    public function removeOwner(Owner $owner): self
+    {
+        if ($this->owners->removeElement($owner)) {
+            $owner->removeUnit($this);
+        }
 
-	public function removeOwner(Owner $owner): self
-	{
-		if ($this->owners->removeElement($owner))
-		{
-			// set the owning side to null (unless already changed)
-			if ($owner->getUnit() === $this)
-			{
-				$owner->setUnit(null);
-			}
-		}
+        return $this;
+    }
 
-		return $this;
-	}
-
-}
+ }

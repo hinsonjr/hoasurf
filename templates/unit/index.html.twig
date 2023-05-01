@@ -27,7 +27,6 @@
             <tr>
                 <th>Unit Number</th>
                 <th>Description</th>
-                <th>Sf</th>
                 <th>Beds</th>
                 <th>Baths</th>
                 <th>Current Owner</th>
@@ -39,14 +38,18 @@
             <tr>
                 <td><a href="{{ path('unit_edit', {'id': unit.id}) }}">{{ unit.unitNumber }}</a></td>
                 <td>{{ unit.description }}</td>
-                <td>{{ unit.sf }}</td>
                 <td>{{ unit.beds }}</td>
                 <td>{{ unit.baths }}</td>
-                {% if unit.currentOwner %}
+                {% if unit.owners %}
                     <td>
-                    {% for owner in unit.currentOwner %}
+                    {% for owner in unit.owners%}
                         {%  if owner.ownPercent != 100 %}({{owner.ownPercent}}) {% endif %}
                         {{ owner.name}}
+                        {% if owner.endDate %}
+                            from {{ owner.startDate|date('Y-m-d')  }} to {{ owner.endDate|date('Y-m-d') }}
+                        {% else %}
+                            current owner from {{ owner.startDate|date('Y-m-d')  }} 
+                        {% endif %}
                         {% if not loop.last %}<br>{% endif %}
                     {%  endfor %}
                     </td>
@@ -56,6 +59,7 @@
                 <td>
                     <a href="{{ path('unit_show', {'id': unit.id}) }}">show</a>
                     <a href="{{ path('unit_edit', {'id': unit.id}) }}">edit</a>
+{#                    <a href="{{ path('unit_change_owner', {'id': unit.id}) }}">edit</a>#}
                 </td>
             </tr>
         {% else %}

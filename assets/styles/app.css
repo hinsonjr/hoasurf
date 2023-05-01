@@ -14,3 +14,26 @@ body {
     margin:auto;
     padding:100px;
 }
+
+.numbers {
+    text-align: right;
+}
+
+.right {
+    text-align: right;
+}
+
+.left {
+    text-align: left;
+}
+
+.center {
+    text-align: center;
+}
+
+.section-border
+{
+    border: 3px solid blue;
+    border-radius: 5px;
+    
+}
