@@ -23,7 +23,7 @@ class OwnerRepository extends ServiceEntityRepository
     //  * @return Owner[] Returns an array of Owner objects
     //  */
 
-    public function findAll($query = [])
+    public function findAll($query = []) :array
 	{
 		$search = "";
 		$q = $this->createQueryBuilder('o')

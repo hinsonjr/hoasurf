@@ -1,42 +1,80 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Owners Dashboard!{% endblock %}
+{% block title %}Owners Dashboard{% endblock %}
 
 {% block content %}
-    <style>
-        .example-wrapper { }
-        h1 {text-align: center;}
-        h2 {}
-    </style>
-
-    <div class="example-wrapper">
         <h1>Owner Dashboard for {{ app.user.name }}</h1>
+        <div class="section-break">&nbsp;</div>
+        
         <div class="container">
             <div class="row">
-                <div class="col-sm jumbotron jumbotron-fluid">
-                    <div class="container">
-                        <h2>Important Messages</h2>
+                <div class="col-sm card">
+                    <div class=card-header>Important Messages</div>
+                    <div class="cardlist-body">
+                        {% for message in owner_messages %}
+                        <div class="row">
+                            <div class="col">{{ message.id }}</div>
+                            <div class="col">{{ message.subject }}</div>
+                            <div class="col">{{ message.createdAt|date("Y-m-d") }}</div>
+                        </div>
+                        {% endfor %}
                     </div>
                 </div>
-                <div class="col-sm jumbotron jumbotron-fluid">
-                    <div class="container">
-                        <h2>Payment Info</h2>
+                <div class="col-sm card">
+                    <div class=card-header>Payment Info</div>
+                    <div class="cardlist-body">
+{#                        {% for payment in payment_records %}#}
+                        <div class="row">
+                            <div class="col">Dues</div>
+                            <div class="col">$800.00</div>
+                            <div class="col">May 1</div>
+                        </div>
+{#                        {% endfor %}#}
                     </div>
                 </div>
-                <div class="col-sm jumbotron jumbotron-fluid">
-                    <div class="container">
-                        <h2>Service Requests</h2>
+                <div class="col-sm card">
+                    <div class=card-header>Service Requests</div>
+                    <div class="cardlist-body">
+{#                        {% for payment in payment_records %}#}
+                        <div class="row">
+                            <div class="col">Leak from window</div>
+                            <div class="col">$800.00</div>
+                            <div class="col">May 1</div>
+                        </div>
+{#                        {% endfor %}#}
                     </div>
+                </div>                    
+            </div>
+
+            <div class="section-break">&nbsp;</div>
+            <div class="owner-table card">
+                <div class="card-header">
+                    Units Owned
+                </div>
+                <div class="row card-subtitle cardlist-heading">
+                    <div class="col">Unit</div>
+                    <div class="col">Building</div>
+                    <div class="col">Purchase Date</div>
+                    <div class="col">Sold Date</div>
+                    <div class="col">Ownership %</div>
+                </div>
+                <div class="card-body cardlist-body">
+                    {% for owner in owner_records %}
+                        {%  for unit in owner.ownerUnits %}
+                        <div class="row">
+                            <div class="col">{{ unit.unit.unitNumber }}</div>
+                            <div class="col">{{ unit.unit.building.name }}</div>
+                            <div class="col">{{ unit.startDate | date("Y-m-d") }}</div>
+                            {% if unit.endDate is not null  %}
+                            <div class="col">{{ unit.endDate | date("Y-m-d") }}</div>
+                            {% else %}
+                            <div class="col">Current Owner</div>
+                            {% endif %}
+                            <div class="col">{{ unit.ownPercent }}%</div>
+                        </div>
+                        {%  endfor %}
+                    {% endfor %}
                 </div>
             </div>
         </div>
-        <table>
-            {% for owner in owner_records %}
-                <tr>
-                    <td>{{  owner.unit }}</td>
-                    <td>{{ owner.unit.description }}</td>
-                </tr>
-            {% endfor %}
-        </table>
-    </div>
 {% endblock %}

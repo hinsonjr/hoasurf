@@ -44,12 +44,13 @@
                     <td>
                     {% for owner in unit.owners%}
                         {%  if owner.ownPercent != 100 %}({{owner.ownPercent}}) {% endif %}
-                        {{ owner.name}}
+                        {{ owner.name}} (
                         {% if owner.endDate %}
                             from {{ owner.startDate|date('Y-m-d')  }} to {{ owner.endDate|date('Y-m-d') }}
                         {% else %}
                             current owner from {{ owner.startDate|date('Y-m-d')  }} 
                         {% endif %}
+                        )
                         {% if not loop.last %}<br>{% endif %}
                     {%  endfor %}
                     </td>

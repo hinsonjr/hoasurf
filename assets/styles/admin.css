@@ -11,9 +11,17 @@ body {
 
 #content {
     font-size: 1.2em;
-    padding: 15px;
     margin:auto;
+    padding-top : 1em;
+    padding-bottom: 2em;
+    padding-left: 1em;
+    padding-right: 1em;
     background-color: lightgray;
+/*    border-radius: 10px;
+    border-color: lightgray;
+    border-style: solid;
+    border-width: 4px;*/
+    text-align: center;
 }
 
 .wrapper {
@@ -25,9 +33,9 @@ body {
     background-color: white;
 }
 
-.nav-item, .nav-link {
+/*.nav-item, .nav-link {
     color: white !important;
-}
+}*/
 
 .section-border
 {
@@ -49,4 +57,30 @@ body {
 
 .center {
     text-align: center;
+}
+
+.bold {
+    font-weight: 500;
+}
+
+.italic {
+    font-style: italic;
+}
+
+.cardlist-heading
+{
+    margin-top: 10px;
+    font-weight: 500;
+    font-size: 1.1em;
+    text-align: center;
+}
+
+.cardlist-body
+{
+    text-align:center;
+}
+
+.section-break
+{
+    margin-top:2em;
 }

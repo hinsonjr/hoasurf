@@ -9,6 +9,7 @@ use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Component\Security\Core\Security;
 use App\Entity\Owner;
+use App\Entity\Message;
 
 class OwnerDashController extends AbstractController
 {
@@ -23,14 +24,18 @@ class OwnerDashController extends AbstractController
     #[Route('/owner/dash', name: 'owner_dash')]
     public function index(): Response
     {
-		$repo = $this->doctrine->getRepository(Owner::class);
-		$ownerRecords = $repo->findByUser($this->security->getUser());
-		/********$repo->findTransactions(Hoa $hoa, $cnt);**/ 
-		$heading = '<th style="padding-right:10px">Account</th><th style="padding-right:10px">isDebit</th><th style="padding-right:10px">Previous Balance</th><th style="padding-right:10px">Updated Balance</th>';
-		$results = [];
+		$ownerRepo = $this->doctrine->getRepository(Owner::class);
+		$ownerRecords = $ownerRepo->findByUser($this->security->getUser());
+		$msgRepo = $this->doctrine->getRepository(Message::class);
+		$ownerMessages= $msgRepo->findOwnerMessages($this->security->getUser());
+		$serviceRequests = [];
+		$paymentRecords = [];
         return $this->render('owner_dash/index.html.twig', [
             'controller_name' => 'OwnerDashController',
-			'owner_records' => $ownerRecords
+			'owner_records' => $ownerRecords,
+			'owner_messages' => $ownerMessages,
+			'payment_records' => $paymentRecords,
+			'service_requests' => $serviceRequests
         ]);
     }
 }

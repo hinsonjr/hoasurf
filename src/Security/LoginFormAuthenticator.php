@@ -52,6 +52,7 @@ class LoginFormAuthenticator extends AbstractLoginFormAuthenticator
 		{
 			$targetPath = $this->getRolePath($roles[0]);
 		}
+		echo "TargetPath = " . $targetPath;
 
 		if (count($user->getRoles()) > 1 || $user->getRoles()[0] !== "ROLE_USER")
 		{

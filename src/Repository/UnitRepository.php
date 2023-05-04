@@ -21,7 +21,7 @@ class UnitRepository extends ServiceEntityRepository
     // /**
     //  * @return Unit[] Returns an array of Unit objects
     //  */
-    public function findAll($query = [])
+    public function findAll($query = []): array
     {
 		$buildingId = "";
 		$search = "";

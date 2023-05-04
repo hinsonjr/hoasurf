@@ -31,7 +31,22 @@ class LoginController extends AbstractController {
 		{
 			return new RedirectResponse($this->router->generate('admin_dash'));
 		}
-        return null;
-    }	
+		if ($user->isGranted('ROLE_HOA_ADMIN'))
+		{
+			return new RedirectResponse($this->router->generate('admin_dash'));
+		}
+		if ($user->isGranted('ROLE_HOA_ACCOUNTANT'))
+		{
+			return new RedirectResponse($this->router->generate('accounting_dash'));
+		}
+		if ($user->isGranted('ROLE_HOA_BOARD'))
+		{
+			return new RedirectResponse($this->router->generate('owner_dash'));
+		}
+		if ($user->isGranted('ROLE_HOA_OWNER'))
+		{
+			return new RedirectResponse($this->router->generate('owner_dash'));
+		}
+        return null;    }	
 
 }

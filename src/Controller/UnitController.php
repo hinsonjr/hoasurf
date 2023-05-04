@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\Unit;
 use App\Form\Unit2Type;
+use App\Form\UnitChangeOwnerType;
 use App\Repository\UnitRepository;
 use App\Repository\BuildingRepository;
 use Doctrine\ORM\EntityManagerInterface;
@@ -111,7 +112,7 @@ class UnitController extends AbstractController
     #[Route('/{id}/change-owner', name: 'unit_change_owner', methods: ['GET', 'POST'])]
     public function changeOwner(Request $request, Unit $unit, EntityManagerInterface $entityManager): Response
     {
-        $form = $this->createForm(UnitChangeOwner::class, $unit);
+        $form = $this->createForm(UnitChangeOwnerType::class, $unit);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
@@ -127,7 +128,7 @@ class UnitController extends AbstractController
 //			}
         }
 
-        return $this->renderForm('unit/edit.html.twig', [
+        return $this->renderForm('unit/change_owner.html.twig', [
             'unit' => $unit,
             'form' => $form,
         ]);

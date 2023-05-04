@@ -1,0 +1,35 @@
+{% extends 'admin-base.html.twig' %}
+
+{% block title %}MessageCategory index{% endblock %}
+
+{% block content %}
+    <h1>MessageCategory index</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Category</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for message_category in message_categories %}
+            <tr>
+                <td>{{ message_category.id }}</td>
+                <td>{{ message_category.category }}</td>
+                <td>
+                    <a href="{{ path('app_message_category_show', {'id': message_category.id}) }}">show</a>
+                    <a href="{{ path('app_message_category_edit', {'id': message_category.id}) }}">edit</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="3">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{{ path('app_message_category_new') }}">Create new</a>
+{% endblock %}

@@ -1,0 +1,35 @@
+{% extends 'admin-base.html.twig' %}
+
+{% block title %}Change Owner{% endblock %}
+
+{% block content %}
+     {{ parent() }}
+    <h1>Change Owner of Unit</h1>
+    <div class="changeOwnerForm">
+        {{ form_start(form) }}
+        <div class="my-custom-class-for-errors">
+            {{ form_errors(form) }}
+        </div>
+
+        <div class="row">
+            {{ form_row(form.unitNumber) }}
+        </div>
+        <div class="row">
+            {{ form_row(form.description) }}
+        </div>
+        <div class="row">
+            <div class="col">
+                <input type="radio" name="changeType" value="replace"> Replace Current Owners
+            </div>
+            <div class="col">
+                <input type="radio" name="changeType" value="add"> Add to Current Owners
+            </div>
+        </div>
+        <div class="row">
+            {{ form_row(form.owners) }}
+        </div>
+        <a href="{{ path('unit_index') }}">back to list</a>
+        <button class="btn btn-primary>{{ button_label|default('Change Owner') }}</button>
+        {{ form_end(form) }}
+    </div>
+{% endblock %}
