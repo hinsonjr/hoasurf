@@ -29,10 +29,10 @@ class UnitRepository extends ServiceEntityRepository
             ->setMaxResults(50)
 			->orderBy('u.unitNumber');
 
-		if (array_key_exists('search',$query) && $query['search'])
+		if (array_key_exists('unitSearch',$query) && $query['unitSearch'])
 		{
-            $q->andWhere("u.unitNumber like :sval")
-				->setParameter('sval','%'.$query['search'].'%' );
+			$q->andWhere("u.unitNumber like :sval");
+			$q->setParameter('sval','%'.$query['unitSearch'].'%' );
 		}
 		if (array_key_exists('buildingId',$query) && $query['buildingId'])
 		{

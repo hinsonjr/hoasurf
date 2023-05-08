@@ -3,20 +3,39 @@
 {% block title %}Unit List{% endblock %}
 
 {% block content %}
-    <h1>Unit index</h1>
+    <h1>Unit List</h1>
     <form id="unit_index_form">
-        <div form-control row>
-            <label for="search">Search By Unit Number or Owner Name</label>
-            <input type="text" id="search" name="search">
+        <div class="row">
+            <div class="col-sm-1">&nbsp;</div>
+            <div class="col-sm-2">
+                <label for="search">Search By Unit Number</label>
+            </div>
+            <div class="col-sm-2">
+                <input type="text" id="unitSearch" name="unitSearch" value = {{ query.unitSearch }}>
+            </div>
         </div>
-        <div form-control row>
-            <label for="search">Filter by Building</label>
-            <select id="buildingId" name="buildingId">
-                <option name='choose' value=''>Choose</option>
-                {% for building in buildings %}
-                    <option name="{{ building.name}}" value="{{ building.id }}" {{ buildingId == building.id ? 'selected' }}>{{ building.name }}</option>
-                {% endfor %}
-            </select>
+        <div class="row">
+            <div class="col-sm-1">&nbsp;</div>
+            <div class="col-sm-2">
+                <label for="search">Search By Unit Owner Name</label>
+            </div>
+            <div class="col-sm-2">
+                <input type="text" id="ownerSearch" name="ownerSearch" value = {{ query.ownerSearch }}>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-1">&nbsp;</div>
+            <div class="col-sm-2">
+                <label for="search">Filter by Building</label>
+            </div>
+            <div class="col-sm-2">
+                <select id="buildingId" name="buildingId">
+                    <option name='choose' value=''>Choose</option>
+                    {% for building in buildings %}
+                        <option name="{{ building.name}}" value="{{ building.id }}" {{ query.buildingId == building.id ? 'selected' }}>{{ building.name }}</option>
+                    {% endfor %}
+                </select>
+            </div>
         </div>
         <div form-control row>
             <button class="btn btn-primary" type="submit">Submit</button>

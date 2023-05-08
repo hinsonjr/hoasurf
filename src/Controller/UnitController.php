@@ -6,6 +6,7 @@ use App\Entity\Unit;
 use App\Form\Unit2Type;
 use App\Form\UnitChangeOwnerType;
 use App\Repository\UnitRepository;
+use App\Repository\OwnerRepository;
 use App\Repository\BuildingRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -18,18 +19,27 @@ use Doctrine\Common\Util\Debug;
 class UnitController extends AbstractController
 {
     #[Route('/', name: 'unit_index', methods: ['GET'])]
-    public function index(Request $request, UnitRepository $unitRepository, BuildingRepository $buildingRepository): Response
+    public function index(Request $request, OwnerRepository $ownerRepository, UnitRepository $unitRepository, BuildingRepository $buildingRepository): Response
     {
-		$buildingId = $request->query->get('buildingId');
-		$search = $request->query->get('search');
-		$query = ['buildingId' => $buildingId, 'search' => $search];
-		if ($buildingId || $search)
+		$query['buildingId'] = $request->query->get('buildingId');
+		$query['unitSearch'] = $request->query->get('unitSearch');
+		$query['ownerSearch'] = $request->query->get('ownerSearch');
+		$units = [];
+		if ($query['buildingId'] || $query['unitSearch'])
 		{
 			$units = $unitRepository->findAll($query);
 		}
 		else
 		{
 			$units = $unitRepository->findAll();
+		}
+		$owners = $ownerRepository->findAll($query);
+		foreach ($owners as $owner)
+		{
+			foreach ($owner->getOwnerUnits() as $ownerUnits)
+			{
+				$units[] = $ownerUnits->getUnit();
+			}
 		}
 //		foreach ($units as $key => $unit)
 //		{
@@ -38,8 +48,8 @@ class UnitController extends AbstractController
 //		}
         return $this->render('unit/index.html.twig', [
             'units' => $units,
-			'buildingId' => $buildingId,
             'buildings' => $buildingRepository->findAll(),
+			'query' => $query
         ]);
     }
 

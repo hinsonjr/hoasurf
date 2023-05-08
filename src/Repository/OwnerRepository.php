@@ -27,15 +27,14 @@ class OwnerRepository extends ServiceEntityRepository
 	{
 		$search = "";
 		$q = $this->createQueryBuilder('o')
-			->join("o.ownerUnits","ou")
             ->setMaxResults(25)
 //			->orderBy('ou.unit.unitNumber')
 			;
 
-		if (array_key_exists('search',$query) && $query['search'])
+		if (array_key_exists('ownerSearch',$query) && $query['ownerSearch'])
 		{
-            $q->orWhere("o.name like :nval","u.unitNumber like :nval")
-				->setParameter('nval','%'.$query['search'].'%' );
+            $q->andWhere("o.name like :nval")
+				->setParameter('nval','%'.$query['ownerSearch'].'%' );
 		}
 		//var_dump($q->getQuery());
 
