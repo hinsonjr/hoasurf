@@ -7,33 +7,46 @@
 
 <div class="wrapper">
     <h1>Admin Dashboard for {{ app.user.name }}</h1>
+        <div class="section-break">&nbsp;</div>
         <div class="container">
             <div class="row">
                 <h4>Active HOA:  {{ activeHoa }} 
-                    <a class="btn btn-default" href="{{ path("user_select_hoa", {'target': app.request.attributes.get('_route')}) }}">Change</a>
+                    <a class="btn btn-primary" role="button" href="{{ path("user_select_hoa", {'target': app.request.attributes.get('_route')}) }}">Change</a>
                 </h4>
             </div>
             <div class="row">
-                <div class="col-sm  ">
-                    <div class="container section-border">
-                        <h3>Account Balances</h3>
+                <div class="col-sm card">
+                    <div class=card-header>Account Balances</div>
+                    <div class="cardlist-body">                        
                         <div class="">
                             {{  include('accounting/transaction/transactionTable.html.twig',{'accounts': activeHoa.ledgerAccounts }) }}
                         </div>
                     </div>
                 </div>
-                <div class="col-sm  ">
-                    <div class="container section-border">
-                        <h3>Unit Info</h3>
-                        <div class="">
-                            
+                <div class="col-sm card">
+                    <div class=card-header>Open Service Requests</div>
+                    <div class="cardlist-body">                        
+                        <div class="row">
+                            <div class="row">
+                                <div class="col-sm">
+                                    Unit 215
+                                </div>
+                                <div class="col-sm">
+                                    Window Leak
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
-                <div class="col-sm  ">
-                    <div class="container section-border">
-                        <h3>Service Requests</h3>
-                        <div class="">
+                <div class="col-sm card">
+                    <div class=card-header>Unit Information</div>
+                    <div class="cardlist-body">                        
+                        <div class="row">
+                            <div class="col-sm">
+                                52 Units in HOA<br>
+                                26 Units in Building 6727<br>
+                                26 Units in Building 6713<br>
+                            </div>
                         </div>
                     </div>
                 </div>

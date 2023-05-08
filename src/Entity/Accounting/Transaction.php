@@ -2,6 +2,7 @@
 
 namespace App\Entity\Accounting;
 
+use App\Entity\Accounting\OwnerInvoice;
 use App\Repository\Accounting\TransactionRepository;
 use Doctrine\ORM\Mapping as ORM;
 use App\Entity\Accounting\LedgerAccount;
@@ -12,107 +13,132 @@ class Transaction
 {
 
 	#[ORM\Id]
-	#[ORM\GeneratedValue]
-	#[ORM\Column(type: "integer")]
-	private $id;
+            	#[ORM\GeneratedValue]
+            	#[ORM\Column(type: "integer")]
+            	private $id;
 
 	#[ORM\Column(type: "datetime")]
-	private $date;
+            	private $date;
 
 	#[ORM\Column(type: "decimal", precision: 12, scale: 2)]
-	private $amount;
+            	private $amount;
 
 	#[ORM\ManyToOne(targetEntity: LedgerAccount::class, inversedBy: "creditTransactions")]
-	#[ORM\JoinColumn(nullable: false)]
-	private $creditAccount;
+            	#[ORM\JoinColumn(nullable: false)]
+            	private $creditAccount;
 
 	#[ORM\ManyToOne(targetEntity: LedgerAccount::class, inversedBy: "debitTransactions")]
-	#[ORM\JoinColumn(nullable: false)]
-	private $debitAccount;
+            	#[ORM\JoinColumn(nullable: false)]
+            	private $debitAccount;
 
 	#[ORM\Column(type: "boolean")]
-	private $deleted;
+            	private $deleted = false;
+
+//    #[ORM\OneToOne(mappedBy: 'owner')]
+//    private ?OwnerInvoice $ownerInvoice = null;
 
 	public function __construct($debitAcct = null, $creditAcct = null)
-	{
-		$this->date = new \DateTime();
-//		$this->dbg = new Dbg();
-//
-//		$this->dbg->log("DebitAcct=",$debitAcct->name,2);
-//		$this->dbg->log("CreditAcct=",$creditAcct->name,2);
-		if ($debitAcct)
-		{
-			$this->setDebitAccount($debitAcct);
-		}
-		if ($creditAcct)
-		{
-			$this->setCreditAccount($creditAcct);
-		}
-	}
+            	{
+            		$this->date = new \DateTime();
+            //		$this->dbg = new Dbg();
+            //
+            //		$this->dbg->log("DebitAcct=",$debitAcct->name,2);
+            //		$this->dbg->log("CreditAcct=",$creditAcct->name,2);
+            		if ($debitAcct)
+            		{
+            			$this->setDebitAccount($debitAcct);
+            		}
+            		if ($creditAcct)
+            		{
+            			$this->setCreditAccount($creditAcct);
+            		}
+            	}
 
 	public function getId(): ?int
-	{
-		return $this->id;
-	}
+            	{
+            		return $this->id;
+            	}
 
 	public function getDate(): ?\DateTimeInterface
-	{
-		return $this->date;
-	}
+            	{
+            		return $this->date;
+            	}
 
 	public function setDate(\DateTimeInterface $date): self
-	{
-		$this->date = $date;
-
-		return $this;
-	}
+            	{
+            		$this->date = $date;
+            
+            		return $this;
+            	}
 
 	public function getAmount(): ?string
-	{
-		return $this->amount;
-	}
+            	{
+            		return $this->amount;
+            	}
 
 	public function setAmount(string $amount): self
-	{
-		$this->amount = $amount;
-
-		return $this;
-	}
+            	{
+            		$this->amount = $amount;
+            
+            		return $this;
+            	}
 
 	public function getCreditAccount(): ?LedgerAccount
-	{
-		return $this->creditAccount;
-	}
+            	{
+            		return $this->creditAccount;
+            	}
 
 	public function setCreditAccount(?LedgerAccount $creditAccount): self
-	{
-		$this->creditAccount = $creditAccount;
-
-		return $this;
-	}
+            	{
+            		$this->creditAccount = $creditAccount;
+            
+            		return $this;
+            	}
 
 	public function getDebitAccount(): ?LedgerAccount
-	{
-		return $this->debitAccount;
-	}
+            	{
+            		return $this->debitAccount;
+            	}
 
 	public function setDebitAccount(?LedgerAccount $debitAccount): self
-	{
-		$this->debitAccount = $debitAccount;
-
-		return $this;
-	}
+            	{
+            		$this->debitAccount = $debitAccount;
+            
+            		return $this;
+            	}
 
 	public function getDeleted(): ?bool
-	{
-		return $this->deleted;
-	}
+            	{
+            		return $this->deleted;
+            	}
 
 	public function setDeleted(bool $deleted): self
-	{
-		$this->deleted = $deleted;
+            	{
+            		$this->deleted = $deleted;
+            
+            		return $this;
+            	}
 
-		return $this;
-	}
+//    public function getOwnerInvoice(): ?OwnerInvoice
+//    {
+//        return $this->ownerInvoice;
+//    }
+//
+//    public function setOwnerInvoice(?OwnerInvoice $ownerInvoice): self
+//    {
+//        // unset the owning side of the relation if necessary
+//        if ($ownerInvoice === null && $this->ownerInvoice !== null) {
+//            $this->ownerInvoice->setOwner(null);
+//        }
+//
+//        // set the owning side of the relation if necessary
+//        if ($ownerInvoice !== null && $ownerInvoice->getOwner() !== $this) {
+//            $ownerInvoice->setOwner($this);
+//        }
+//
+//        $this->ownerInvoice = $ownerInvoice;
+//
+//        return $this;
+//    }
 
 }

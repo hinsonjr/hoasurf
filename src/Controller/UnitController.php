@@ -31,11 +31,11 @@ class UnitController extends AbstractController
 		{
 			$units = $unitRepository->findAll();
 		}
-		foreach ($units as $key => $unit)
-		{
-			$owners = $unit->getOwners();
-//			Debug::dump($owners);
-		}
+//		foreach ($units as $key => $unit)
+//		{
+//			$owners = $unit->getOwnerUnits();
+////			Debug::dump($owners);
+//		}
         return $this->render('unit/index.html.twig', [
             'units' => $units,
 			'buildingId' => $buildingId,

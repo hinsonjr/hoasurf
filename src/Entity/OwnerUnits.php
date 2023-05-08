@@ -36,6 +36,11 @@ class OwnerUnits
         return $this->id;
     }
 
+	public function __toString()
+	{
+		return $this->unit->getUnitNumber();
+	}
+	
     public function getOwner(): ?Owner
     {
         return $this->owner;

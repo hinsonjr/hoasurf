@@ -8,12 +8,8 @@
     <table class="table">
         <thead>
             <tr>
-                <th>Id</th>
                 <th>Name</th>
-                <th>StartDate</th>
-                <th>EndDate</th>
-                <th>Address</th>
-                <th>Address2</th>
+                <th>Unit(s)</th>
                 <th>City</th>
                 <th>State</th>
                 <th>Zip</th>
@@ -27,12 +23,15 @@
         <tbody>
         {% for owner in owners %}
             <tr>
-                <td>{{ owner.id }}</td>
-                <td>{{ owner.name }}</td>
-                <td>{{ owner.startDate ? owner.startDate|date('Y-m-d') : '' }}</td>
-                <td>{{ owner.endDate ? owner.endDate|date('Y-m-d') : '' }}</td>
-                <td>{{ owner.address }}</td>
-                <td>{{ owner.address2 }}</td>
+                <td><a href="{{ path('app_owner_edit', {'id': owner.id}) }}">{{ owner.name }}</a></td>
+                <td>
+                {% for ou in owner.ownerUnits %}
+                    <div class="row">
+                        <div class="col">{{ ou.unit.unitNumber }}</div>
+                        <div class="col">{{ ou.startDate ? owner.startDate|date('m/d/y') : '' }}{{ ou.endDate ? '- ' ~ owner.endDate|date('m/d/y') : '' }}</div>
+                    </div>
+                {%  endfor %}
+                </td>
                 <td>{{ owner.city }}</td>
                 <td>{{ owner.state }}</td>
                 <td>{{ owner.zip }}</td>
@@ -40,10 +39,6 @@
                 <td>{{ owner.country }}</td>
                 <td>{{ owner.ownPercent }}</td>
                 <td>{{ owner.email }}</td>
-                <td>
-                    <a href="{{ path('app_owner_show', {'id': owner.id}) }}">show</a>
-                    <a href="{{ path('app_owner_edit', {'id': owner.id}) }}">edit</a>
-                </td>
             </tr>
         {% else %}
             <tr>

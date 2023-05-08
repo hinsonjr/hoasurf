@@ -27,9 +27,10 @@ class OwnerRepository extends ServiceEntityRepository
 	{
 		$search = "";
 		$q = $this->createQueryBuilder('o')
-			->join("o.units","u")
+			->join("o.ownerUnits","ou")
             ->setMaxResults(25)
-			->orderBy('u.unitNumber');
+//			->orderBy('ou.unit.unitNumber')
+			;
 
 		if (array_key_exists('search',$query) && $query['search'])
 		{

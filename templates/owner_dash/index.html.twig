@@ -13,9 +13,9 @@
                     <div class="cardlist-body">
                         {% for message in owner_messages %}
                         <div class="row">
-                            <div class="col">{{ message.id }}</div>
                             <div class="col">{{ message.subject }}</div>
                             <div class="col">{{ message.createdAt|date("Y-m-d") }}</div>
+                            <div class="col"><a role="button" class-="btn btn-primary" href="{{ path('app_message_new', ['parent',message.id]) }}">Reply</a></div>
                         </div>
                         {% endfor %}
                     </div>

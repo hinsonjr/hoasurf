@@ -4,167 +4,225 @@ namespace App\Entity;
 
 use DateTime;
 use App\Repository\MessageRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
-
 use Doctrine\ORM\Event\PostPersistEventArgs;
 
 #[ORM\Entity(repositoryClass: MessageRepository::class)]
 #[ORM\HasLifecycleCallbacks]
-	
 class Message
 {
+
 //	use TimestampableEntity;
-    #[ORM\Id]
-    #[ORM\GeneratedValue]
-    #[ORM\Column]
-    private ?int $id = null;
+	#[ORM\Id]
+	#[ORM\GeneratedValue]
+	#[ORM\Column]
+	private ?int $id = null;
 
-    #[ORM\Column(length: 255)]
-    private ?string $subject = null;
+	#[ORM\Column(length: 255)]
+	private ?string $subject = null;
 
-    #[ORM\Column(type: Types::TEXT)]
-    private ?string $body = null;
-
-    #[ORM\Column(type: Types::DATE_MUTABLE, nullable: true)]
-    private ?\DateTimeInterface $expiration = null;
-
-    #[ORM\ManyToOne(inversedBy: 'messages')]
-    #[ORM\JoinColumn(nullable: false)]
-    private ?MessageType $type = null;
-
-    #[ORM\ManyToOne(inversedBy: 'messages')]
-    #[ORM\JoinColumn(nullable: false)]
-    private ?MessageCategory $category = null;
-
-    #[ORM\ManyToOne(inversedBy: 'messages')]
-    #[ORM\JoinColumn(nullable: false)]
-    private ?User $createdBy = null;
-	
-	#[ORM\Column(type: Types::DATE_MUTABLE, nullable: true)]
-    protected ?\DateTimeInterface $createdAt = null;
+	#[ORM\Column(type: Types::TEXT)]
+	private ?string $body = null;
 
 	#[ORM\Column(type: Types::DATE_MUTABLE, nullable: true)]
-    protected ?\DateTimeInterface $updatedAt = null;
+	private ?\DateTimeInterface $expiration = null;
 
+	#[ORM\ManyToOne(inversedBy: 'messages')]
+	#[ORM\JoinColumn(nullable: false)]
+	private ?MessageType $type = null;
 
+	#[ORM\ManyToOne(inversedBy: 'messages')]
+	#[ORM\JoinColumn(nullable: false)]
+	private ?MessageCategory $category = null;
 
-    public function getId(): ?int
-    {
-        return $this->id;
-    }
+	#[ORM\ManyToOne(inversedBy: 'messages')]
+	#[ORM\JoinColumn(nullable: false)]
+	private ?User $createdBy = null;
 
-    public function getSubject(): ?string
-    {
-        return $this->subject;
-    }
+	#[ORM\Column(type: Types::DATE_MUTABLE, nullable: true)]
+	protected ?\DateTimeInterface $createdAt = null;
 
-    public function setSubject(string $subject): self
-    {
-        $this->subject = $subject;
+	#[ORM\Column(type: Types::DATE_MUTABLE, nullable: true)]
+	protected ?\DateTimeInterface $updatedAt = null;
 
-        return $this;
-    }
+	#[ORM\ManyToOne(targetEntity: self::class, inversedBy: 'children')]
+	private ?self $parent = null;
 
-    public function getBody(): ?string
-    {
-        return $this->body;
-    }
+	#[ORM\OneToMany(mappedBy: 'parent', targetEntity: self::class)]
+	private Collection $messages;
 
-    public function setBody(string $body): self
-    {
-        $this->body = $body;
+	public function __construct()
+	{
+		$this->messages = new ArrayCollection();
+	}
 
-        return $this;
-    }
+	public function getId(): ?int
+	{
+		return $this->id;
+	}
 
-    public function getExpiration(): ?\DateTimeInterface
-    {
-        return $this->expiration;
-    }
+	public function getSubject(): ?string
+	{
+		return $this->subject;
+	}
 
-    public function setExpiration(?\DateTimeInterface $expiration): self
-    {
-        $this->expiration = $expiration;
+	public function setSubject(string $subject): self
+	{
+		$this->subject = $subject;
 
-        return $this;
-    }
+		return $this;
+	}
 
-    public function getType(): ?MessageType
-    {
-        return $this->type;
-    }
+	public function getBody(): ?string
+	{
+		return $this->body;
+	}
 
-    public function setType(?MessageType $type): self
-    {
-        $this->type = $type;
+	public function setBody(string $body): self
+	{
+		$this->body = $body;
 
-        return $this;
-    }
+		return $this;
+	}
 
-    public function getCategory(): ?MessageCategory
-    {
-        return $this->category;
-    }
+	public function getExpiration(): ?\DateTimeInterface
+	{
+		return $this->expiration;
+	}
 
-    public function setCategory(?MessageCategory $category): self
-    {
-        $this->category = $category;
+	public function setExpiration(?\DateTimeInterface $expiration): self
+	{
+		$this->expiration = $expiration;
 
-        return $this;
-    }
+		return $this;
+	}
 
-    public function getCreatedBy(): ?User
-    {
-        return $this->createdBy;
-    }
+	public function getType(): ?MessageType
+	{
+		return $this->type;
+	}
 
-    public function setCreatedBy(?User $createdBy): self
-    {
-        $this->createdBy = $createdBy;
+	public function setType(?MessageType $type): self
+	{
+		$this->type = $type;
 
-        return $this;
-    }
-    /**
-     * @return \DateTime
-     */
-    public function getCreatedAt(): DateTime
-    {
-        return $this->createdAt;
-    }
+		return $this;
+	}
 
-    /**
-     * @param \DateTime $createdAt
-     */
-    public function setCreatedAt($createdAt)
-    {
-        $this->createdAt = $createdAt;
-    }
+	public function getCategory(): ?MessageCategory
+	{
+		return $this->category;
+	}
 
-    /**
-     * @return \DateTime
-     */
-    public function getUpdatedAt(): DateTime
-    {
-        return $this->updatedAt;
-    }
+	public function setCategory(?MessageCategory $category): self
+	{
+		$this->category = $category;
 
-    /**
-     * @param \DateTime $updatedAt
-     */
-    public function setUpdatedAt($updatedAt)
-    {
-        $this->updatedAt = $updatedAt;
-    }
+		return $this;
+	}
+
+	public function getCreatedBy(): ?User
+	{
+		return $this->createdBy;
+	}
+
+	public function setCreatedBy(?User $createdBy): self
+	{
+		$this->createdBy = $createdBy;
+
+		return $this;
+	}
+
+	/**
+	 * @return \DateTime
+	 */
+	public function getCreatedAt(): DateTime
+	{
+		return $this->createdAt;
+	}
+
+	/**
+	 * @param \DateTime $createdAt
+	 */
+	public function setCreatedAt($createdAt)
+	{
+		$this->createdAt = $createdAt;
+	}
+
+	/**
+	 * @return \DateTime
+	 */
+	public function getUpdatedAt(): DateTime
+	{
+		return $this->updatedAt;
+	}
+
+	/**
+	 * @param \DateTime $updatedAt
+	 */
+	public function setUpdatedAt($updatedAt)
+	{
+		$this->updatedAt = $updatedAt;
+	}
 
 	#[ORM\PrePersist]
 	#[ORM\PreUpdate]
-    public function updatedTimestamps()
-    {
-        $this->setUpdatedAt(new \DateTime('now'));
+	public function updatedTimestamps()
+	{
+		$this->setUpdatedAt(new \DateTime('now'));
 
-        if ($this->getCreatedAt() == null) {
-            $this->setCreatedAt(new \DateTime('now'));
-        }
-    }	
+		if ($this->getCreatedAt() == null)
+		{
+			$this->setCreatedAt(new \DateTime('now'));
+		}
+	}
+
+	public function getParent(): ?self
+	{
+		return $this->parent;
+	}
+
+	public function setParent(?self $parent): self
+	{
+		$this->parent = $parent;
+
+		return $this;
+	}
+
+	/**
+	 * @return Collection<int, self>
+	 */
+	public function getMessages(): Collection
+	{
+		return $this->messages;
+	}
+
+	public function addMessage(self $message): self
+	{
+		if (!$this->messages->contains($message))
+		{
+			$this->messages->add($message);
+			$message->setParent($this);
+		}
+
+		return $this;
+	}
+
+	public function removeMessage(self $message): self
+	{
+		if ($this->messages->removeElement($message))
+		{
+			// set the owning side to null (unless already changed)
+			if ($message->getParent() === $this)
+			{
+				$message->setParent(null);
+			}
+		}
+
+		return $this;
+	}
+
 }

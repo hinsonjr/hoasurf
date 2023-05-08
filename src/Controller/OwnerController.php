@@ -3,7 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\Owner;
-use App\Form\Owner2Type;
+use App\Form\OwnerType;
 use App\Repository\OwnerRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -26,7 +26,7 @@ class OwnerController extends AbstractController
     public function new(Request $request, EntityManagerInterface $entityManager): Response
     {
         $owner = new Owner();
-        $form = $this->createForm(Owner2Type::class, $owner);
+        $form = $this->createForm(OwnerType::class, $owner);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
@@ -53,7 +53,7 @@ class OwnerController extends AbstractController
     #[Route('/{id}/edit', name: 'app_owner_edit', methods: ['GET', 'POST'])]
     public function edit(Request $request, Owner $owner, EntityManagerInterface $entityManager): Response
     {
-        $form = $this->createForm(Owner2Type::class, $owner);
+        $form = $this->createForm(OwnerType::class, $owner);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {

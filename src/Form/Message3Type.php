@@ -17,7 +17,6 @@ class Message3Type extends AbstractType
             ->add('expiration')
             ->add('type')
             ->add('category')
-            ->add('createdBy')
         ;
     }
 

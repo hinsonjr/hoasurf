@@ -4,6 +4,7 @@
 
 {% block content %}
     <h1>Unit</h1>
+    {% set lastSaleDate = '' %}
 
     <table class="table">
         <tbody>
@@ -31,9 +32,26 @@
                 <th>Baths</th>
                 <td>{{ unit.baths }}</td>
             </tr>
+                {% if unit.ownerUnits %}
+                    <th>Previous Owners</th>
+                    <td >
+                    {% for ownerUnit in unit.ownerUnits %}
+                        {%  if ownerUnit.ownPercent != 100 %}({{ownerUnit.ownPercent}}) {% endif %}
+                        {{ ownerUnit.owner.name}} (
+                        {% if ownerUnit.endDate %}
+                            from {{ ownerUnit.startDate|date('Y-m-d')  }} to {{ ownerUnit.endDate|date('Y-m-d') }}
+                        {% else %}
+                            current owner from {{ ownerUnit.startDate|date('Y-m-d')  }} 
+                            {% set lastSaleDate = ownerUnit.startDate|date('Y-m-d') %}
+                        {% endif %}
+                        )
+                        {% if not loop.last %}<br>{% endif %}
+                    {%  endfor %}
+                {% endif %}
+                    </td>            
             <tr>
                 <th>LastSaleData</th>
-                <td>{{ unit.lastSaleData ? unit.lastSaleData|date('Y-m-d') : '' }}</td>
+                <td>{{ lastSaleDate ? lastSaleDate : '' }}</td>
             </tr>
         </tbody>
     </table>

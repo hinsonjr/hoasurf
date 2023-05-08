@@ -8,7 +8,6 @@
     <table class="table">
         <thead>
             <tr>
-                <th>View</th>
                 <th>Name</th>
                 <th>Type</th>
                 <th>Balance</th>
@@ -19,9 +18,8 @@
         <tbody>
         {% for ledger_account in ledger_accounts %}
             <tr>
-                <td><a href="{{ path('accounting_ledger_account_show', {'id': ledger_account.id}) }}">View</a></td>
-                <td><a href="{{ path('accounting_transaction_new', {'creditAcctId': ledger_account.id, 'debitAcctId': ledger_account.id}) }}">Add Transaction</a></td>
-                <td>{{ ledger_account.name }}</td>
+                <td><a class="btn btn-primary" href="{{ path('accounting_transaction_new', {'creditAcctId': ledger_account.id, 'debitAcctId': ledger_account.id}) }}">Add Transaction</a></td>
+                <td><a href="{{ path('accounting_ledger_account_show', {'id': ledger_account.id}) }}">{{ ledger_account.name }}</a></td>
                 <td>{{ ledger_account.type }}</td>
                 <td>{{ ledger_account.balance }}</td>
                 <td>{{ ledger_account.startBalance }}</td>

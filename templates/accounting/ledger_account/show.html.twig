@@ -1,71 +1,65 @@
 {% extends 'acct-base.html.twig' %}
 
-{% block title %}LedgerAccount{% endblock %}
+{% block title %}Ledger Account{% endblock %}
 
 {% block content %}
     <h1>LedgerAccount</h1>
 
-    <table class="table">
-        <tbody>
-            <tr>
-                <th>Id</th>
-                <td>{{ ledger_account.id }}</td>
-            </tr>
-            <tr>
-                <th>Name</th>
-                <td>{{ ledger_account.name }}</td>
-            </tr>
-            <tr>
-                <th>Balance</th>
-                <td>{{ ledger_account.balance }}</td>
-            </tr>
-            <tr>
-                <th>StartBalance</th>
-                <td>{{ ledger_account.startBalance }}</td>
-            </tr>
-            <tr>
-                <th>Debit Transactions</th>
-                <td>
-                    <table id="accountDebits">
-                        <thead>
-                            <tr><th>Id</th><th>Date</th><th>Amount</th><th>Credit Account</th></tr>
-                        </thead>
-                        <tbody>
-                        {% for transaction in ledger_account.debitTransactions %}
-                            <tr>
-                                <td><a href={{ path('accounting_transaction_show',{'id':transaction.id}) }}>View</a></td>
-                                <td>{{ transaction.date|date("Y/m/d")}}</td>
-                                <td>{{ transaction.amount}}</td>
-                                <td>{{ transaction.creditAccount}}</td>
-                            </tr>
-                        {%  endfor %}
-                        <tbody>
-                    </table>
-                </td>
-            </tr>
-            <tr>
-                <th>Credit Transactions</th>
-                <td>
-                    <table id="accountCredits">
-                        <thead>
-                            <tr><th>Id</th><th>Date</th><th>Amount</th><th>Debit Account</th></tr>
-                        </thead>
-                        <tbody>
-                        {% for transaction in ledger_account.creditTransactions %}
-                            <tr>
-                                <td><a href={{ path('accounting_transaction_show',{'id':transaction.id}) }}>View</a></td>
-                                <td>{{ transaction.date|date("Y/m/d")}}</td>
-                                <td>{{ transaction.amount}}</td>
-                                <td><a href={{ path('accounting_ledger_account_show',{'id':transaction.debitAccount.id}) }}>{{ transaction.debitAccount}}</a></td>
-                            </tr>
-                        {%  endfor %}
-                        <tbody>
-                    </table>
-                </td>
-            </tr>
-        </tbody>
-    </table>
-
+    <div class="trans-list">
+        <div class="row">
+            <div class="col-sm-2 heading">Id</div>
+            <div class="col-sm-10">{{ ledger_account.id }}</div>
+        </div>
+        <div class="row">
+            <div class="col-sm-2 heading">Name</div>
+            <div class="col-sm-10">{{ ledger_account.name }}</div>
+        </div>
+        <div class="row">
+            <div class="col-sm-2 heading">Balance</div>
+            <div class="col-sm-10">{{ ledger_account.balance }}</div>
+        </div>
+        <hr>
+        <div class="row">
+            <div class="col-sm-2 heading">Debit Transactions</div>
+            <div class="col-sm-10">
+                <div class="row" id="accountDebits">
+                    <div class="row heading">
+                        <div class="col-sm-2">Action</div><div class="col-sm-2">Date</div><div class="col-sm-2">Amount</div><div class="col-sm-2">Credit Account</div>
+                    </div>
+                    <hr>
+                    {% for transaction in ledger_account.debitTransactions %}
+                        <div class="row">
+                            <div class="col-sm-2"><a href={{ path('accounting_transaction_show',{'id':transaction.id}) }}>View</a></div>
+                            <div class="col-sm-2">{{ transaction.date|date("n-j-y")}}</div>
+                            <div class="col-sm-2">${{ transaction.amount}}</div>
+                            <div class="col-sm-2">{{ transaction.creditAccount}}</div>
+                        </div>
+                    {%  endfor %}
+                </div>
+        </div>
+        <hr>
+        <div class="row">
+            <div class="col-sm-2 heading">Credit Transactions</div>
+            <div class="col-sm-10">
+                <div class="row" id="accountCredits">
+                    <div class="row heading">
+                        <div class="col-sm-2">Action</div><div class="col-sm-2">Date</div><div class="col-sm-2">Amount</div><div class="col-sm-2">Credit Account</div>
+                    </div>
+                    <hr>
+                    {% for transaction in ledger_account.creditTransactions %}
+                        <div class="row">
+                            <div class="col-sm-2"><a href={{ path('accounting_transaction_show',{'id':transaction.id}) }}>View</a></div>
+                            <div class="col-sm-2">{{ transaction.date|date("n-j-y")}}</div>
+                            <div class="col-sm-2">${{ transaction.amount}}</div>
+                            <div class="col-sm-2">{{ transaction.debitAccount}}</div>
+                        </div>
+                    {%  endfor %}
+                </div>
+            </div>
+        </div>
+    </div>
+    <hr>
+                
     <a href="{{ path('accounting_ledger_account_index') }}">back to list</a>
 
     <a href="{{ path('accounting_ledger_account_edit', {'id': ledger_account.id}) }}">edit</a>

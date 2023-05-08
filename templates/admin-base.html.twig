@@ -29,42 +29,40 @@
                     <div class="container-body">
                         <nav id="navbar" class="navbar navbar-expand-lg navbar-light bg-primary-subtle">
                             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-                              <span class="navbar-toggler-icon"></span>
+                              <span class="navbar-toggler-icon navbar-brand">SurfHOA</span>
                             </button>                
                             {% block navbar %}
                             <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                              <div class="navbar-nav">
-                                {% block navitems %}
-                                  <a class="nav-item nav-link" href="{{ path('admin_dash') }}">Admin Dash</a><span class="sr-only"></span></a>
-                                  <a class="nav-item nav-link" href="{{ path('hoa_index') }}">HOAs</a>
-                                  <a class="nav-item nav-link" href="{{ path('building_index') }}">Buildings</a>
-                                  <a class="nav-item nav-link" href="{{ path('app_owner_index') }}">Owners</a>
-                                  <a class="nav-item nav-link" href="{{ path('unit_index') }}">Units</a>
-                                  <a class="nav-item nav-link" href="{{ path('vendor_index') }}">Vendors</a>
-                                  <a class="nav-item nav-link" href="{{ path('maintenance_object_index') }}">Maintenance</a>
-
-                                  <div id="nav-user" class="nav-item dropdown navDropdown">
-                                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                      Accounting
-                                    </a>
-                                    <div class="dropdown-menu navDropdown" aria-labelledby="acctDropdownMenuLink">
-                                        <a class="dropdown-item" href="{{  path('accounting_transaction_index') }}" >Transactions</a>
-                                        <a class="dropdown-item" href="{{  path('accounting_ledger_account_index') }}" >Accounts</a>
-                                        <a class="dropdown-item" href="{{  path('accounting_ledger_type_index') }}" >Types</a>
-                                    </div>
-                                </div>
-                                  
+                                <div class="navbar-nav">
+                                    {% block navitems %}
+                                        <a class="nav-item nav-link" href="{{ path('admin_dash') }}">Admin Dash</a><span class="sr-only"></span></a>
+                                        <a class="nav-item nav-link" href="{{ path('hoa_index') }}">HOAs</a>
+                                        <a class="nav-item nav-link" href="{{ path('building_index') }}">Buildings</a>
+                                        <a class="nav-item nav-link" href="{{ path('app_owner_index') }}">Owners</a>
+                                        <a class="nav-item nav-link" href="{{ path('unit_index') }}">Units</a>
+                                        <a class="nav-item nav-link" href="{{ path('vendor_index') }}">Vendors</a>
+                                        <a class="nav-item nav-link" href="{{ path('maintenance_object_index') }}">Maintenance</a>
+                                        <div id="nav-user" class="nav-item dropdown">
+                                            <a class="nav-link dropdown-toggle" href="#" id="acctDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false" aria-expanded="false">
+                                              Accounting
+                                            </a>
+                                            <ul class="dropdown-menu navDropdown" aria-labelledby="acctDropdownMenuLink">
+                                                <li><a class="dropdown-item" href="{{  path('accounting_transaction_index') }}" >Transactions</a></li>
+                                                <li><a class="dropdown-item" href="{{  path('accounting_ledger_account_index') }}" >Accounts</a></li>
+                                                <li><a class="dropdown-item" href="{{  path('accounting_ledger_type_index') }}" >Types</a></li>
+                                            </ul>
+                                        </div>
                                 {% endblock %}
-                              </div>
-                            </div>
-                            <div id="userDropdown" class="nav-item dropdown navDropdown">
-                                <a class="btn nav-link dropdown-toggle " href="#" id="navbarDropdownMenuLink" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                  User
-                                </a>
-                                <div class="dropdown-menu dropdown-menu-right " aria-labelledby="navbarDropdownMenuLink">
-                                    <a class="dropdown-item " >{{ app.user.email }}</a>
-                                    <a class="dropdown-item " >{{ app.user.roles[0] }}</a>
-                                    <a class="dropdown-item nav-link" href="/logout">Logout</a>
+                                </div>
+                                <div id="userDropdown" class="nav-item dropdown navDropdown">
+                                    <a class="btn nav-link dropdown-toggle " href="#" id="navbarDropdownMenuLink" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                      User
+                                    </a>
+                                    <div class="dropdown-menu dropdown-menu-right " aria-labelledby="navbarDropdownMenuLink">
+                                        <a class="dropdown-item " >{{ app.user.email }}</a>
+                                        <a class="dropdown-item " >{{ app.user.roles[0] }}</a>
+                                        <a class="dropdown-item nav-link" href="/logout">Logout</a>
+                                    </div>
                                 </div>
                             </div>
                             {% endblock %}

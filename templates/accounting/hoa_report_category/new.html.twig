@@ -1,0 +1,11 @@
+{% extends 'acct-base.html.twig' %}
+
+{% block title %}New HoaReportCategory{% endblock %}
+
+{% block content %}
+    <h1>Create new HoaReportCategory</h1>
+
+    {{ include('accounting/hoa_report_category/_form.html.twig') }}
+
+    <a href="{{ path('app_hoa_report_category_index') }}">back to list</a>
+{% endblock %}

@@ -40,15 +40,15 @@
                 <td>{{ unit.description }}</td>
                 <td>{{ unit.beds }}</td>
                 <td>{{ unit.baths }}</td>
-                {% if unit.owners %}
-                    <td>
-                    {% for owner in unit.owners%}
-                        {%  if owner.ownPercent != 100 %}({{owner.ownPercent}}) {% endif %}
-                        {{ owner.name}} (
-                        {% if owner.endDate %}
-                            from {{ owner.startDate|date('Y-m-d')  }} to {{ owner.endDate|date('Y-m-d') }}
+                {% if unit.ownerUnits %}
+                    <td class="left">
+                    {% for ownerUnit in unit.ownerUnits %}
+                        {%  if ownerUnit.ownPercent != 100 %}({{ownerUnit.ownPercent}}) {% endif %}
+                        {{ ownerUnit.owner.name}} (
+                        {% if ownerUnit.endDate %}
+                            from {{ ownerUnit.startDate|date('Y-m-d')  }} to {{ ownerUnit.endDate|date('Y-m-d') }}
                         {% else %}
-                            current owner from {{ owner.startDate|date('Y-m-d')  }} 
+                            current owner from {{ ownerUnit.startDate|date('Y-m-d')  }} 
                         {% endif %}
                         )
                         {% if not loop.last %}<br>{% endif %}
