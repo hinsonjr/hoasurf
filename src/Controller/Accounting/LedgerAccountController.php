@@ -11,7 +11,8 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
-#[Route('/accounting/ledger/account')]
+
+#[Route('/accounting/ledger-account')]
 class LedgerAccountController extends AbstractController
 {
     #[Route('/', name: 'accounting_ledger_account_index', methods: ['GET'])]
@@ -43,10 +44,13 @@ class LedgerAccountController extends AbstractController
     }
 
     #[Route('/{id}', name: 'accounting_ledger_account_show', methods: ['GET'])]
-    public function show(LedgerAccount $ledgerAccount): Response
+    public function show(LedgerAccount $ledgerAccount, EntityManagerInterface $entityManager): Response
     {
+		$transactions = $entityManager->getRepository(\app\Entity\Accounting\Transaction::class)->findByLedgerAccount($ledgerAccount->getId());
+		
         return $this->render('accounting/ledger_account/show.html.twig', [
             'ledger_account' => $ledgerAccount,
+			'transactions' => $transactions
         ]);
     }
 

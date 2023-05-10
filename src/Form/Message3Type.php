@@ -6,6 +6,7 @@ use App\Entity\Message;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Form\Extension\Core\Type\DateType;
 
 class Message3Type extends AbstractType
 {
@@ -14,7 +15,9 @@ class Message3Type extends AbstractType
         $builder
             ->add('subject')
             ->add('body')
-            ->add('expiration')
+            ->add('expiration', DateType::class, [
+                'widget' => 'single_text'
+            ])
             ->add('type')
             ->add('category')
         ;

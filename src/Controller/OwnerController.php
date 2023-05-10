@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\Owner;
 use App\Form\OwnerType;
 use App\Repository\OwnerRepository;
+use App\Repository\UnitRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -14,11 +15,39 @@ use Symfony\Component\Routing\Annotation\Route;
 #[Route('/admin/owner')]
 class OwnerController extends AbstractController
 {
+	private $owners = [];
+	
     #[Route('/', name: 'app_owner_index', methods: ['GET'])]
-    public function index(OwnerRepository $ownerRepository): Response
+    public function index(UnitRepository $unitRepository, OwnerRepository $ownerRepository, Request $request): Response
     {
+		$query['ownerSearch'] = $request->query->get('ownerSearch');
+		$query['unitSearch'] = $request->query->get('unitSearch');
+		if ($query['unitSearch'])
+		{
+			$units = $unitRepository->findAll($query);
+			foreach ($units as $unit)
+			{
+				foreach ($unit->getOwnerUnits() as $ownerRecord)
+				{
+					$this->owners[] = $ownerRecord->getOwner();
+				}
+			}
+		}
+		if ($query['ownerSearch'])
+		{
+			$owners = $ownerRepository->findAll($query);
+			foreach ($owners as $owner)
+			{
+				$this->owners[] = $owner;
+			}
+		}
+		if (!$query['unitSearch'] && !$query['ownerSearch'])
+		{
+			$this->owners = $ownerRepository->findAll();
+		}		
         return $this->render('owner/index.html.twig', [
-            'owners' => $ownerRepository->findAll(),
+            'owners' => $this->owners,
+			'query' => $query
         ]);
     }
 

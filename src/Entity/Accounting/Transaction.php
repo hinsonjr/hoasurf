@@ -2,7 +2,6 @@
 
 namespace App\Entity\Accounting;
 
-use App\Entity\Accounting\OwnerInvoice;
 use App\Repository\Accounting\TransactionRepository;
 use Doctrine\ORM\Mapping as ORM;
 use App\Entity\Accounting\LedgerAccount;
@@ -34,16 +33,9 @@ class Transaction
 	#[ORM\Column(type: "boolean")]
             	private $deleted = false;
 
-//    #[ORM\OneToOne(mappedBy: 'owner')]
-//    private ?OwnerInvoice $ownerInvoice = null;
-
 	public function __construct($debitAcct = null, $creditAcct = null)
             	{
             		$this->date = new \DateTime();
-            //		$this->dbg = new Dbg();
-            //
-            //		$this->dbg->log("DebitAcct=",$debitAcct->name,2);
-            //		$this->dbg->log("CreditAcct=",$creditAcct->name,2);
             		if ($debitAcct)
             		{
             			$this->setDebitAccount($debitAcct);
@@ -53,6 +45,11 @@ class Transaction
             			$this->setCreditAccount($creditAcct);
             		}
             	}
+
+	public function __toString()
+	{
+		return $this->getId();
+	}
 
 	public function getId(): ?int
             	{
@@ -118,27 +115,4 @@ class Transaction
             
             		return $this;
             	}
-
-//    public function getOwnerInvoice(): ?OwnerInvoice
-//    {
-//        return $this->ownerInvoice;
-//    }
-//
-//    public function setOwnerInvoice(?OwnerInvoice $ownerInvoice): self
-//    {
-//        // unset the owning side of the relation if necessary
-//        if ($ownerInvoice === null && $this->ownerInvoice !== null) {
-//            $this->ownerInvoice->setOwner(null);
-//        }
-//
-//        // set the owning side of the relation if necessary
-//        if ($ownerInvoice !== null && $ownerInvoice->getOwner() !== $this) {
-//            $ownerInvoice->setOwner($this);
-//        }
-//
-//        $this->ownerInvoice = $ownerInvoice;
-//
-//        return $this;
-//    }
-
 }

@@ -3,6 +3,7 @@
 namespace App\Repository\Accounting;
 
 use App\Entity\Accounting\Transaction;
+use App\Entity\Accounting\LedgerAccount;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
@@ -29,9 +30,20 @@ class TransactionRepository extends ServiceEntityRepository
             ->getResult();
 		
 		return $transactions;
-		
 	}
-
+	
+    public function findByLedgerAccount($ledgerAcctId, $type=null)
+    {
+        $qb = $this->createQueryBuilder('t')
+            ->andWhere('t.creditAccount = :val OR t.debitAccount = :val ')
+            ->setParameter('val', $ledgerAcctId)
+            ->orderBy('t.date', 'DESC')
+            ->setMaxResults(30)
+            ->getQuery()
+            
+        ;
+		return $qb->getResult();
+    }
     // /**
     //  * @return Transaction[] Returns an array of Transaction objects
     //  */

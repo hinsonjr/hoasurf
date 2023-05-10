@@ -31,6 +31,7 @@ security:
             # switch_user: true
             logout:
                 path: app_logout
+                target: app_public_home
             custom_authenticator: App\Security\LoginFormAuthenticator
      # Easy way to control access for large sections of your site
     # Note: Only the *first* access control that matches will be used
@@ -42,7 +43,7 @@ security:
     role_hierarchy:
         ROLE_HOA_USER:
         ROLE_HOA_OWNER:
-        ROLE_HOA_BOARD: ROLE_HOA_OWNER
+        ROLE_HOA_BOARD: [ROLE_HOA_OWNER, ROLE_CAN_VIEW_NON_PUBLISHED]
         ROLE_HOA_ACCOUNTING: ROLE_HOA_BOARD
-        ROLE_HOA_ADMIN: ROLE_HOA_BOARD
+        ROLE_HOA_ADMIN: [ROLE_HOA_BOARD, ROLE_CAN_VIEW_NON_PUBLISHED]
         ROLE_SUPER_ADMIN: [ROLE_HOA_ADMIN, ROLE_HOA_ACCOUNTING, ROLE_ALLOWED_TO_SWITCH]

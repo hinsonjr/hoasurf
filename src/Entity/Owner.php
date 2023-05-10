@@ -3,6 +3,7 @@
 namespace App\Entity;
 
 use App\Entity\Accounting\LedgerAccount;
+use App\Entity\Accounting\OwnerInvoice;
 use App\Repository\OwnerRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
@@ -13,289 +14,323 @@ class Owner
 {
 
 	#[ORM\Id]
-	#[ORM\GeneratedValue]
-	#[ORM\Column(type: "integer")]
-	private $id;
+                  	#[ORM\GeneratedValue]
+                  	#[ORM\Column(type: "integer")]
+                  	private $id;
 
 	#[ORM\Column(type: "string", length: 200)]
-	private $name;
+                  	private $name;
 
 	#[ORM\Column(type: "date", nullable: true)]
-	private $startDate;
+                  	private $startDate;
 
 	#[ORM\Column(type: "date", nullable: true)]
-	private $endDate;
+                  	private $endDate;
 
 	#[ORM\Column(type: "string", length: 100, nullable: true)]
-	private $address;
+                  	private $address;
 
 	#[ORM\Column(type: "string", length: 80, nullable: true)]
-	private $address2;
+                  	private $address2;
 
 	#[ORM\Column(type: "string", length: 100, nullable: true)]
-	private $city;
+                  	private $city;
 
 	#[ORM\Column(type: "string", length: 50, nullable: true)]
-	private $state;
+                  	private $state;
 
 	#[ORM\Column(type: "string", length: 10, nullable: true)]
-	private $zip;
+                  	private $zip;
 
 	#[ORM\Column(type: "string", length: 20, nullable: true)]
-	private $phone;
+                  	private $phone;
 
 	#[ORM\Column(type: "string", length: 100, nullable: true)]
-	private $country;
+                  	private $country;
 
 	#[ORM\Column(type: "float")]
-	private $ownPercent;
+                  	private $ownPercent;
 
 	#[ORM\ManyToOne(targetEntity: User::class, inversedBy: "owners")]
-	private $user;
+                  	private $user;
 
 	#[ORM\OneToMany(targetEntity: LedgerAccount::class, mappedBy: "owner")]
-	private $ledgerAccounts;
+                  	private $ledgerAccounts;
 
 	#[ORM\Column(type: "string", length: 255, nullable: true)]
-	private $email;
+                  	private $email;
 
 	#[ORM\OneToMany(mappedBy: 'owner', targetEntity: OwnerUnits::class, orphanRemoval: false)]
-	private Collection $ownerUnits;
+                  	private Collection $ownerUnits;
+
+    #[ORM\OneToMany(mappedBy: 'owner', targetEntity: OwnerInvoice::class)]
+    private Collection $ownerInvoices;
 
 	public function __construct()
-	{
-		$this->ledgerAccounts = new ArrayCollection();
-		$this->ownerUnits = new ArrayCollection();
-	}
+                  	{
+                  		$this->ledgerAccounts = new ArrayCollection();
+                  		$this->ownerUnits = new ArrayCollection();
+                    $this->ownerInvoices = new ArrayCollection();
+                  	}
 
 	public function __toString()
-	{
-		return $this->getName();
-	}
+                  	{
+                  		return $this->getName();
+                  	}
 
 	public function getId(): ?int
-	{
-		return $this->id;
-	}
+                  	{
+                  		return $this->id;
+                  	}
 
 	public function getName(): ?string
-	{
-		return $this->name;
-	}
+                  	{
+                  		return $this->name;
+                  	}
 
 	public function setName(string $name): self
-	{
-		$this->name = $name;
-
-		return $this;
-	}
+                  	{
+                  		$this->name = $name;
+                  
+                  		return $this;
+                  	}
 
 	public function getStartDate(): ?\DateTimeInterface
-	{
-		return $this->startDate;
-	}
+                  	{
+                  		return $this->startDate;
+                  	}
 
 	public function setStartDate(?\DateTimeInterface $startDate): self
-	{
-		$this->startDate = $startDate;
-
-		return $this;
-	}
+                  	{
+                  		$this->startDate = $startDate;
+                  
+                  		return $this;
+                  	}
 
 	public function getEndDate(): ?\DateTimeInterface
-	{
-		return $this->endDate;
-	}
+                  	{
+                  		return $this->endDate;
+                  	}
 
 	public function setEndDate(?\DateTimeInterface $endDate): self
-	{
-		$this->endDate = $endDate;
-
-		return $this;
-	}
+                  	{
+                  		$this->endDate = $endDate;
+                  
+                  		return $this;
+                  	}
 
 	public function getAddress(): ?string
-	{
-		return $this->address;
-	}
+                  	{
+                  		return $this->address;
+                  	}
 
 	public function setAddress(?string $address): self
-	{
-		$this->address = $address;
-
-		return $this;
-	}
+                  	{
+                  		$this->address = $address;
+                  
+                  		return $this;
+                  	}
 
 	public function getAddress2(): ?string
-	{
-		return $this->address2;
-	}
+                  	{
+                  		return $this->address2;
+                  	}
 
 	public function setAddress2(?string $address2): self
-	{
-		$this->address2 = $address2;
-
-		return $this;
-	}
+                  	{
+                  		$this->address2 = $address2;
+                  
+                  		return $this;
+                  	}
 
 	public function getCity(): ?string
-	{
-		return $this->city;
-	}
+                  	{
+                  		return $this->city;
+                  	}
 
 	public function setCity(?string $city): self
-	{
-		$this->city = $city;
-
-		return $this;
-	}
+                  	{
+                  		$this->city = $city;
+                  
+                  		return $this;
+                  	}
 
 	public function getState(): ?string
-	{
-		return $this->state;
-	}
+                  	{
+                  		return $this->state;
+                  	}
 
 	public function setState(?string $state): self
-	{
-		$this->state = $state;
-
-		return $this;
-	}
+                  	{
+                  		$this->state = $state;
+                  
+                  		return $this;
+                  	}
 
 	public function getZip(): ?string
-	{
-		return $this->zip;
-	}
+                  	{
+                  		return $this->zip;
+                  	}
 
 	public function setZip(?string $zip): self
-	{
-		$this->zip = $zip;
-
-		return $this;
-	}
+                  	{
+                  		$this->zip = $zip;
+                  
+                  		return $this;
+                  	}
 
 	public function getPhone(): ?string
-	{
-		return $this->phone;
-	}
+                  	{
+                  		return $this->phone;
+                  	}
 
 	public function setPhone(?string $phone): self
-	{
-		$this->phone = $phone;
-
-		return $this;
-	}
+                  	{
+                  		$this->phone = $phone;
+                  
+                  		return $this;
+                  	}
 
 	public function getCountry(): ?string
-	{
-		return $this->country;
-	}
+                  	{
+                  		return $this->country;
+                  	}
 
 	public function setCountry(?string $country): self
-	{
-		$this->country = $country;
-
-		return $this;
-	}
+                  	{
+                  		$this->country = $country;
+                  
+                  		return $this;
+                  	}
 
 	public function getOwnPercent(): ?float
-	{
-		return $this->ownPercent;
-	}
+                  	{
+                  		return $this->ownPercent;
+                  	}
 
 	public function setOwnPercent(float $ownPercent): self
-	{
-		$this->ownPercent = $ownPercent;
-
-		return $this;
-	}
+                  	{
+                  		$this->ownPercent = $ownPercent;
+                  
+                  		return $this;
+                  	}
 
 	public function getUser(): ?User
-	{
-		return $this->user;
-	}
+                  	{
+                  		return $this->user;
+                  	}
 
 	public function setUser(?User $user): self
-	{
-		$this->user = $user;
-
-		return $this;
-	}
+                  	{
+                  		$this->user = $user;
+                  
+                  		return $this;
+                  	}
 
 //    @return Collection|LedgerAccount[]
 	public function getLedgerAccounts(): Collection
-	{
-		return $this->ledgerAccounts;
-	}
+                  	{
+                  		return $this->ledgerAccounts;
+                  	}
 
 	public function addLedgerAccount(LedgerAccount $ledgerAccount): self
-	{
-		if (!$this->ledgerAccounts->contains($ledgerAccount))
-		{
-			$this->ledgerAccounts[] = $ledgerAccount;
-			$ledgerAccount->setOwner($this);
-		}
-
-		return $this;
-	}
+                  	{
+                  		if (!$this->ledgerAccounts->contains($ledgerAccount))
+                  		{
+                  			$this->ledgerAccounts[] = $ledgerAccount;
+                  			$ledgerAccount->setOwner($this);
+                  		}
+                  
+                  		return $this;
+                  	}
 
 	public function removeLedgerAccount(LedgerAccount $ledgerAccount): self
-	{
-		if ($this->ledgerAccounts->removeElement($ledgerAccount))
-		{
-			// set the owning side to null (unless already changed)
-			if ($ledgerAccount->getOwner() === $this)
-			{
-				$ledgerAccount->setOwner(null);
-			}
-		}
-
-		return $this;
-	}
+                  	{
+                  		if ($this->ledgerAccounts->removeElement($ledgerAccount))
+                  		{
+                  			// set the owning side to null (unless already changed)
+                  			if ($ledgerAccount->getOwner() === $this)
+                  			{
+                  				$ledgerAccount->setOwner(null);
+                  			}
+                  		}
+                  
+                  		return $this;
+                  	}
 
 	public function getEmail(): ?string
-	{
-		return $this->email;
-	}
+                  	{
+                  		return $this->email;
+                  	}
 
 	public function setEmail(?string $email): self
-	{
-		$this->email = $email;
-
-		return $this;
-	}
+                  	{
+                  		$this->email = $email;
+                  
+                  		return $this;
+                  	}
 
 	/**
 	 * @return Collection<int, OwnerUnits>
 	 */
 	public function getOwnerUnits(): Collection
-	{
-		return $this->ownerUnits;
-	}
+                  	{
+                  		return $this->ownerUnits;
+                  	}
 
 	public function addOwnerUnit(OwnerUnits $ownerUnit): self
-	{
-		if (!$this->ownerUnits->contains($ownerUnit))
-		{
-			$this->ownerUnits->add($ownerUnit);
-			$ownerUnit->setOwner($this);
-		}
-
-		return $this;
-	}
+                  	{
+                  		if (!$this->ownerUnits->contains($ownerUnit))
+                  		{
+                  			$this->ownerUnits->add($ownerUnit);
+                  			$ownerUnit->setOwner($this);
+                  		}
+                  
+                  		return $this;
+                  	}
 
 	public function removeOwnerUnit(OwnerUnits $ownerUnit): self
-	{
-		if ($this->ownerUnits->removeElement($ownerUnit))
-		{
-			// set the owning side to null (unless already changed)
-			if ($ownerUnit->getOwner() === $this)
-			{
-				$ownerUnit->setOwner(null);
-			}
-		}
+                  	{
+                  		if ($this->ownerUnits->removeElement($ownerUnit))
+                  		{
+                  			// set the owning side to null (unless already changed)
+                  			if ($ownerUnit->getOwner() === $this)
+                  			{
+                  				$ownerUnit->setOwner(null);
+                  			}
+                  		}
+                  
+                  		return $this;
+                  	}
 
-		return $this;
-	}
+    /**
+     * @return Collection<int, OwnerInvoice>
+     */
+    public function getOwnerInvoices(): Collection
+    {
+        return $this->ownerInvoices;
+    }
+
+    public function addOwnerInvoice(OwnerInvoice $ownerInvoice): self
+    {
+        if (!$this->ownerInvoices->contains($ownerInvoice)) {
+            $this->ownerInvoices->add($ownerInvoice);
+            $ownerInvoice->setOwner($this);
+        }
+
+        return $this;
+    }
+
+    public function removeOwnerInvoice(OwnerInvoice $ownerInvoice): self
+    {
+        if ($this->ownerInvoices->removeElement($ownerInvoice)) {
+            // set the owning side to null (unless already changed)
+            if ($ownerInvoice->getOwner() === $this) {
+                $ownerInvoice->setOwner(null);
+            }
+        }
+
+        return $this;
+    }
 
 }

@@ -4,20 +4,41 @@
 
 {% block content %}
     <h1>Owner index</h1>
+    <form id="unit_index_form">
+        <div class="row form-group">
+            <div class="col-sm-1">&nbsp;</div>
+            <div class="col-sm-2">
+                <label for="search">Search By Owner Name</label>
+            </div>
+            <div class="col-sm-2">
+                <input class="form-control" type="text" id="ownerSearch" name="ownerSearch" value = {{ query.ownerSearch }}>
+            </div>
+        </div>
+        <div class="row form-group">
+            <div class="col-sm-1">&nbsp;</div>
+            <div class="col-sm-2">
+                <label for="search">Search By Owner's Unit Number</label>
+            </div>
+            <div class="col-sm-2">
+                <input class="form-control" type="text" id="unitSearch" name="unitSearch" value = {{ query.unitSearch }}>
+            </div>
+        </div>
 
+        <div  class="row ">
+            <div class="col-sm-3">&nbsp;</div>
+            <button class="col-sm-2 btn btn-primary" type="submit">Submit</button>
+        </div>
+    </form>
+    <hr>
     <table class="table">
         <thead>
             <tr>
                 <th>Name</th>
                 <th>Unit(s)</th>
-                <th>City</th>
                 <th>State</th>
                 <th>Zip</th>
                 <th>Phone</th>
-                <th>Country</th>
                 <th>OwnPercent</th>
-                <th>Email</th>
-                <th>actions</th>
             </tr>
         </thead>
         <tbody>
@@ -25,20 +46,20 @@
             <tr>
                 <td><a href="{{ path('app_owner_edit', {'id': owner.id}) }}">{{ owner.name }}</a></td>
                 <td>
+                    <div class="row">
+                        <div class='col'>Unit</div><div class="col">Bought</div><div class="col">Sold</div>
                 {% for ou in owner.ownerUnits %}
                     <div class="row">
                         <div class="col">{{ ou.unit.unitNumber }}</div>
-                        <div class="col">{{ ou.startDate ? owner.startDate|date('m/d/y') : '' }}{{ ou.endDate ? '- ' ~ owner.endDate|date('m/d/y') : '' }}</div>
+                        <div class="col">{{ ou.startDate ? owner.startDate|date('m/d/y') : '' }}</div>
+                        <div class="col">{{ ou.endDate ? '- ' ~ owner.endDate|date('m/d/y') : '' }}</div>
                     </div>
                 {%  endfor %}
                 </td>
-                <td>{{ owner.city }}</td>
                 <td>{{ owner.state }}</td>
                 <td>{{ owner.zip }}</td>
                 <td>{{ owner.phone }}</td>
-                <td>{{ owner.country }}</td>
-                <td>{{ owner.ownPercent }}</td>
-                <td>{{ owner.email }}</td>
+                <td>{{ owner.ownPercent }}%</td>
             </tr>
         {% else %}
             <tr>
@@ -48,5 +69,5 @@
         </tbody>
     </table>
 
-    <a href="{{ path('app_owner_new') }}">Create new</a>
+    <a class="btn btn-primary" href="{{ path('app_owner_new') }}">Create new</a>
 {% endblock %}

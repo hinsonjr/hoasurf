@@ -18,36 +18,40 @@ use Doctrine\Common\Util\Debug;
 #[Route('/admin/unit')]
 class UnitController extends AbstractController
 {
+	private $units = [];
     #[Route('/', name: 'unit_index', methods: ['GET'])]
     public function index(Request $request, OwnerRepository $ownerRepository, UnitRepository $unitRepository, BuildingRepository $buildingRepository): Response
     {
 		$query['buildingId'] = $request->query->get('buildingId');
 		$query['unitSearch'] = $request->query->get('unitSearch');
 		$query['ownerSearch'] = $request->query->get('ownerSearch');
-		$units = [];
 		if ($query['buildingId'] || $query['unitSearch'])
 		{
-			$units = $unitRepository->findAll($query);
+			$this->units = $unitRepository->findAll($query);
 		}
-		else
+		if ($query['ownerSearch'])
 		{
-			$units = $unitRepository->findAll();
-		}
-		$owners = $ownerRepository->findAll($query);
-		foreach ($owners as $owner)
-		{
-			foreach ($owner->getOwnerUnits() as $ownerUnits)
+			$owners = $ownerRepository->findAll($query);
+			foreach ($owners as $owner)
 			{
-				$units[] = $ownerUnits->getUnit();
+				foreach ($owner->getOwnerUnits() as $ownerUnits)
+				{
+					$this->units[] = $ownerUnits->getUnit();
+				}
 			}
 		}
+		if (!$query['buildingId'] && !$query['unitSearch'] && !$query['ownerSearch'])
+		{
+			$this->units = $unitRepository->findAll();
+		}
+
 //		foreach ($units as $key => $unit)
 //		{
 //			$owners = $unit->getOwnerUnits();
 ////			Debug::dump($owners);
 //		}
         return $this->render('unit/index.html.twig', [
-            'units' => $units,
+            'units' => $this->units,
             'buildings' => $buildingRepository->findAll(),
 			'query' => $query
         ]);

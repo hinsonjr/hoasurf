@@ -3,44 +3,47 @@
 {% block title %}Unit List{% endblock %}
 
 {% block content %}
-    <h1>Unit List</h1>
+    <h1>Unit Search</h1>
     <form id="unit_index_form">
-        <div class="row">
-            <div class="col-sm-1">&nbsp;</div>
-            <div class="col-sm-2">
-                <label for="search">Search By Unit Number</label>
-            </div>
-            <div class="col-sm-2">
-                <input type="text" id="unitSearch" name="unitSearch" value = {{ query.unitSearch }}>
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-sm-1">&nbsp;</div>
-            <div class="col-sm-2">
-                <label for="search">Search By Unit Owner Name</label>
-            </div>
-            <div class="col-sm-2">
-                <input type="text" id="ownerSearch" name="ownerSearch" value = {{ query.ownerSearch }}>
-            </div>
-        </div>
-        <div class="row">
+        <div class="row form-group">
             <div class="col-sm-1">&nbsp;</div>
             <div class="col-sm-2">
                 <label for="search">Filter by Building</label>
             </div>
             <div class="col-sm-2">
-                <select id="buildingId" name="buildingId">
+                <select class="form-control" id="buildingId" name="buildingId">
                     <option name='choose' value=''>Choose</option>
                     {% for building in buildings %}
                         <option name="{{ building.name}}" value="{{ building.id }}" {{ query.buildingId == building.id ? 'selected' }}>{{ building.name }}</option>
                     {% endfor %}
                 </select>
             </div>
+        </div>        
+        <div class="row form-group">
+            <div class="col-sm-1">&nbsp;</div>
+            <div class="col-sm-2">
+                <label for="search">Search By Unit Number</label>
+            </div>
+            <div class="col-sm-2">
+                <input class="form-control" type="text" id="unitSearch" name="unitSearch" value = {{ query.unitSearch }}>
+            </div>
         </div>
-        <div form-control row>
-            <button class="btn btn-primary" type="submit">Submit</button>
+        <div class="row form-group">
+            <div class="col-sm-1">&nbsp;</div>
+            <div class="col-sm-2">
+                <label for="search">Search By Unit Owner Name</label>
+            </div>
+            <div class="col-sm-2">
+                <input class="form-control" type="text" id="ownerSearch" name="ownerSearch" value = {{ query.ownerSearch }}>
+            </div>
+        </div>
+
+        <div  class="row ">
+            <div class="col-sm-3">&nbsp;</div>
+            <button class="col-sm-2 btn btn-primary" type="submit">Submit</button>
         </div>
     </form>
+            <hr>
     <table class="table">
         <thead>
             <tr>
@@ -49,7 +52,6 @@
                 <th>Beds</th>
                 <th>Baths</th>
                 <th>Current Owner</th>
-                <th>actions</th>
             </tr>
         </thead>
         <tbody>
@@ -76,11 +78,6 @@
                 {%  else %}
                     <td>no current owner found</td>
                 {% endif %}
-                <td>
-                    <a href="{{ path('unit_show', {'id': unit.id}) }}">show</a>
-                    <a href="{{ path('unit_edit', {'id': unit.id}) }}">edit</a>
-{#                    <a href="{{ path('unit_change_owner', {'id': unit.id}) }}">edit</a>#}
-                </td>
             </tr>
         {% else %}
             <tr>
@@ -90,5 +87,5 @@
         </tbody>
     </table>
 
-    <a href="{{ path('unit_new') }}">Create new</a>
+    <a class="btn btn-primary" href="{{ path('unit_new') }}">Create new</a>
 {% endblock %}

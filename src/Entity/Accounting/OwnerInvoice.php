@@ -2,6 +2,8 @@
 
 namespace App\Entity\Accounting;
 
+use App\Entity\Accounting\Transaction;
+use App\Entity\Accounting\PaymentType;
 use App\Entity\Owner;
 use App\Repository\OwnerInvoiceRepository;
 use Doctrine\DBAL\Types\Types;
@@ -16,7 +18,7 @@ class OwnerInvoice
     private ?int $id = null;
 
     #[ORM\OneToOne(inversedBy: 'ownerInvoice')]
-    private ?Owner $owner = null;
+    private ?Transaction $transaction = null;
 
     #[ORM\Column(type: Types::DATE_MUTABLE, nullable: true)]
     private ?\DateTimeInterface $dueDate = null;
@@ -28,19 +30,23 @@ class OwnerInvoice
     #[ORM\Column(type: Types::DATE_MUTABLE)]
     private ?\DateTimeInterface $paidDate = null;
 
+    #[ORM\ManyToOne(inversedBy: 'ownerInvoices')]
+    #[ORM\JoinColumn(nullable: false)]
+    private ?Owner $owner = null;
+
     public function getId(): ?int
     {
         return $this->id;
     }
 
-    public function getOwner(): ?Owner
+    public function getTransaction(): ?Transaction
     {
-        return $this->owner;
+        return $this->transaction;
     }
 
-    public function setOwner(?Owner $owner): self
+    public function setTransaction(?Transaction $transaction): self
     {
-        $this->owner = $owner;
+        $this->transaction = $transaction;
 
         return $this;
     }
@@ -77,6 +83,18 @@ class OwnerInvoice
     public function setPaidDate(\DateTimeInterface $paidDate): self
     {
         $this->paidDate = $paidDate;
+
+        return $this;
+    }
+
+    public function getOwner(): ?Owner
+    {
+        return $this->owner;
+    }
+
+    public function setOwner(?Owner $owner): self
+    {
+        $this->owner = $owner;
 
         return $this;
     }

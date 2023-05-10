@@ -20,42 +20,37 @@
         </div>
         <hr>
         <div class="row">
-            <div class="col-sm-2 heading">Debit Transactions</div>
+            <div class="col-sm-2 heading">Account Ledger</div>
             <div class="col-sm-10">
                 <div class="row" id="accountDebits">
                     <div class="row heading">
-                        <div class="col-sm-2">Action</div><div class="col-sm-2">Date</div><div class="col-sm-2">Amount</div><div class="col-sm-2">Credit Account</div>
+                        <div class="col-sm-2">Action</div><div class="col-sm-1 right">Date</div><div class="col-sm-2 right">Amount</div><div class="col-sm-4">Other Acct</div>
                     </div>
                     <hr>
-                    {% for transaction in ledger_account.debitTransactions %}
+                    {% for transaction in transactions %}
                         <div class="row">
-                            <div class="col-sm-2"><a href={{ path('accounting_transaction_show',{'id':transaction.id}) }}>View</a></div>
-                            <div class="col-sm-2">{{ transaction.date|date("n-j-y")}}</div>
-                            <div class="col-sm-2">${{ transaction.amount}}</div>
-                            <div class="col-sm-2">{{ transaction.creditAccount}}</div>
+                            <div class="col-sm-2 left"><a href={{ path('accounting_transaction_show',{'id':transaction.id}) }}>View</a></div>
+                            <div class="col-sm-1 right">{{ transaction.date|date("n-j-y")}}</div>
+                            {% if ledger_account.type.isDebit %}
+                                {% if transaction.creditAccount == ledger_account %}
+                                    <div class="col-sm-2 right">-${{ transaction.amount}}</div>
+                                    <div class="col-sm-4 left"><a href="{{ path('accounting_ledger_account_show', {'id': transaction.debitAccount.id}) }}">{{ transaction.debitAccount.name }}</a></div>
+                                {% else %}
+                                    <div class="col-sm-2 right">${{ transaction.amount}}</div>
+                                    <div class="col-sm-4 left"><a href="{{ path('accounting_ledger_account_show', {'id': transaction.creditAccount.id}) }}">{{ transaction.creditAccount.name }}</a></div>
+                                {%  endif %}
+                            {% else %}
+                                {% if transaction.debitAccount == ledger_account %}
+                                    <div class="col-sm-2 right">${{ transaction.amount}}</div>
+                                    <div class="col-sm-4 left"><a href="{{ path('accounting_ledger_account_show', {'id': transaction.creditAccount.id}) }}">{{ transaction.creditAccount.name }}</a></div>
+                                {% else %}
+                                    <div class="col-sm-2 right">-${{ transaction.amount}}</div>
+                                    <div class="col-sm-4 left"><a href="{{ path('accounting_ledger_account_show', {'id': transaction.debitAccount.id}) }}">{{ transaction.debitAccount.name }}</a></div>
+                                {%  endif %}
+                            {% endif %}
                         </div>
                     {%  endfor %}
                 </div>
-        </div>
-        <hr>
-        <div class="row">
-            <div class="col-sm-2 heading">Credit Transactions</div>
-            <div class="col-sm-10">
-                <div class="row" id="accountCredits">
-                    <div class="row heading">
-                        <div class="col-sm-2">Action</div><div class="col-sm-2">Date</div><div class="col-sm-2">Amount</div><div class="col-sm-2">Credit Account</div>
-                    </div>
-                    <hr>
-                    {% for transaction in ledger_account.creditTransactions %}
-                        <div class="row">
-                            <div class="col-sm-2"><a href={{ path('accounting_transaction_show',{'id':transaction.id}) }}>View</a></div>
-                            <div class="col-sm-2">{{ transaction.date|date("n-j-y")}}</div>
-                            <div class="col-sm-2">${{ transaction.amount}}</div>
-                            <div class="col-sm-2">{{ transaction.debitAccount}}</div>
-                        </div>
-                    {%  endfor %}
-                </div>
-            </div>
         </div>
     </div>
     <hr>
