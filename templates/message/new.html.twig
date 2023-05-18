@@ -3,6 +3,7 @@
 {% block title %}New Message{% endblock %}
 
 {% block content %}
+    {{  parent() }}
     <h1>Create new Message</h1>
 
     {{ include('message/_form.html.twig') }}

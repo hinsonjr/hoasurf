@@ -1,9 +1,10 @@
 {% extends 'admin-base.html.twig' %}
 
-{% block title %}New MessageCategory{% endblock %}
+{% block title %}New Message Category{% endblock %}
 
 {% block content %}
-    <h1>Create new MessageCategory</h1>
+    {{  parent() }}
+    <h1>Create new Message Category</h1>
 
     {{ include('message_category/_form.html.twig') }}
 

@@ -30,6 +30,7 @@ class OwnerInvoiceRepository extends ServiceEntityRepository
         }
     }
 
+
     public function remove(OwnerInvoice $entity, bool $flush = false): void
     {
         $this->getEntityManager()->remove($entity);

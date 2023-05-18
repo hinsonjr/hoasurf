@@ -3,6 +3,7 @@
 {% block title %}Edit Vendor{% endblock %}
 
 {% block content %}
+    {{  parent() }}
     <h1>Edit Vendor</h1>
 
     {{ include('vendor/_form.html.twig', {'button_label': 'Update'}) }}

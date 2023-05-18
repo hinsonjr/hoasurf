@@ -1,9 +1,10 @@
 {% extends 'admin-base.html.twig' %}
 
-{% block title %}Edit MaintenanceObject{% endblock %}
+{% block title %}Edit Maintenance Object{% endblock %}
 
 {% block content %}
-    <h1>Edit MaintenanceObject</h1>
+    {{  parent() }}
+    <h1>Edit Maintenance Object</h1>
 
     {{ include('maintenance_object/_form.html.twig', {'button_label': 'Update'}) }}
 

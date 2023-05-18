@@ -32,6 +32,45 @@ class HoaRepository extends ServiceEntityRepository
         return $transactions;
 	}
 
+	public function findOwnerByEffectiveDate(Hoa $hoa, $effectiveDate)
+	{
+		$entityManager = $this->getEntityManager();
+        $query = $entityManager->createQueryBuilder();
+		$owners = [];
+		foreach ($hoa->getBuildings() as $building)
+		{
+//			echo "Unit Count by building = " . count($building->getUnits()) . "<br>";
+			foreach ($building->getUnits() as $unit)
+			{
+				foreach ($unit->getOwnerUnits() as $ownerUnit)
+				{
+					$end = $ownerUnit->getEndDate() ? $ownerUnit->getEndDate()->format("Y-m-d") : $ownerUnit->getEndDate();
+//					echo "Checking ownerUnit " . $ownerUnit->getUnit()->getId() . " end=". $end . "<br>";
+					if ($ownerUnit->getStartDate() <= $effectiveDate && ($ownerUnit->getEndDate() == null || ($ownerUnit->getEndDate() >= $effectiveDate)))
+					{
+						$owners[] = $ownerUnit;
+					}
+				}
+			}
+		}
+        return $owners;
+	}
+
+	public function findUnits(Hoa $hoa)
+	{
+		$units = [];
+		foreach ($hoa->getBuildings() as $building)
+		{
+//			echo "Unit Count by building = " . count($building->getUnits()) . "<br>";
+			foreach ($building->getUnits() as $unit)
+			{
+				$units[] = $unit;
+			}
+		}
+        return $units;
+	}
+
+
     // /**
     //  * @return Hoa[] Returns an array of Hoa objects
     //  */

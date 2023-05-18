@@ -1,8 +1,9 @@
-{% extends 'base.html.twig' %}
+{% extends 'owner-base.html.twig' %}
 
 {% block title %}Owners Dashboard{% endblock %}
 
-{% block content %}
+    {%  block content %}
+    {{  parent() }}
         <h1>Owner Dashboard for {{ app.user.name }}</h1>
         <div class="section-break">&nbsp;</div>
         

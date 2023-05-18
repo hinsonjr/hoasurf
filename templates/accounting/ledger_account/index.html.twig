@@ -1,9 +1,10 @@
 {% extends 'acct-base.html.twig' %}
 
-{% block title %}LedgerAccount index{% endblock %}
+{% block title %}Ledger Account List{% endblock %}
 
 {% block content %}
-    <h1>LedgerAccount index</h1>
+    {{  parent() }}
+    <h1>Ledger Account List</h1>
 
     <table class="table">
         <thead>
@@ -16,20 +17,20 @@
             </tr>
         </thead>
         <tbody>
-        {% for ledger_account in ledger_accounts %}
-            <tr>
-                <td><a class="btn btn-primary" href="{{ path('accounting_transaction_new', {'creditAcctId': ledger_account.id, 'debitAcctId': ledger_account.id}) }}">Add Transaction</a></td>
-                <td><a href="{{ path('accounting_ledger_account_show', {'id': ledger_account.id}) }}">{{ ledger_account.name }}</a></td>
-                <td>{{ ledger_account.type }}</td>
-                <td>{{ ledger_account.balance }}</td>
-                <td>{{ ledger_account.startBalance }}</td>
-                <td><a href="{{ path('accounting_ledger_account_edit', {'id': ledger_account.id}) }}">edit</a></td>
-            </tr>
-        {% else %}
-            <tr>
-                <td colspan="5">no records found</td>
-            </tr>
-        {% endfor %}
+            {% for ledger_account in ledger_accounts %}
+                <tr>
+                    <td><a class="btn btn-primary" href="{{ path('accounting_transaction_new', {'creditAcctId': ledger_account.id, 'debitAcctId': ledger_account.id}) }}">Add Transaction</a></td>
+                    <td><a href="{{ path('accounting_ledger_account_show', {'id': ledger_account.id}) }}">{{ ledger_account.name }}</a></td>
+                    <td>{{ ledger_account.type }}</td>
+                    <td>{{ ledger_account.balance }}</td>
+                    <td>{{ ledger_account.startBalance }}</td>
+                    <td><a href="{{ path('accounting_ledger_account_edit', {'id': ledger_account.id}) }}">edit</a></td>
+                </tr>
+            {% else %}
+                <tr>
+                    <td colspan="5">no records found</td>
+                </tr>
+            {% endfor %}
         </tbody>
     </table>
 

@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Test\Controller;
+namespace App\Test\Controller\Accounting;
 
 use App\Entity\Accounting\HoaReportCategory;
 use App\Repository\HoaReportCategoryRepository;
@@ -11,7 +11,7 @@ class HoaReportCategoryControllerTest extends WebTestCase
 {
     private KernelBrowser $client;
     private HoaReportCategoryRepository $repository;
-    private string $path = '/hoa/report/category/';
+    private string $path = '/accounting/hoa/report/category/';
 
     protected function setUp(): void
     {
@@ -46,9 +46,10 @@ class HoaReportCategoryControllerTest extends WebTestCase
         $this->client->submitForm('Save', [
             'hoa_report_category[category]' => 'Testing',
             'hoa_report_category[ordering]' => 'Testing',
+            'hoa_report_category[hoa]' => 'Testing',
         ]);
 
-        self::assertResponseRedirects('/hoa/report/category/');
+        self::assertResponseRedirects('/accounting/hoa/report/category/');
 
         self::assertSame($originalNumObjectsInRepository + 1, count($this->repository->findAll()));
     }
@@ -59,6 +60,7 @@ class HoaReportCategoryControllerTest extends WebTestCase
         $fixture = new HoaReportCategory();
         $fixture->setCategory('My Title');
         $fixture->setOrdering('My Title');
+        $fixture->setHoa('My Title');
 
         $this->repository->save($fixture, true);
 
@@ -76,6 +78,7 @@ class HoaReportCategoryControllerTest extends WebTestCase
         $fixture = new HoaReportCategory();
         $fixture->setCategory('My Title');
         $fixture->setOrdering('My Title');
+        $fixture->setHoa('My Title');
 
         $this->repository->save($fixture, true);
 
@@ -84,14 +87,16 @@ class HoaReportCategoryControllerTest extends WebTestCase
         $this->client->submitForm('Update', [
             'hoa_report_category[category]' => 'Something New',
             'hoa_report_category[ordering]' => 'Something New',
+            'hoa_report_category[hoa]' => 'Something New',
         ]);
 
-        self::assertResponseRedirects('/hoa/report/category/');
+        self::assertResponseRedirects('/accounting/hoa/report/category/');
 
         $fixture = $this->repository->findAll();
 
         self::assertSame('Something New', $fixture[0]->getCategory());
         self::assertSame('Something New', $fixture[0]->getOrdering());
+        self::assertSame('Something New', $fixture[0]->getHoa());
     }
 
     public function testRemove(): void
@@ -103,6 +108,7 @@ class HoaReportCategoryControllerTest extends WebTestCase
         $fixture = new HoaReportCategory();
         $fixture->setCategory('My Title');
         $fixture->setOrdering('My Title');
+        $fixture->setHoa('My Title');
 
         $this->repository->save($fixture, true);
 
@@ -112,6 +118,6 @@ class HoaReportCategoryControllerTest extends WebTestCase
         $this->client->submitForm('Delete');
 
         self::assertSame($originalNumObjectsInRepository, count($this->repository->findAll()));
-        self::assertResponseRedirects('/hoa/report/category/');
+        self::assertResponseRedirects('/accounting/hoa/report/category/');
     }
 }

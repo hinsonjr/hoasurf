@@ -3,7 +3,8 @@
 {% block title %}Ledger Account{% endblock %}
 
 {% block content %}
-    <h1>LedgerAccount</h1>
+    {{  parent() }}   
+    <h1>Ledger Account</h1>
 
     <div class="trans-list">
         <div class="row">
@@ -35,29 +36,29 @@
                                 {% if transaction.creditAccount == ledger_account %}
                                     <div class="col-sm-2 right">-${{ transaction.amount}}</div>
                                     <div class="col-sm-4 left"><a href="{{ path('accounting_ledger_account_show', {'id': transaction.debitAccount.id}) }}">{{ transaction.debitAccount.name }}</a></div>
-                                {% else %}
+                                    {% else %}
                                     <div class="col-sm-2 right">${{ transaction.amount}}</div>
                                     <div class="col-sm-4 left"><a href="{{ path('accounting_ledger_account_show', {'id': transaction.creditAccount.id}) }}">{{ transaction.creditAccount.name }}</a></div>
-                                {%  endif %}
-                            {% else %}
-                                {% if transaction.debitAccount == ledger_account %}
+                                    {%  endif %}
+                                {% else %}
+                                    {% if transaction.debitAccount == ledger_account %}
                                     <div class="col-sm-2 right">${{ transaction.amount}}</div>
                                     <div class="col-sm-4 left"><a href="{{ path('accounting_ledger_account_show', {'id': transaction.creditAccount.id}) }}">{{ transaction.creditAccount.name }}</a></div>
-                                {% else %}
+                                    {% else %}
                                     <div class="col-sm-2 right">-${{ transaction.amount}}</div>
                                     <div class="col-sm-4 left"><a href="{{ path('accounting_ledger_account_show', {'id': transaction.debitAccount.id}) }}">{{ transaction.debitAccount.name }}</a></div>
-                                {%  endif %}
-                            {% endif %}
+                                    {%  endif %}
+                                {% endif %}
                         </div>
                     {%  endfor %}
                 </div>
+            </div>
         </div>
-    </div>
-    <hr>
-                
-    <a href="{{ path('accounting_ledger_account_index') }}">back to list</a>
+        <hr>
 
-    <a href="{{ path('accounting_ledger_account_edit', {'id': ledger_account.id}) }}">edit</a>
+        <a href="{{ path('accounting_ledger_account_index') }}">back to list</a>
 
-    {{ include('accounting/ledger_account/_delete_form.html.twig') }}
-{% endblock %}
+        <a href="{{ path('accounting_ledger_account_edit', {'id': ledger_account.id}) }}">edit</a>
+
+        {{ include('accounting/ledger_account/_delete_form.html.twig') }}
+    {% endblock %}

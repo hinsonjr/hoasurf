@@ -11,18 +11,27 @@ use App\Entity\Accounting\LedgerAccount;
 
 class AdminDashController extends AbstractController
 {
-    #[Route('/admin/dash', name: 'admin_dash')]
-    public function index(): Response
-    {
+
+	#[Route('/admin/dash', name: 'admin_dash')]
+	public function index(): Response
+	{
 		$user = $this->getUser();
 		$activeHoa = $user->getActiveHoa();
-        return $this->render('admin_dash/index.html.twig', [
-            'controller_name' => 'AdminDashController',
-			'activeHoa' => $activeHoa,
-        ]);
-    }
+		$unitCnts = [];
+		$unitCnts['Total'] = 0;
+		foreach ($activeHoa->getBuildings() as $building)
+		{
+			$unitCnts[$building->getName()] = count($building->getUnits());
+			$unitCnts['Total'] += count($building->getUnits());
+		}
+		return $this->render('admin_dash/index.html.twig', [
+				'controller_name' => 'AdminDashController',
+				'activeHoa' => $activeHoa,
+				'unitCnts' => $unitCnts
+		]);
+	}
 
-    #[Route('/admin/balance_update', name: 'admin_balance_update')]
+	#[Route('/admin/balance_update', name: 'admin_balance_update')]
 	public function recalculateAccountBalances(ManagerRegistry $doctrine, EntityManagerInterface $entityManager): Response
 	{
 		$tableClass = "adminTable";
@@ -40,8 +49,7 @@ class AdminDashController extends AbstractController
 				if ($isDebit)
 				{
 					$balance += $debit->getAmount();
-				}
-				else
+				} else
 				{
 					$balance -= $debit->getAmount();
 				}
@@ -51,8 +59,7 @@ class AdminDashController extends AbstractController
 				if ($isDebit)
 				{
 					$balance -= $debit->getAmount();
-				}
-				else
+				} else
 				{
 					$balance += $debit->getAmount();
 				}
@@ -62,17 +69,17 @@ class AdminDashController extends AbstractController
 			if ($balance != 0)
 			{
 				$results[] = [$account->getName(), $account->getType()->getIsDebit() ? "true " : "false ",
-					"$".number_format($previousBalance,2),"$".number_format($balance,2)];
+					"$" . number_format($previousBalance, 2), "$" . number_format($balance, 2)];
 			}
 		}
 		$entityManager->flush();
-		
 
-        return $this->renderForm('admin-blank.html.twig', [
-            'title' => "Account Rebalance",
-            'content' => $results,
-			'heading' => $heading,
-			'table-class' => $tableClass
-        ]);
+		return $this->renderForm('admin-blank.html.twig', [
+				'title' => "Account Rebalance",
+				'content' => $results,
+				'heading' => $heading,
+				'table-class' => $tableClass
+		]);
 	}
+
 }

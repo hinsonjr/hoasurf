@@ -1,0 +1,24 @@
+{{ form_start(form) }}
+    <div class="row">
+       <div class="col-sm-3">
+        {{ form_row(form.hoa) }}
+       </div>        
+    </div>
+    <div class="row">
+       <div class="col-sm-3">
+        {{ form_row(form.dueDate) }}
+       </div>        
+    </div>
+    <div class="row">
+       <div class="col-sm-3">
+        {{ form_row(form.effectiveDate) }}
+       </div>        
+    </div>
+    <div class="row">
+       <div class="col-sm-3">
+        {{ form_row(form.amount) }}
+       </div>        
+    </div>
+
+    <button class="btn btn-primary">{{ button_label|default('Save') }}</button>
+{{ form_end(form, {'render_rest': false}) }}

@@ -2,10 +2,10 @@
 
 namespace App\Entity\Accounting;
 
+use App\Repository\Accounting\OwnerInvoiceRepository;
 use App\Entity\Accounting\Transaction;
-use App\Entity\Accounting\PaymentType;
+use App\Entity\Hoa;
 use App\Entity\Owner;
-use App\Repository\OwnerInvoiceRepository;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
@@ -23,16 +23,19 @@ class OwnerInvoice
     #[ORM\Column(type: Types::DATE_MUTABLE, nullable: true)]
     private ?\DateTimeInterface $dueDate = null;
 
-    #[ORM\ManyToOne(inversedBy: 'ownerInvoices')]
-    #[ORM\JoinColumn(nullable: false)]
-    private ?PaymentType $type = null;
-
-    #[ORM\Column(type: Types::DATE_MUTABLE)]
+    #[ORM\Column(type: Types::DATE_MUTABLE, nullable: true)]
     private ?\DateTimeInterface $paidDate = null;
 
     #[ORM\ManyToOne(inversedBy: 'ownerInvoices')]
     #[ORM\JoinColumn(nullable: false)]
     private ?Owner $owner = null;
+
+    #[ORM\ManyToOne(inversedBy: 'ownerInvoices')]
+    #[ORM\JoinColumn(nullable: false)]
+    private ?Hoa $hoa = null;
+
+    #[ORM\Column(type: Types::DATETIME_MUTABLE)]
+    private ?\DateTimeInterface $effectiveDate = null;
 
     public function getId(): ?int
     {
@@ -63,18 +66,6 @@ class OwnerInvoice
         return $this;
     }
 
-    public function getType(): ?PaymentType
-    {
-        return $this->type;
-    }
-
-    public function setType(?PaymentType $type): self
-    {
-        $this->type = $type;
-
-        return $this;
-    }
-
     public function getPaidDate(): ?\DateTimeInterface
     {
         return $this->paidDate;
@@ -95,6 +86,30 @@ class OwnerInvoice
     public function setOwner(?Owner $owner): self
     {
         $this->owner = $owner;
+
+        return $this;
+    }
+
+    public function getHoa(): ?Hoa
+    {
+        return $this->hoa;
+    }
+
+    public function setHoa(?Hoa $hoa): self
+    {
+        $this->hoa = $hoa;
+
+        return $this;
+    }
+
+    public function getEffectiveDate(): ?\DateTimeInterface
+    {
+        return $this->effectiveDate;
+    }
+
+    public function setEffectiveDate(\DateTimeInterface $effectiveDate): self
+    {
+        $this->effectiveDate = $effectiveDate;
 
         return $this;
     }

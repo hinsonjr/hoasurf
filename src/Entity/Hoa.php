@@ -2,6 +2,7 @@
 
 namespace App\Entity;
 
+use App\Entity\Accounting\HoaReportCategory;
 use App\Entity\Accounting\LedgerAccount;
 use App\Repository\HoaRepository;
 use Doctrine\Common\Collections\ArrayCollection;
@@ -41,11 +42,27 @@ class Hoa
 	#[ORM\OneToMany(targetEntity: LedgerAccount::class, mappedBy: "hoa")]
 	private $ledgerAccounts;
 
+	#[ORM\OneToMany(mappedBy: 'hoa', targetEntity: HoaReportCategory::class)]
+	private Collection $hoaReportCategories;
+
+	#[ORM\OneToMany(mappedBy: 'hoa', targetEntity: Message::class)]
+	private Collection $messages;
+
+	#[ORM\OneToMany(mappedBy: 'hoa', targetEntity: MessageCategory::class)]
+	private Collection $messageCategories;
+
+	#[ORM\OneToMany(mappedBy: 'hoa', targetEntity: Vendor::class)]
+	private Collection $vendors;
+
 	public function __construct()
 	{
 		$this->buildings = new ArrayCollection();
 		$this->maintenanceObjects = new ArrayCollection();
 		$this->ledgerAccounts = new ArrayCollection();
+		$this->hoaReportCategories = new ArrayCollection();
+		$this->messages = new ArrayCollection();
+		$this->messageCategories = new ArrayCollection();
+		$this->vendors = new ArrayCollection();
 	}
 
 	public function getId(): ?int
@@ -205,6 +222,138 @@ class Hoa
 			if ($ledgerAccount->getHoa() === $this)
 			{
 				$ledgerAccount->setHoa(null);
+			}
+		}
+
+		return $this;
+	}
+
+	/**
+	 * @return Collection<int, HoaReportCategory>
+	 */
+	public function getHoaReportCategories(): Collection
+	{
+		return $this->hoaReportCategories;
+	}
+
+	public function addHoaReportCategory(HoaReportCategory $hoaReportCategory): self
+	{
+		if (!$this->hoaReportCategories->contains($hoaReportCategory))
+		{
+			$this->hoaReportCategories->add($hoaReportCategory);
+			$hoaReportCategory->setHoa($this);
+		}
+
+		return $this;
+	}
+
+	public function removeHoaReportCategory(HoaReportCategory $hoaReportCategory): self
+	{
+		if ($this->hoaReportCategories->removeElement($hoaReportCategory))
+		{
+			// set the owning side to null (unless already changed)
+			if ($hoaReportCategory->getHoa() === $this)
+			{
+				$hoaReportCategory->setHoa(null);
+			}
+		}
+
+		return $this;
+	}
+
+	/**
+	 * @return Collection<int, Message>
+	 */
+	public function getMessages(): Collection
+	{
+		return $this->messages;
+	}
+
+	public function addMessage(Message $message): self
+	{
+		if (!$this->messages->contains($message))
+		{
+			$this->messages->add($message);
+			$message->setHoa($this);
+		}
+
+		return $this;
+	}
+
+	public function removeMessage(Message $message): self
+	{
+		if ($this->messages->removeElement($message))
+		{
+			// set the owning side to null (unless already changed)
+			if ($message->getHoa() === $this)
+			{
+				$message->setHoa(null);
+			}
+		}
+
+		return $this;
+	}
+
+	/**
+	 * @return Collection<int, MessageCategory>
+	 */
+	public function getMessageCategories(): Collection
+	{
+		return $this->messageCategories;
+	}
+
+	public function addMessageCategory(MessageCategory $messageCategory): self
+	{
+		if (!$this->messageCategories->contains($messageCategory))
+		{
+			$this->messageCategories->add($messageCategory);
+			$messageCategory->setHoa($this);
+		}
+
+		return $this;
+	}
+
+	public function removeMessageCategory(MessageCategory $messageCategory): self
+	{
+		if ($this->messageCategories->removeElement($messageCategory))
+		{
+			// set the owning side to null (unless already changed)
+			if ($messageCategory->getHoa() === $this)
+			{
+				$messageCategory->setHoa(null);
+			}
+		}
+
+		return $this;
+	}
+
+	/**
+	 * @return Collection<int, Vendor>
+	 */
+	public function getVendors(): Collection
+	{
+		return $this->vendors;
+	}
+
+	public function addVendor(Vendor $vendor): self
+	{
+		if (!$this->vendors->contains($vendor))
+		{
+			$this->vendors->add($vendor);
+			$vendor->setHoa($this);
+		}
+
+		return $this;
+	}
+
+	public function removeVendor(Vendor $vendor): self
+	{
+		if ($this->vendors->removeElement($vendor))
+		{
+			// set the owning side to null (unless already changed)
+			if ($vendor->getHoa() === $this)
+			{
+				$vendor->setHoa(null);
 			}
 		}
 

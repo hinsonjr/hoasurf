@@ -3,6 +3,7 @@
 {% block title %}New Vendor{% endblock %}
 
 {% block content %}
+    {{  parent() }}
     <h1>Create new Vendor</h1>
 
     {{ include('vendor/_form.html.twig') }}

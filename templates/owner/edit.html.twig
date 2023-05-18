@@ -3,6 +3,7 @@
 {% block title %}Edit Owner{% endblock %}
 
 {% block content %}
+    {{  parent() }}
     <h1>Edit Owner</h1>
     {{ include('owner/_form.html.twig') }}
 {#    {{ include('owner/_form.html.twig', {'button_label': 'Update'}) }}#}

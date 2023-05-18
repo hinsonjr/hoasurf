@@ -1,9 +1,10 @@
 {% extends 'admin-base.html.twig' %}
 
-{% block title %}Edit SystemSettings{% endblock %}
+{% block title %}Edit System Settings{% endblock %}
 
-{% block body %}
-    <h1>Edit SystemSettings</h1>
+{% block content%}
+    {{  parent() }}
+    <h1>Edit System Settings</h1>
 
     {{ include('system_settings/_form.html.twig', {'button_label': 'Update'}) }}
 

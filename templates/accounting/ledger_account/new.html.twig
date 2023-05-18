@@ -1,11 +1,17 @@
 {% extends 'acct-base.html.twig' %}
 
-{% block title %}New LedgerAccount{% endblock %}
+{% block title %}New Ledger Account{% endblock %}
 
 {% block content %}
-    <h1>Create new LedgerAccount</h1>
+    {{  parent() }}
+    <h1>Create new Ledger Account</h1>
 
     {{ include('accounting/ledger_account/_form.html.twig') }}
 
-    <a href="{{ path('accounting_ledger_account_index') }}">back to list</a>
+    <div class="row">
+        <div class="col-sm-3">
+            <button type="submit" class="btn btn-primary">{{ button_label|default('Save') }}</button>
+            <li class="btn btn-info"><a href="{{ path('accounting_ledger_account_index') }}">Back to list</a></li>
+        </div>
+    </div>    
 {% endblock %}

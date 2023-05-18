@@ -1,9 +1,10 @@
 {% extends 'acct-base.html.twig' %}
 
-{% block title %}New LedgerType{% endblock %}
+{% block title %}New Ledger Type{% endblock %}
 
 {% block content %}
-    <h1>Create new LedgerType</h1>
+    {{  parent() }}    
+    <h1>Create new Ledger Type</h1>
 
     {{ include('accounting/ledger_type/_form.html.twig') }}
 

@@ -3,6 +3,7 @@
 {% block title %}Edit Hoa{% endblock %}
 
 {% block content %}
+    {{  parent() }}
     <h1>Edit Hoa</h1>
 
     {{ include('hoa/_form.html.twig', {'button_label': 'Update'}) }}

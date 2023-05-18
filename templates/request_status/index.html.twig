@@ -1,0 +1,36 @@
+{% extends 'admin-base.html.twig' %}
+
+{% block title %}Request Status List{% endblock %}
+
+{% block content%}
+    {{  parent() }}
+    <h1>Request Status List</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Status</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for request_status in request_statuses %}
+            <tr>
+                <td>{{ request_status.id }}</td>
+                <td>{{ request_status.status }}</td>
+                <td>
+                    <a href="{{ path('app_request_status_show', {'id': request_status.id}) }}">show</a>
+                    <a href="{{ path('app_request_status_edit', {'id': request_status.id}) }}">edit</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="3">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{{ path('app_request_status_new') }}">Create new</a>
+{% endblock %}

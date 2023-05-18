@@ -16,6 +16,9 @@ class MessageCategory
     #[ORM\Column(length: 64)]
     private ?string $category = null;
 
+    #[ORM\ManyToOne(inversedBy: 'messageCategories')]
+    private ?Hoa $hoa = null;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -33,6 +36,18 @@ class MessageCategory
     public function setCategory(string $category): self
     {
         $this->category = $category;
+
+        return $this;
+    }
+
+    public function getHoa(): ?Hoa
+    {
+        return $this->hoa;
+    }
+
+    public function setHoa(?Hoa $hoa): self
+    {
+        $this->hoa = $hoa;
 
         return $this;
     }

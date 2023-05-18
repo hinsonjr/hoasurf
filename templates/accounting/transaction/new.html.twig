@@ -3,7 +3,8 @@
 {% block title %}New Transaction{% endblock %}
 
 {% block content %}
-    <h1>Create new Transaction</h1>
+    {{  parent() }}
+    <h1>Create New Transaction</h1>
    
     {{ include('accounting/transaction/_form.html.twig') }}
 

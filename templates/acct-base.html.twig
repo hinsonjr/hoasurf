@@ -22,68 +22,9 @@
         {% endblock %}
     </head>
     <body>
-        {% block body %}
-            <div class="banner">
-                <div class="banner-container">
-                    <div class="container-body">
-                        <nav id="navbar" class="navbar navbar-expand-lg navbar-light" style="background-color: #e3f2fd;">
-                            <a class="navbar-brand">SurfHOA</a>
-                            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#acctMenu" aria-controls="acctMenu" aria-expanded="false" aria-label="Toggle navigation">
-                                <span class="navbar-toggler-icon"></span>
-                            </button>                
-                            {% block navbar %}
-                            <div class="collapse navbar-collapse" id="acctMenu">
-                                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-                                {% block navitems %}
-                                    <li class="nav-item">
-                                        <a class="nav-link" href="{{ path('accounting_dash') }}">Accounting Dash</a><span class="sr-only"></span></a>
-                                    </li>
-                                    <li class="nav-item">
-                                        <a class="nav-item nav-link" href="{{  path('accounting_transaction_index') }}" >Transactions</a>
-                                    </li>
-                                    <li class="nav-item">
-                                        <a class="nav-item nav-link" href="{{  path('accounting_ledger_account_index') }}" >Accounts</a>
-                                    </li>
-                                    <li class="nav-item">
-                                        <a class="nav-item nav-link" href="{{  path('accounting_ledger_type_index') }}" >Types</a>                                
-                                    </li>
-                                    <li class="nav-item">
-                                        <a class="nav-item nav-link" href="{{ path('app_owner_index') }}">Owners</a>
-                                    </li>
-                                    <li class="nav-item">
-                                        <a class="nav-item nav-link" href="{{ path('unit_index') }}">Units</a>
-                                    </li>
-                                    <li class="nav-item">
-                                        <a class="nav-item nav-link" href="{{ path('vendor_index') }}">Vendors</a>
-                                    </li>
-                                    <li class="nav-item">
-                                        <a class="nav-item nav-link" href="{{ path('maintenance_object_index') }}">Maintenance</a>
-                                    </li>
-                                    <li class="nav-item">
-                                        <a class="nav-item nav-link" href="{{ path('admin_dash') }}">Admin Dash</a><span class="sr-only"></span></a>
-                                    </li>
-                                  
-                                {% endblock %}
-                                    <li class="nav-item dropdown ">
-                                        <a class="nav-link dropdown-toggle " href="#" role="button" data-bs-toggle="dropdown" aria-expanded="true">
-                                          User
-                                        </a>
-                                        <ul class="dropdown-menu dropdown-menu-right justify-content-right">
-                                            <li><a class="dropdown-item " >{{ app.user.email }}</a></li>
-                                            <li><a class="dropdown-item " >{{ app.user.roles[0] }}</a></li>
-                                            <li><a class="dropdown-item " href="/logout">Logout</a></li>
-                                        </ul>
-                                    </li>
-                                </ul>
-                            </div>
-                            {% endblock %}
-                        </nav>
-                    </div>
-                </div>
-
-            <div id="content">
-                {% block content %}{% endblock %}
-            </div>
-        {% endblock %}
+        {% include ('menus/acct-menu.html.twig') %}
+        <div id="content">
+            {% block content %}{% endblock %}
+        </div>
     </body>
 </html>

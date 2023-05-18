@@ -1,0 +1,26 @@
+<div class="banner">
+    <div class="banner-container">
+        <div class="container-body">
+            <nav id="navbar flex-column" class="navbar navbar-expand-lg navbar-primary-subtle " style="background-color: #e3f2fd;">
+                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>                
+                {% block navbar %}
+                    <div class="container-fluid">     
+                        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                            <div class="icon"><img=
+                                    <div class="navbar-nav">
+                                {% block navitems %}
+                                    <a class="nav-item nav-link" href="{{ path('home') }}">Home</a><span class="sr-only"></span></a>
+                                    <a class="nav-item nav-link" href="{{ path('app_forgot_password_request') }}">Reset Password</a><span class="sr-only"></span></a>
+                                    <a class="nav-item nav-link " href="{{ path('app_login') }}">Login</a>
+                                </div>
+
+                            {% endblock %}
+                        </div>
+                    </div>
+                {% endblock %}
+            </nav>
+        </div>
+    </div>
+</div>

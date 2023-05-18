@@ -3,6 +3,7 @@
 {% block title %}Edit Hoa{% endblock %}
 
 {% block content %}
+    {{  parent() }}
     <h1>Select Active HOA</h1>
 
     {{ include('hoa/_form.html.twig', {'button_label': 'Update'}) }}

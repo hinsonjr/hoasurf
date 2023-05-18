@@ -1,0 +1,62 @@
+{# empty Twig template #}
+<div class="banner">
+    <div class="banner-container">
+        <nav id="navbar" class="navbar navbar-expand-lg navbar-light" style="background-color: #e3f2fd;">
+            {% block navbar %}
+                <div class="container-fluid">                        
+                    <a class="navbar-brand">SurfHOA</a>
+                    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#adminMenu" aria-controls="adminMenu" aria-expanded="false" aria-label="Toggle navigation">
+                        <span class="navbar-toggler-icon"></span>
+                    </button>                
+                    <div class="collapse navbar-collapse" id="adminMenu">
+                        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                            {% block navitems %}
+                                <li class="nav-item">
+                                    <a class=" nav-link" href="{{ path('admin_dash') }}">Admin Dash</a><span class="sr-only"></span></a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" href="{{ path('hoa_index') }}">HOAs</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" href="{{ path('building_index') }}">Buildings</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" href="{{ path('app_owner_index') }}">Owners</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" href="{{ path('unit_index') }}">Units</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" href="{{ path('vendor_index') }}">Vendors</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" href="{{ path('maintenance_object_index') }}">Maintenance</a>
+                                </li>
+
+                                <li class="nav-item dropdown">
+                                    <a class="nav-link dropdown-toggle" href="#" id="acctDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                        Accounting
+                                    </a>
+                                    <ul class="dropdown-menu" >
+                                        <li><a class="dropdown-item" href="{{  path('accounting_transaction_index') }}" >Transactions</a></li>
+                                        <li><a class="dropdown-item" href="{{  path('accounting_ledger_account_index') }}" >Accounts</a></li>
+                                        <li><a class="dropdown-item" href="{{  path('accounting_ledger_type_index') }}" >Types</a></li>
+                                    </ul>
+                                </li>
+                            {% endblock %}
+                            <li class="nav-item dropdown ">
+                                <a class="nav-link dropdown-toggle " href="#" role="button" data-bs-toggle="dropdown" aria-expanded="true">
+                                    User
+                                </a>
+                                <ul class="dropdown-menu dropdown-menu-right justify-content-right">
+                                    <li><a class="dropdown-item " >{{ app.user.email }}</a></li>
+                                    <li><a class="dropdown-item " >{{ app.user.roles[0] }}</a></li>
+                                    <li><a class="dropdown-item " href="/logout">Logout</a></li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            {% endblock %}
+        </nav>
+    </div>

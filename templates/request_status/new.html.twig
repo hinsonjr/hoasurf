@@ -1,0 +1,12 @@
+{% extends 'admin-base.html.twig' %}
+
+{% block title %}New Request Status{% endblock %}
+
+{% block content%}
+    {{  parent() }}
+    <h1>Create new Request Status</h1>
+
+    {{ include('request_status/_form.html.twig') }}
+
+    <a href="{{ path('app_request_status_index') }}">back to list</a>
+{% endblock %}

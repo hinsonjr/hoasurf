@@ -1,9 +1,10 @@
 {% extends 'admin-base.html.twig' %}
 
-{% block title %}New MaintenanceObject{% endblock %}
+{% block title %}New Maintenance Object{% endblock %}
 
 {% block content %}
-    <h1>Create new MaintenanceObject</h1>
+    {{  parent() }}
+    <h1>Create new Maintenance Object</h1>
 
     {{ include('maintenance_object/_form.html.twig') }}
 

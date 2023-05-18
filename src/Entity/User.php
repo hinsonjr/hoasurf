@@ -19,65 +19,73 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 {
 
 	#[ORM\Id]
-               	#[ORM\GeneratedValue]
-               	#[ORM\Column(type: "integer")]
-               	private $id;
+                                             	#[ORM\GeneratedValue]
+                                             	#[ORM\Column(type: "integer")]
+                                             	private $id;
 
 	#[ORM\Column(type: "string", length: 180, unique: true)]
-               	private $email;
+                                             	private $email;
 
 	#[ORM\Column(type: "string", length: 255)]
-               	private $name;
+                                             	private $name;
 
 	#[ORM\ManyToMany(targetEntity: Role::class, inversedBy: "users")]
-               	private $roles = [];
+                                             	private $roles = [];
 
 	#[ORM\Column(type: "string", nullable: true)]
-               	private $password;
+                                             	private $password;
 
 	#[ORM\Column(type: "boolean")]
-               	private $isVerified = false;
+                                             	private $isVerified = false;
 
 	#[ORM\OneToMany(targetEntity: Owner::class, mappedBy: "user")]
-               	private $owners;
+                                             	private $owners;
 
 	#[ORM\Column(type: "datetime", nullable: true)]
-               	private $lastLogin;
+                                             	private $lastLogin;
 
 	#[ORM\ManyToOne(targetEntity: Hoa::class)]
-               	private $activeHoa;
+                                             	private $activeHoa;
 
     #[ORM\OneToMany(mappedBy: 'createdBy', targetEntity: Message::class)]
     private Collection $messages;
 
+    #[ORM\OneToMany(mappedBy: 'createdBy', targetEntity: Request::class)]
+    private Collection $requests;
+
+    #[ORM\OneToMany(mappedBy: 'completedBy', targetEntity: Request::class)]
+    private Collection $completedRequests;
+
 	public function __construct()
-               	{
-               		$this->owners = new ArrayCollection();
-               		$this->roles = new ArrayCollection();
-                 $this->messages = new ArrayCollection();
-               	}
+                                             	{
+                                             		$this->owners = new ArrayCollection();
+                                             		$this->roles = new ArrayCollection();
+                                               $this->messages = new ArrayCollection();
+                                               $this->requests = new ArrayCollection();
+                                               $this->completedRequests = new ArrayCollection();
+                                             	}
 
 	public function __toString()
-               	{
-               		return $this->getName();
-               	}
+                                             	{
+                                             		return $this->getName();
+                                             	}
 
 	public function getId(): ?int
-               	{
-               		return $this->id;
-               	}
+                                             	{
+                                             		return $this->id;
+                                             	}
 
 	public function getEmail(): ?string
-               	{
-               		return $this->email;
-               	}
+                                             	{
+                                             		return $this->email;
+                                             	}
 
 	public function setEmail(string $email): self
-               	{
-               		$this->email = $email;
-               
-               		return $this;
-               	}
+                                             	{
+                                             		$this->email = $email;
+                                             
+                                             		return $this;
+                                             	}
 
 	/**
 	 * A visual identifier that represents this user.
@@ -86,88 +94,88 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 	 * 
 	 */
 	public function getUserIdentifier(): string
-               	{
-               		return (string) $this->email;
-               	}
+                                             	{
+                                             		return (string) $this->email;
+                                             	}
 
 	/**
 	 * @see UserInterface
 	 * 
 	 */
 	public function getRoles(): array
-               	{
-               		$userRoles = $this->roles;
-               		// guarantee every user at least has ROLE_USER
-               		$roles = [];
-               		foreach ($userRoles as $userRole)
-               		{
-               			$roles[] = $userRole->getRoleName();
-               		}
-               		if (empty($roles))
-               		{
-               			$roles[] = "ROLE_USER";
-               		}
-               		return array_unique($roles);
-               	}
+                                             	{
+                                             		$userRoles = $this->roles;
+                                             		// guarantee every user at least has ROLE_USER
+                                             		$roles = [];
+                                             		foreach ($userRoles as $userRole)
+                                             		{
+                                             			$roles[] = $userRole->getRoleName();
+                                             		}
+                                             		if (empty($roles))
+                                             		{
+                                             			$roles[] = "ROLE_USER";
+                                             		}
+                                             		return array_unique($roles);
+                                             	}
 
 	/*
 	 */
 
 	public function setRoles(array $roles): self
-               	{
-               		$this->roles = $roles;
-               
-               		return $this;
-               	}
+                                             	{
+                                             		$this->roles = $roles;
+                                             
+                                             		return $this;
+                                             	}
 
 	/**
 	 * @see PasswordAuthenticatedUserInterface
 	 * 
 	 */
 	public function getPassword(): string
-               	{
-               		return $this->password;
-               	}
+                                             	{
+                                             		return $this->password;
+                                             	}
 
 	public function setPassword(string $password): self
-               	{
-               		$this->password = $password;
-               
-               		return $this;
-               	}
+                                             	{
+                                             		$this->password = $password;
+                                             
+                                             		return $this;
+                                             	}
 
 	public function getName(): ?string
-               	{
-               		return $this->name;
-               	}
+                                             	{
+                                             		return $this->name;
+                                             	}
 
 	public function setName(string $name): self
-               	{
-               		$this->name = $name;
-               		return $this;
-               	}
+                                             	{
+                                             		$this->name = $name;
+                                             		return $this;
+                                             	}
 
 	/**
 	 * @see UserInterface
 	 * 
 	 */
 	public function eraseCredentials()
-               	{
-               		// If you store any temporary, sensitive data on the user, clear it here
-               		// $this->plainPassword = null;
-               	}
+                                             	{
+                                             		// If you store any temporary, sensitive data on the user, clear it here
+                                             		// $this->plainPassword = null;
+                                             	}
 
 	public function isVerified(): bool
-               	{
-               		return $this->isVerified;
-               	}
+                                             	{
+                                             		return $this->isVerified;
+                                             	}
 
 	public function setIsVerified(bool $isVerified): self
-               	{
-               		$this->isVerified = $isVerified;
-               
-               		return $this;
-               	}
+                                             	{
+                                             		$this->isVerified = $isVerified;
+                                             
+                                             		return $this;
+                                             	}
 
 //	/**
 //	 * @return Collection|Owner[]
@@ -175,58 +183,58 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 //	 * @return Collection
 //	 */
 	public function getOwners(): Collection
-               	{
-               		return $this->owners;
-               	}
+                                             	{
+                                             		return $this->owners;
+                                             	}
 
 	public function addOwner(Owner $owner): self
-               	{
-               		if (!$this->owners->contains($owner))
-               		{
-               			$this->owners[] = $owner;
-               			$owner->setUser($this);
-               		}
-               
-               		return $this;
-               	}
+                                             	{
+                                             		if (!$this->owners->contains($owner))
+                                             		{
+                                             			$this->owners[] = $owner;
+                                             			$owner->setUser($this);
+                                             		}
+                                             
+                                             		return $this;
+                                             	}
 
 	public function removeOwner(Owner $owner): self
-               	{
-               		if ($this->owners->removeElement($owner))
-               		{
-               			// set the owning side to null (unless already changed)
-               			if ($owner->getUser() === $this)
-               			{
-               				$owner->setUser(null);
-               			}
-               		}
-               
-               		return $this;
-               	}
+                                             	{
+                                             		if ($this->owners->removeElement($owner))
+                                             		{
+                                             			// set the owning side to null (unless already changed)
+                                             			if ($owner->getUser() === $this)
+                                             			{
+                                             				$owner->setUser(null);
+                                             			}
+                                             		}
+                                             
+                                             		return $this;
+                                             	}
 
 	public function getLastLogin(): ?\DateTimeInterface
-               	{
-               		return $this->lastLogin;
-               	}
+                                             	{
+                                             		return $this->lastLogin;
+                                             	}
 
 	public function setLastLogin(?\DateTimeInterface $lastLogin): self
-               	{
-               		$this->lastLogin = $lastLogin;
-               
-               		return $this;
-               	}
+                                             	{
+                                             		$this->lastLogin = $lastLogin;
+                                             
+                                             		return $this;
+                                             	}
 
 	public function getActiveHoa(): ?Hoa
-               	{
-               		return $this->activeHoa;
-               	}
+                                             	{
+                                             		return $this->activeHoa;
+                                             	}
 
 	public function setActiveHoa(?Hoa $activeHoa): self
-               	{
-               		$this->activeHoa = $activeHoa;
-               
-               		return $this;
-               	}
+                                             	{
+                                             		$this->activeHoa = $activeHoa;
+                                             
+                                             		return $this;
+                                             	}
 
     /**
      * @return Collection<int, Message>
@@ -252,6 +260,66 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
             // set the owning side to null (unless already changed)
             if ($message->getCreatedBy() === $this) {
                 $message->setCreatedBy(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Request>
+     */
+    public function getRequests(): Collection
+    {
+        return $this->requests;
+    }
+
+    public function addRequest(Request $request): self
+    {
+        if (!$this->requests->contains($request)) {
+            $this->requests->add($request);
+            $request->setCreatedBy($this);
+        }
+
+        return $this;
+    }
+
+    public function removeRequest(Request $request): self
+    {
+        if ($this->requests->removeElement($request)) {
+            // set the owning side to null (unless already changed)
+            if ($request->getCreatedBy() === $this) {
+                $request->setCreatedBy(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Request>
+     */
+    public function getCompletedRequests(): Collection
+    {
+        return $this->completedRequests;
+    }
+
+    public function addCompletedRequest(Request $completedRequest): self
+    {
+        if (!$this->completedRequests->contains($completedRequest)) {
+            $this->completedRequests->add($completedRequest);
+            $completedRequest->setCompletedBy($this);
+        }
+
+        return $this;
+    }
+
+    public function removeCompletedRequest(Request $completedRequest): self
+    {
+        if ($this->completedRequests->removeElement($completedRequest)) {
+            // set the owning side to null (unless already changed)
+            if ($completedRequest->getCompletedBy() === $this) {
+                $completedRequest->setCompletedBy(null);
             }
         }
 

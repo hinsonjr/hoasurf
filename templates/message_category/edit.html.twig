@@ -1,9 +1,10 @@
 {% extends 'admin-base.html.twig' %}
 
-{% block title %}Edit MessageCategory{% endblock %}
+{% block title %}Edit Message Category{% endblock %}
 
 {% block content %}
-    <h1>Edit MessageCategory</h1>
+    {{  parent() }}
+    <h1>Edit Message Category</h1>
 
     {{ include('message_category/_form.html.twig', {'button_label': 'Update'}) }}
 

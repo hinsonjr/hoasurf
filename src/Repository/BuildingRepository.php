@@ -18,6 +18,7 @@ class BuildingRepository extends ServiceEntityRepository
     {
         parent::__construct($registry, Building::class);
     }
+	
 
     // /**
     //  * @return Building[] Returns an array of Building objects

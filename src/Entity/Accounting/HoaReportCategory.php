@@ -3,6 +3,7 @@
 namespace App\Entity\Accounting;
 
 use App\Entity\Accounting\LedgerAccount;
+use App\Entity\Hoa;
 use App\Repository\HoaReportCategoryRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
@@ -25,15 +26,18 @@ class HoaReportCategory
     #[ORM\OneToMany(mappedBy: 'hoaReportCategory', targetEntity: LedgerAccount::class)]
     private Collection $ledgerAccounts;
 
+    #[ORM\ManyToOne(inversedBy: 'hoaReportCategories')]
+    private ?Hoa $hoa = null;
+
     public function __construct()
     {
         $this->ledgerAccounts = new ArrayCollection();
     }
 
 	public function __toString(): string
-    {
-        return $this->getCategory();
-    }
+                {
+                    return $this->getCategory();
+                }
 
     public function getId(): ?int
     {
@@ -90,6 +94,18 @@ class HoaReportCategory
                 $ledgerAccount->setHoaReportCategory(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getHoa(): ?Hoa
+    {
+        return $this->hoa;
+    }
+
+    public function setHoa(?Hoa $hoa): self
+    {
+        $this->hoa = $hoa;
 
         return $this;
     }

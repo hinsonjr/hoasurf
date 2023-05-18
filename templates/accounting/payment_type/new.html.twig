@@ -1,0 +1,12 @@
+{% extends 'acct-base.html.twig' %}
+
+{% block title %}New Payment Type{% endblock %}
+
+{% block content %}
+    {{  parent() }}
+    <h1>Create new PaymentType</h1>
+
+    {{ include('accounting/payment_type/_form.html.twig') }}
+
+    <a href="{{ path('app_accounting_payment_type_index') }}">back to list</a>
+{% endblock %}

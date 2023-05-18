@@ -1,0 +1,11 @@
+{% extends 'acct-base.html.twig' %}
+
+{% block title %}New Owner Invoice{% endblock %}
+
+{% block content %}
+    <h1>Create new Owner Invoice</h1>
+
+    {{ include('accounting/owner_invoice/_form.html.twig') }}
+
+    <a href="{{ path('app_accounting_owner_invoice_index') }}">back to list</a>
+{% endblock %}

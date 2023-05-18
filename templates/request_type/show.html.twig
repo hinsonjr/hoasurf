@@ -1,0 +1,27 @@
+{% extends 'admin-base.html.twig' %}
+
+{% block title %}Request Type{% endblock %}
+
+{% block content %}
+    {{  parent() }}
+    <h1>Request Type</h1>
+
+    <table class="table">
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ request_type.id }}</td>
+            </tr>
+            <tr>
+                <th>Type</th>
+                <td>{{ request_type.type }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <a href="{{ path('app_request_type_index') }}">back to list</a>
+
+    <a href="{{ path('app_request_type_edit', {'id': request_type.id}) }}">edit</a>
+
+    {{ include('request_type/_delete_form.html.twig') }}
+{% endblock %}

@@ -41,6 +41,9 @@ class Vendor
 	#[ORM\OneToMany(targetEntity: LedgerAccount::class, mappedBy: "vendor")]
 	private $ledgerAccounts;
 
+	#[ORM\ManyToOne(inversedBy: 'vendors')]
+	private ?Hoa $hoa = null;
+
 	public function __construct()
 	{
 		$this->maintenanceObjects = new ArrayCollection();
@@ -187,6 +190,18 @@ class Vendor
 				$ledgerAccount->setVendor(null);
 			}
 		}
+
+		return $this;
+	}
+
+	public function getHoa(): ?Hoa
+	{
+		return $this->hoa;
+	}
+
+	public function setHoa(?Hoa $hoa): self
+	{
+		$this->hoa = $hoa;
 
 		return $this;
 	}
