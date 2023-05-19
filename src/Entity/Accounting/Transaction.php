@@ -6,8 +6,11 @@ use App\Repository\Accounting\TransactionRepository;
 use Doctrine\ORM\Mapping as ORM;
 use App\Entity\Accounting\LedgerAccount;
 use App\Service\Dbg;
+use Doctrine\ORM\Event\PrePersistEventArgs;
+use Doctrine\ORM\Event\PostPersistEventArgs;
 
 #[ORM\Entity(repositoryClass: TransactionRepository::class)]
+#[ORM\HasLifecycleCallbacks]
 class Transaction
 {
 
@@ -34,6 +37,8 @@ class Transaction
 	private $deleted = false;
 
 	#[ORM\OneToOne(mappedBy: 'transaction', cascade: ['persist', 'remove'])]
+	private ?OwnerInvoice $ownerInvoice = null;
+	
 	public function __construct($debitAcct = null, $creditAcct = null)
 	{
 		$this->date = new \DateTime();
@@ -51,7 +56,38 @@ class Transaction
 	{
 		return $this->getId();
 	}
-
+	
+	#[ORM\PrePersist]
+	public function updateBalances(PrePersistEventArgs $args): void
+	{
+		$transaction = $args->getObject();
+		$debitAcct = $transaction->getDebitAccount();
+		$creditAcct = $transaction->getCreditAccount();
+		if ($debitAcct->getType()->getIsDebit())
+		{
+			$debitAcct->setBalance($debitAcct->getBalance() - $transaction->getAmount());
+			$creditAcct->setBalance($creditAcct->getBalance() + $transaction->getAmount());
+			
+		}
+		else
+		{
+			$debitAcct->setBalance($debitAcct->getBalance() + $transaction->getAmount());
+			$creditAcct->setBalance($creditAcct->getBalance() - $transaction->getAmount());
+		}
+	}	
+	
+	#[ORM\PostPersist]
+	public function persistBalances(PostPersistEventArgs $args): void
+	{
+		$transaction = $args->getObject();
+		$em = $args->getObjectManager();
+		$debitAcct = $transaction->getDebitAccount();
+		$creditAcct = $transaction->getCreditAccount();
+		$em->persist($debitAcct);
+		$em->persist($creditAcct);
+        $em->flush();
+	}
+	
 	public function getId(): ?int
 	{
 		return $this->id;
