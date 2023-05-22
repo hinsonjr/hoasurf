@@ -49,7 +49,7 @@
                 <td>
                     <div class="row">
                         <div class='col'>Unit</div><div class="col">Bought</div><div class="col">Sold</div>
-                {% for ou in owner.ownerUnits %}
+                {% for ou in owner.unitOwners %}
                     <div class="row">
                         <div class="col">{{ ou.unit.unitNumber }}</div>
                         <div class="col">{{ ou.startDate ? owner.startDate|date('m/d/y') : '' }}</div>

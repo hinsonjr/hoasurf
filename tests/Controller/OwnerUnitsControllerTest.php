@@ -2,21 +2,21 @@
 
 namespace App\Test\Controller;
 
-use App\Entity\OwnerUnits;
-use App\Repository\OwnerUnitsRepository;
+use App\Entity\UnitOwners;
+use App\Repository\UnitOwnersRepository;
 use Symfony\Bundle\FrameworkBundle\KernelBrowser;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 
-class OwnerUnitsControllerTest extends WebTestCase
+class UnitOwnersControllerTest extends WebTestCase
 {
     private KernelBrowser $client;
-    private OwnerUnitsRepository $repository;
+    private UnitOwnersRepository $repository;
     private string $path = '/owner/units/';
 
     protected function setUp(): void
     {
         $this->client = static::createClient();
-        $this->repository = static::getContainer()->get('doctrine')->getRepository(OwnerUnits::class);
+        $this->repository = static::getContainer()->get('doctrine')->getRepository(UnitOwners::class);
 
         foreach ($this->repository->findAll() as $object) {
             $this->repository->remove($object, true);
@@ -59,7 +59,7 @@ class OwnerUnitsControllerTest extends WebTestCase
     public function testShow(): void
     {
         $this->markTestIncomplete();
-        $fixture = new OwnerUnits();
+        $fixture = new UnitOwners();
         $fixture->setStartDate('My Title');
         $fixture->setEndDate('My Title');
         $fixture->setOwnPercent('My Title');
@@ -79,7 +79,7 @@ class OwnerUnitsControllerTest extends WebTestCase
     public function testEdit(): void
     {
         $this->markTestIncomplete();
-        $fixture = new OwnerUnits();
+        $fixture = new UnitOwners();
         $fixture->setStartDate('My Title');
         $fixture->setEndDate('My Title');
         $fixture->setOwnPercent('My Title');
@@ -115,7 +115,7 @@ class OwnerUnitsControllerTest extends WebTestCase
 
         $originalNumObjectsInRepository = count($this->repository->findAll());
 
-        $fixture = new OwnerUnits();
+        $fixture = new UnitOwners();
         $fixture->setStartDate('My Title');
         $fixture->setEndDate('My Title');
         $fixture->setOwnPercent('My Title');

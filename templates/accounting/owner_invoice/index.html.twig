@@ -5,13 +5,17 @@
 {% block content %}
     <h1>Owner Invoice List</h1>
 
+    <a class="btn btn-primary" href="{{ path('app_accounting_owner_invoice_new') }}">Create One Owner Invoice</a>
+    <a class="btn btn-primary" href="{{ path('app_accounting_owner_invoice_assessments') }}">Create HOA Owner Assessment</a>
+    <a class="btn btn-primary" href="{{ path('app_accounting_owner_invoice_assessments') }}">Create HOA Owner Dues</a>
     <table class="table">
         <thead>
             <tr>
                 <th>Id</th>
                 <th>DueDate</th>
                 <th>PaidDate</th>
-                <th>EffectiveDate</th>
+                <th>PostDate</th>
+                <th>Post Status</th>
                 <th>actions</th>
             </tr>
         </thead>
@@ -21,7 +25,8 @@
                 <td>{{ owner_invoice.id }}</td>
                 <td>{{ owner_invoice.dueDate ? owner_invoice.dueDate|date('Y-m-d') : '' }}</td>
                 <td>{{ owner_invoice.paidDate ? owner_invoice.paidDate|date('Y-m-d') : '' }}</td>
-                <td>{{ owner_invoice.effectiveDate ? owner_invoice.effectiveDate|date('Y-m-d H:i:s') : '' }}</td>
+                <td>{{ owner_invoice.postDate ? owner_invoice.postDate|date('Y-m-d') : '' }}</td>
+                <td>{{ owner_invoice.transaction ? 'Posted' : 'Pending' }}</td>
                 <td>
                     <a href="{{ path('app_accounting_owner_invoice_show', {'id': owner_invoice.id}) }}">show</a>
                     <a href="{{ path('app_accounting_owner_invoice_edit', {'id': owner_invoice.id}) }}">edit</a>
@@ -35,5 +40,5 @@
         </tbody>
     </table>
 
-    <a href="{{ path('app_accounting_owner_invoice_new') }}">Create new</a>
+
 {% endblock %}

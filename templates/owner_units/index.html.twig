@@ -17,15 +17,15 @@
             </tr>
         </thead>
         <tbody>
-        {% for owner_unit in owner_units %}
+        {% for unit_owner in unit_owners %}
             <tr>
-                <td>{{ owner_unit.id }}</td>
-                <td>{{ owner_unit.startDate ? owner_unit.startDate|date('Y-m-d') : '' }}</td>
-                <td>{{ owner_unit.endDate ? owner_unit.endDate|date('Y-m-d') : '' }}</td>
-                <td>{{ owner_unit.ownPercent }}</td>
+                <td>{{ unit_owner.id }}</td>
+                <td>{{ unit_owner.startDate ? unit_owner.startDate|date('Y-m-d') : '' }}</td>
+                <td>{{ unit_owner.endDate ? unit_owner.endDate|date('Y-m-d') : '' }}</td>
+                <td>{{ unit_owner.ownPercent }}</td>
                 <td>
-                    <a href="{{ path('app_owner_units_show', {'id': owner_unit.id}) }}">show</a>
-                    <a href="{{ path('app_owner_units_edit', {'id': owner_unit.id}) }}">edit</a>
+                    <a href="{{ path('app_unit_owners_show', {'id': unit_owner.id}) }}">show</a>
+                    <a href="{{ path('app_unit_owners_edit', {'id': unit_owner.id}) }}">edit</a>
                 </td>
             </tr>
         {% else %}
@@ -36,5 +36,5 @@
         </tbody>
     </table>
 
-    <a href="{{ path('app_owner_units_new') }}">Create new</a>
+    <a href="{{ path('app_unit_owners_new') }}">Create new</a>
 {% endblock %}

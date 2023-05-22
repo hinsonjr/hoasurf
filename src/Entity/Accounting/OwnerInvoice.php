@@ -34,8 +34,12 @@ class OwnerInvoice
     #[ORM\JoinColumn(nullable: false)]
     private ?Hoa $hoa = null;
 
-    #[ORM\Column(type: Types::DATETIME_MUTABLE)]
-    private ?\DateTimeInterface $effectiveDate = null;
+    #[ORM\Column(type: Types::DATE_MUTABLE)]
+    private ?\DateTimeInterface $postDate = null;
+
+    #[ORM\ManyToOne(inversedBy: 'ownerInvoices')]
+    #[ORM\JoinColumn(nullable: false)]
+    private ?OwnerInvoiceType $type = null;
 
     public function getId(): ?int
     {
@@ -102,14 +106,26 @@ class OwnerInvoice
         return $this;
     }
 
-    public function getEffectiveDate(): ?\DateTimeInterface
+    public function getPostDate(): ?\DateTimeInterface
     {
-        return $this->effectiveDate;
+        return $this->postDate;
     }
 
-    public function setEffectiveDate(\DateTimeInterface $effectiveDate): self
+    public function setPostDate(\DateTimeInterface $postDate): self
     {
-        $this->effectiveDate = $effectiveDate;
+        $this->postDate = $postDate;
+
+        return $this;
+    }
+
+    public function getType(): ?OwnerInvoiceType
+    {
+        return $this->type;
+    }
+
+    public function setType(?OwnerInvoiceType $type): self
+    {
+        $this->type = $type;
 
         return $this;
     }

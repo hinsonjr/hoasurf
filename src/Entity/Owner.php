@@ -59,13 +59,13 @@ class Owner
 	#[ORM\Column(type: "string", length: 255, nullable: true)]
 	private $email;
 
-	#[ORM\OneToMany(mappedBy: 'owner', targetEntity: OwnerUnits::class, orphanRemoval: false)]
-	private Collection $ownerUnits;
+	#[ORM\OneToMany(mappedBy: 'owner', targetEntity: UnitOwners::class, orphanRemoval: false)]
+	private Collection $unitOwners;
 
 	public function __construct()
 	{
 		$this->ledgerAccounts = new ArrayCollection();
-		$this->ownerUnits = new ArrayCollection();
+		$this->unitOwners = new ArrayCollection();
 	}
 
 	public function __toString()
@@ -266,27 +266,27 @@ class Owner
 	}
 
 	/**
-	 * @return Collection<int, OwnerUnits>
+	 * @return Collection<int, UnitOwners>
 	 */
-	public function getOwnerUnits(): Collection
+	public function getUnitOwners(): Collection
 	{
-		return $this->ownerUnits;
+		return $this->unitOwners;
 	}
 
-	public function addOwnerUnit(OwnerUnits $ownerUnit): self
+	public function addOwnerUnit(UnitOwners $ownerUnit): self
 	{
-		if (!$this->ownerUnits->contains($ownerUnit))
+		if (!$this->unitOwners->contains($ownerUnit))
 		{
-			$this->ownerUnits->add($ownerUnit);
+			$this->unitOwners->add($ownerUnit);
 			$ownerUnit->setOwner($this);
 		}
 
 		return $this;
 	}
 
-	public function removeOwnerUnit(OwnerUnits $ownerUnit): self
+	public function removeOwnerUnit(UnitOwners $ownerUnit): self
 	{
-		if ($this->ownerUnits->removeElement($ownerUnit))
+		if ($this->unitOwners->removeElement($ownerUnit))
 		{
 			// set the owning side to null (unless already changed)
 			if ($ownerUnit->getOwner() === $this)

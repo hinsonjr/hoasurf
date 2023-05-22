@@ -2,23 +2,23 @@
 
 namespace App\Entity;
 
-use App\Repository\OwnerUnitsRepository;
+use App\Repository\UnitOwnersRepository;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
-#[ORM\Entity(repositoryClass: OwnerUnitsRepository::class)]
-class OwnerUnits
+#[ORM\Entity(repositoryClass: UnitOwnersRepository::class)]
+class UnitOwners
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
     private ?int $id = null;
 
-    #[ORM\ManyToOne(inversedBy: 'ownerUnits')]
+    #[ORM\ManyToOne(inversedBy: 'unitOwners')]
     #[ORM\JoinColumn(nullable: false)]
     private ?Owner $owner = null;
 
-    #[ORM\ManyToOne(inversedBy: 'ownerUnits')]
+    #[ORM\ManyToOne(inversedBy: 'unitOwners')]
     #[ORM\JoinColumn(nullable: false)]
     private ?Unit $unit = null;
 

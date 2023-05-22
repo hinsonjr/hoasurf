@@ -27,7 +27,7 @@ class OwnerController extends AbstractController
 			$units = $unitRepository->findAll($query);
 			foreach ($units as $unit)
 			{
-				foreach ($unit->getOwnerUnits() as $ownerRecord)
+				foreach ($unit->getUnitOwners() as $ownerRecord)
 				{
 					$this->owners[] = $ownerRecord->getOwner();
 				}

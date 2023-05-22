@@ -15,11 +15,13 @@ class OwnerInvoiceType extends AbstractType
     {
         $builder
             ->add('dueDate', DateType::class, ['widget' => 'single_text'])
-            ->add('effectiveDate', DateType::class, ['widget' => 'single_text'])
+            ->add('postDate', DateType::class, ['widget' => 'single_text'])
             ->add('paidDate', DateType::class, ['widget' => 'single_text', 'required' => false])
-            ->add('transaction', TransactionType::class)
+			->add('amount', null, ['mapped' => false, 'required'=>true])
             ->add('owner')
+            ->add('type')
             ->add('hoa')
+			
         ;
     }
 

@@ -61,7 +61,7 @@
                 </div>
                 <div class="card-body cardlist-body">
                     {% for owner in owner_records %}
-                        {%  for unit in owner.ownerUnits %}
+                        {%  for unit in owner.unitOwners %}
                         <div class="row">
                             <div class="col">{{ unit.unit.unitNumber }}</div>
                             <div class="col">{{ unit.unit.building.name }}</div>

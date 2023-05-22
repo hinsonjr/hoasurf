@@ -48,6 +48,7 @@ class LedgerAccount
 	{
 		$this->debitTransactions = new ArrayCollection();
 		$this->creditTransactions = new ArrayCollection();
+		$this->setStartBalance(0);
 	}
 
 	public function __toString()

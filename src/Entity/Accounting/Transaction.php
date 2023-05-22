@@ -39,9 +39,16 @@ class Transaction
 	#[ORM\OneToOne(mappedBy: 'transaction', cascade: ['persist', 'remove'])]
 	private ?OwnerInvoice $ownerInvoice = null;
 	
-	public function __construct($debitAcct = null, $creditAcct = null)
+	public function __construct($debitAcct = null, $creditAcct = null, $date = null)
 	{
-		$this->date = new \DateTime();
+		if ($date)
+		{
+			$this->date = $date;
+		}
+		else
+		{
+			$this->date = new \DateTime();
+		}
 		if ($debitAcct)
 		{
 			$this->setDebitAccount($debitAcct);

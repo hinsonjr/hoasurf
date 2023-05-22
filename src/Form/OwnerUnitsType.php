@@ -2,12 +2,12 @@
 
 namespace App\Form;
 
-use App\Entity\OwnerUnits;
+use App\Entity\UnitOwners;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
-class OwnerUnitsType extends AbstractType
+class UnitOwnersType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
@@ -23,7 +23,7 @@ class OwnerUnitsType extends AbstractType
     public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults([
-            'data_class' => OwnerUnits::class,
+            'data_class' => UnitOwners::class,
         ]);
     }
 }

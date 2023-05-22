@@ -30,7 +30,7 @@ class OwnerType extends AbstractType
             ->add('ownPercent')
             ->add('email')
             ->add('user')
-			->add('ownerUnits')
+			->add('unitOwners')
         ;
     }
 

@@ -46,7 +46,7 @@ class OwnerInvoiceControllerTest extends WebTestCase
         $this->client->submitForm('Save', [
             'owner_invoice[dueDate]' => 'Testing',
             'owner_invoice[paidDate]' => 'Testing',
-            'owner_invoice[effectiveDate]' => 'Testing',
+            'owner_invoice[postDate]' => 'Testing',
             'owner_invoice[transaction]' => 'Testing',
             'owner_invoice[owner]' => 'Testing',
             'owner_invoice[hoa]' => 'Testing',
@@ -63,7 +63,7 @@ class OwnerInvoiceControllerTest extends WebTestCase
         $fixture = new OwnerInvoice();
         $fixture->setDueDate('My Title');
         $fixture->setPaidDate('My Title');
-        $fixture->setEffectiveDate('My Title');
+        $fixture->setPostDate('My Title');
         $fixture->setTransaction('My Title');
         $fixture->setOwner('My Title');
         $fixture->setHoa('My Title');
@@ -84,7 +84,7 @@ class OwnerInvoiceControllerTest extends WebTestCase
         $fixture = new OwnerInvoice();
         $fixture->setDueDate('My Title');
         $fixture->setPaidDate('My Title');
-        $fixture->setEffectiveDate('My Title');
+        $fixture->setPostDate('My Title');
         $fixture->setTransaction('My Title');
         $fixture->setOwner('My Title');
         $fixture->setHoa('My Title');
@@ -96,7 +96,7 @@ class OwnerInvoiceControllerTest extends WebTestCase
         $this->client->submitForm('Update', [
             'owner_invoice[dueDate]' => 'Something New',
             'owner_invoice[paidDate]' => 'Something New',
-            'owner_invoice[effectiveDate]' => 'Something New',
+            'owner_invoice[postDate]' => 'Something New',
             'owner_invoice[transaction]' => 'Something New',
             'owner_invoice[owner]' => 'Something New',
             'owner_invoice[hoa]' => 'Something New',
@@ -108,7 +108,7 @@ class OwnerInvoiceControllerTest extends WebTestCase
 
         self::assertSame('Something New', $fixture[0]->getDueDate());
         self::assertSame('Something New', $fixture[0]->getPaidDate());
-        self::assertSame('Something New', $fixture[0]->getEffectiveDate());
+        self::assertSame('Something New', $fixture[0]->getPostDate());
         self::assertSame('Something New', $fixture[0]->getTransaction());
         self::assertSame('Something New', $fixture[0]->getOwner());
         self::assertSame('Something New', $fixture[0]->getHoa());
@@ -123,7 +123,7 @@ class OwnerInvoiceControllerTest extends WebTestCase
         $fixture = new OwnerInvoice();
         $fixture->setDueDate('My Title');
         $fixture->setPaidDate('My Title');
-        $fixture->setEffectiveDate('My Title');
+        $fixture->setPostDate('My Title');
         $fixture->setTransaction('My Title');
         $fixture->setOwner('My Title');
         $fixture->setHoa('My Title');

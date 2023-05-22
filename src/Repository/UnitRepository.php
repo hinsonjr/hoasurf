@@ -56,13 +56,13 @@ class UnitRepository extends ServiceEntityRepository
 //			on u.unitId = :id
 //			WHERE o.startDate IS NOT NULL and (o.endDate IS NULL or o.endDate >= CURRENT_TIMESTAMP())
 //			ORDER BY o.startDate'
-		$owners = $this->createQueryBuilder('o')
+		$unitOwners = $this->createQueryBuilder('o')
 			->innerJoin('o.units','u', 'WITH', 'u.unit_id = :id')
 	        ->setParameter('id', $unitId)
 			->where('o.startDate IS NOT NULL and (o.endDate IS NULL or o.endDate >= CURRENT_TIMESTAMP())')
 			->getQuery()
             ->getResult();
-		return (array) $owners;
+		return (array) $unitOwners;
 	}
 
     /*

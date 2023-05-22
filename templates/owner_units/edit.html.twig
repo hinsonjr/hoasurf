@@ -6,9 +6,9 @@
     {{  parent() }}
     <h1>Edit Owner Units</h1>
 
-    {{ include('owner_units/_form.html.twig', {'button_label': 'Update'}) }}
+    {{ include('unit_owners/_form.html.twig', {'button_label': 'Update'}) }}
 
-    <a href="{{ path('app_owner_units_index') }}">back to list</a>
+    <a href="{{ path('app_unit_owners_index') }}">back to list</a>
 
-    {{ include('owner_units/_delete_form.html.twig') }}
+    {{ include('unit_owners/_delete_form.html.twig') }}
 {% endblock %}

@@ -2,26 +2,26 @@
 
 namespace App\Repository;
 
-use App\Entity\OwnerUnits;
+use App\Entity\UnitOwners;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
- * @extends ServiceEntityRepository<OwnerUnits>
+ * @extends ServiceEntityRepository<UnitOwners>
  *
- * @method OwnerUnits|null find($id, $lockMode = null, $lockVersion = null)
- * @method OwnerUnits|null findOneBy(array $criteria, array $orderBy = null)
- * @method OwnerUnits[]    findAll()
- * @method OwnerUnits[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
+ * @method UnitOwners|null find($id, $lockMode = null, $lockVersion = null)
+ * @method UnitOwners|null findOneBy(array $criteria, array $orderBy = null)
+ * @method UnitOwners[]    findAll()
+ * @method UnitOwners[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
  */
-class OwnerUnitsRepository extends ServiceEntityRepository
+class UnitOwnersRepository extends ServiceEntityRepository
 {
     public function __construct(ManagerRegistry $registry)
     {
-        parent::__construct($registry, OwnerUnits::class);
+        parent::__construct($registry, UnitOwners::class);
     }
 
-    public function save(OwnerUnits $entity, bool $flush = false): void
+    public function save(UnitOwners $entity, bool $flush = false): void
     {
         $this->getEntityManager()->persist($entity);
 
@@ -30,7 +30,7 @@ class OwnerUnitsRepository extends ServiceEntityRepository
         }
     }
 
-    public function remove(OwnerUnits $entity, bool $flush = false): void
+    public function remove(UnitOwners $entity, bool $flush = false): void
     {
         $this->getEntityManager()->remove($entity);
 
@@ -40,7 +40,7 @@ class OwnerUnitsRepository extends ServiceEntityRepository
     }
 
 //    /**
-//     * @return OwnerUnits[] Returns an array of OwnerUnits objects
+//     * @return UnitOwners[] Returns an array of UnitOwners objects
 //     */
 //    public function findByExampleField($value): array
 //    {
@@ -54,7 +54,7 @@ class OwnerUnitsRepository extends ServiceEntityRepository
 //        ;
 //    }
 
-//    public function findOneBySomeField($value): ?OwnerUnits
+//    public function findOneBySomeField($value): ?UnitOwners
 //    {
 //        return $this->createQueryBuilder('o')
 //            ->andWhere('o.exampleField = :val')

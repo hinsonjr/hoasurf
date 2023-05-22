@@ -1,7 +1,19 @@
+{% extends 'acct-base.html.twig' %}
+
+{% block title %}New Owner Dues{% endblock %}
+
+{% block content %}
+    <h1>Create new Owner Recurring Dues</h1>
+    <small>Each month's dues will post on the due date</small>
 {{ form_start(form) }}
     <div class="row">
        <div class="col-sm-3">
         {{ form_row(form.hoa) }}
+       </div>        
+    </div>
+    <div class="row">
+       <div class="col-sm-3">
+        {{ form_row(form.startMonth) }}
        </div>        
     </div>
     <div class="row">
@@ -16,14 +28,11 @@
     </div>
     <div class="row">
        <div class="col-sm-3">
-        {{ form_row(form.type) }}
-       </div>        
-    </div>       
-    <div class="row">
-       <div class="col-sm-3">
         {{ form_row(form.amount) }}
        </div>        
     </div>
 
     <button class="btn btn-primary">{{ button_label|default('Save') }}</button>
 {{ form_end(form, {'render_rest': false}) }}
+    <a href="{{ path('app_accounting_owner_invoice_index') }}">back to list</a>
+{% endblock %}
