@@ -5,7 +5,15 @@
 {% block content %}
     <h1>Create new Owner Invoice</h1>
 
+    {{ form_start(form) }}
     {{ include('accounting/owner_invoice/_form.html.twig') }}
-
-    <a href="{{ path('app_accounting_owner_invoice_index') }}">back to list</a>
+    <div class="row">
+        <div class="col-sm-3">
+            <button class="btn btn-primary">{{ button_label|default('Save') }}</button>
+            <li class="btn btn-info"><a href="{{ path('accounting_transactions_index') }}">Back to list</a></li>
+        </div>
+    </div>    
+    {{ form_end(form) }} 
 {% endblock %}
+
+

@@ -2,23 +2,26 @@
 
 namespace App\Entity;
 
-use App\Repository\UnitOwnersRepository;
+use App\Entity\Accounting\OwnerInvoice;
+use App\Repository\UnitOwnerRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
-#[ORM\Entity(repositoryClass: UnitOwnersRepository::class)]
-class UnitOwners
+#[ORM\Entity(repositoryClass: UnitOwnerRepository::class)]
+class UnitOwner
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
     private ?int $id = null;
 
-    #[ORM\ManyToOne(inversedBy: 'unitOwners')]
+    #[ORM\ManyToOne(inversedBy: 'unitOwner')]
     #[ORM\JoinColumn(nullable: false)]
     private ?Owner $owner = null;
 
-    #[ORM\ManyToOne(inversedBy: 'unitOwners')]
+    #[ORM\ManyToOne(inversedBy: 'unitOwner')]
     #[ORM\JoinColumn(nullable: false)]
     private ?Unit $unit = null;
 
@@ -31,15 +34,23 @@ class UnitOwners
     #[ORM\Column(type: Types::SMALLINT, nullable: true)]
     private ?int $ownPercent = null;
 
+    #[ORM\OneToMany(mappedBy: 'unitOwner', targetEntity: OwnerInvoice::class)]
+    private Collection $ownerInvoices;
+
+    public function __construct()
+    {
+        $this->ownerInvoices = new ArrayCollection();
+    }
+
     public function getId(): ?int
     {
         return $this->id;
     }
 
 	public function __toString()
-	{
-		return $this->unit->getUnitNumber();
-	}
+                           	{
+                           		return $this->unit->getUnitNumber();
+                           	}
 	
     public function getOwner(): ?Owner
     {
@@ -97,6 +108,36 @@ class UnitOwners
     public function setOwnPercent(?int $ownPercent): self
     {
         $this->ownPercent = $ownPercent;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, OwnerInvoice>
+     */
+    public function getOwnerInvoices(): Collection
+    {
+        return $this->ownerInvoices;
+    }
+
+    public function addOwnerInvoice(OwnerInvoice $ownerInvoice): self
+    {
+        if (!$this->ownerInvoices->contains($ownerInvoice)) {
+            $this->ownerInvoices->add($ownerInvoice);
+            $ownerInvoice->setUnitOwner($this);
+        }
+
+        return $this;
+    }
+
+    public function removeOwnerInvoice(OwnerInvoice $ownerInvoice): self
+    {
+        if ($this->ownerInvoices->removeElement($ownerInvoice)) {
+            // set the owning side to null (unless already changed)
+            if ($ownerInvoice->getUnitOwner() === $this) {
+                $ownerInvoice->setUnitOwner(null);
+            }
+        }
 
         return $this;
     }

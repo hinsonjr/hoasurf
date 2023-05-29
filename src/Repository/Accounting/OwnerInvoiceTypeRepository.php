@@ -1,27 +1,27 @@
 <?php
 
-namespace App\Repository;
+namespace App\Repository\Accounting;
 
-use App\Entity\UnitOwners;
+use App\Entity\Accounting\OwnerInvoiceType;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
- * @extends ServiceEntityRepository<UnitOwners>
+ * @extends ServiceEntityRepository<OwnerInvoiceType>
  *
- * @method UnitOwners|null find($id, $lockMode = null, $lockVersion = null)
- * @method UnitOwners|null findOneBy(array $criteria, array $orderBy = null)
- * @method UnitOwners[]    findAll()
- * @method UnitOwners[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
+ * @method OwnerInvoiceType|null find($id, $lockMode = null, $lockVersion = null)
+ * @method OwnerInvoiceType|null findOneBy(array $criteria, array $orderBy = null)
+ * @method OwnerInvoiceType[]    findAll()
+ * @method OwnerInvoiceType[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
  */
-class UnitOwnersRepository extends ServiceEntityRepository
+class OwnerInvoiceTypeRepository extends ServiceEntityRepository
 {
     public function __construct(ManagerRegistry $registry)
     {
-        parent::__construct($registry, UnitOwners::class);
+        parent::__construct($registry, OwnerInvoiceType::class);
     }
 
-    public function save(UnitOwners $entity, bool $flush = false): void
+    public function save(OwnerInvoiceType $entity, bool $flush = false): void
     {
         $this->getEntityManager()->persist($entity);
 
@@ -30,7 +30,7 @@ class UnitOwnersRepository extends ServiceEntityRepository
         }
     }
 
-    public function remove(UnitOwners $entity, bool $flush = false): void
+    public function remove(OwnerInvoiceType $entity, bool $flush = false): void
     {
         $this->getEntityManager()->remove($entity);
 
@@ -40,7 +40,7 @@ class UnitOwnersRepository extends ServiceEntityRepository
     }
 
 //    /**
-//     * @return UnitOwners[] Returns an array of UnitOwners objects
+//     * @return OwnerInvoiceType[] Returns an array of OwnerInvoiceType objects
 //     */
 //    public function findByExampleField($value): array
 //    {
@@ -54,7 +54,7 @@ class UnitOwnersRepository extends ServiceEntityRepository
 //        ;
 //    }
 
-//    public function findOneBySomeField($value): ?UnitOwners
+//    public function findOneBySomeField($value): ?OwnerInvoiceType
 //    {
 //        return $this->createQueryBuilder('o')
 //            ->andWhere('o.exampleField = :val')

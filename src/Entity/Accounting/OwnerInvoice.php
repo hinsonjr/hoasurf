@@ -5,7 +5,7 @@ namespace App\Entity\Accounting;
 use App\Repository\Accounting\OwnerInvoiceRepository;
 use App\Entity\Accounting\Transaction;
 use App\Entity\Hoa;
-use App\Entity\Owner;
+use App\Entity\UnitOwner;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
@@ -28,10 +28,6 @@ class OwnerInvoice
 
     #[ORM\ManyToOne(inversedBy: 'ownerInvoices')]
     #[ORM\JoinColumn(nullable: false)]
-    private ?Owner $owner = null;
-
-    #[ORM\ManyToOne(inversedBy: 'ownerInvoices')]
-    #[ORM\JoinColumn(nullable: false)]
     private ?Hoa $hoa = null;
 
     #[ORM\Column(type: Types::DATE_MUTABLE)]
@@ -40,6 +36,13 @@ class OwnerInvoice
     #[ORM\ManyToOne(inversedBy: 'ownerInvoices')]
     #[ORM\JoinColumn(nullable: false)]
     private ?OwnerInvoiceType $type = null;
+
+    #[ORM\Column(type: Types::DECIMAL, precision: 12, scale: 2)]
+    private ?string $amount = null;
+
+    #[ORM\ManyToOne(inversedBy: 'ownerInvoices')]
+    #[ORM\JoinColumn(nullable: false)]
+    private ?UnitOwner $unitOwner = null;
 
     public function getId(): ?int
     {
@@ -75,21 +78,9 @@ class OwnerInvoice
         return $this->paidDate;
     }
 
-    public function setPaidDate(\DateTimeInterface $paidDate): self
+    public function setPaidDate(?\DateTimeInterface $paidDate): self
     {
         $this->paidDate = $paidDate;
-
-        return $this;
-    }
-
-    public function getOwner(): ?Owner
-    {
-        return $this->owner;
-    }
-
-    public function setOwner(?Owner $owner): self
-    {
-        $this->owner = $owner;
 
         return $this;
     }
@@ -126,6 +117,30 @@ class OwnerInvoice
     public function setType(?OwnerInvoiceType $type): self
     {
         $this->type = $type;
+
+        return $this;
+    }
+
+    public function getAmount(): ?string
+    {
+        return $this->amount;
+    }
+
+    public function setAmount(string $amount): self
+    {
+        $this->amount = $amount;
+
+        return $this;
+    }
+
+    public function getUnitOwner(): ?UnitOwner
+    {
+        return $this->unitOwner;
+    }
+
+    public function setUnitOwner(?UnitOwner $unitOwner): self
+    {
+        $this->unitOwner = $unitOwner;
 
         return $this;
     }

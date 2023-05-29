@@ -32,7 +32,7 @@ class HoaRepository extends ServiceEntityRepository
         return $transactions;
 	}
 
-	public function findUnitOwnersByPostDate(Hoa $hoa, $postDate)
+	public function findUnitOwnerByPostDate(Hoa $hoa, $postDate)
 	{
 		$entityManager = $this->getEntityManager();
         $query = $entityManager->createQueryBuilder();
@@ -42,7 +42,7 @@ class HoaRepository extends ServiceEntityRepository
 //			echo "Unit Count by building = " . count($building->getUnits()) . "<br>";
 			foreach ($building->getUnits() as $unit)
 			{
-				foreach ($unit->getUnitOwners() as $ownerUnit)
+				foreach ($unit->getUnitOwner() as $ownerUnit)
 				{
 //					$end = $ownerUnit->getEndDate() ? $ownerUnit->getEndDate()->format("Y-m-d") : $ownerUnit->getEndDate();
 //					echo "Checking ownerUnit " . $ownerUnit->getUnit()->getId() . " end=". $end . "<br>";

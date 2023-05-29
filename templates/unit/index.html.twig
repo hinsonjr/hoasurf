@@ -62,9 +62,9 @@
                 <td>{{ unit.description }}</td>
                 <td>{{ unit.beds }}</td>
                 <td>{{ unit.baths }}</td>
-                {% if unit.unitOwners %}
+                {% if unit.unitOwner %}
                     <td class="left">
-                    {% for ownerUnit in unit.unitOwners %}
+                    {% for ownerUnit in unit.unitOwner %}
                         {%  if ownerUnit.ownPercent != 100 %}({{ownerUnit.ownPercent}}) {% endif %}
                         {{ ownerUnit.owner.name}} (
                         {% if ownerUnit.endDate %}

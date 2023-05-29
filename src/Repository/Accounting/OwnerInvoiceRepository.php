@@ -39,6 +39,22 @@ class OwnerInvoiceRepository extends ServiceEntityRepository
             $this->getEntityManager()->flush();
         }
     }
+	
+    /**
+     * @return OwnerInvoice[] Returns an array of OwnerInvoice objects
+     */
+    public function findByUser($user): array
+    {
+		
+        return $this->createQueryBuilder('o')
+            ->andWhere('o.exampleField = :val')
+            ->setParameter('val', $value)
+            ->orderBy('o.id', 'ASC')
+            ->setMaxResults(10)
+            ->getQuery()
+            ->getResult()
+        ;
+    }	
 
 //    /**
 //     * @return OwnerInvoice[] Returns an array of OwnerInvoice objects

@@ -34,9 +34,9 @@ class UnitController extends AbstractController
 			$owners = $ownerRepository->findAll($query);
 			foreach ($owners as $owner)
 			{
-				foreach ($owner->getUnitOwners() as $unitOwners)
+				foreach ($owner->getUnitOwner() as $unitOwner)
 				{
-					$this->units[] = $unitOwners->getUnit();
+					$this->units[] = $unitOwner->getUnit();
 				}
 			}
 		}
@@ -47,7 +47,7 @@ class UnitController extends AbstractController
 
 //		foreach ($units as $key => $unit)
 //		{
-//			$owners = $unit->getUnitOwners();
+//			$owners = $unit->getUnitOwner();
 ////			Debug::dump($owners);
 //		}
         return $this->render('unit/index.html.twig', [

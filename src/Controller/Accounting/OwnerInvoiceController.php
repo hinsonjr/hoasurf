@@ -8,6 +8,7 @@ use App\Form\Accounting\OwnerInvoiceAssessmentType;
 use App\Form\Accounting\OwnerInvoiceDuesType;
 use App\Entity\Accounting\Transaction;
 use App\Repository\Accounting\OwnerInvoiceRepository;
+use App\Repository\Accounting\OwnerInvoiceTypeRepository;
 use App\Repository\Accounting\LedgerAccountRepository;
 use App\Repository\HoaRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -57,20 +58,20 @@ class OwnerInvoiceController extends AbstractController
 
 	#[Route('/newAssessment', name: 'app_accounting_owner_invoice_assessments', methods: ['GET', 'POST'])]
 	public function newAssessment(Request $request,
-		OwnerInvoiceRepository $ownerInvoiceRepo, LedgerAccountRepository $ledgerAcctRepo,
+		OwnerInvoiceRepository $ownerInvoiceRepo, LedgerAccountRepository $ledgerAcctRepo, OwnerInvoiceTypeRepository $ownerInvoiceTypeRepo,
 		HoaRepository $hoaRepo): Response
 	{
 		$ownerInvoice = new OwnerInvoice();
 		$form = $this->createForm(OwnerInvoiceAssessmentType::class, $ownerInvoice);
 		$form->remove('transaction.date');
 		$form->handleRequest($request);
-
+		$type = $ownerInvoiceTypeRepo->findOneByType("Assessment");
 		$currentOwners = [];
 		$postDate = $form->get('postDate')->getData();
 		if ($form->isSubmitted())
 		{
 			$hoa = $ownerInvoice->getHoa();
-			$currentOwners = $hoaRepo->findUnitOwnersByPostDate($hoa, $postDate);
+			$currentOwners = $hoaRepo->findUnitOwnerByPostDate($hoa, $postDate);
 			$ownerPercents = [];
 			$ownerEmails = [];
 			foreach ($currentOwners as $unitOwner)
@@ -100,9 +101,9 @@ class OwnerInvoiceController extends AbstractController
 				$unitId = $unit->getId();
 				if (array_key_exists($unitId, $ownerPercents) && $ownerPercents[$unitId] >= 99)
 				{
-					foreach ($unit->getUnitOwners() as $unitOwner)
+					foreach ($unit->getUnitOwner() as $unitOwner)
 					{
-						$this->commitOwnerInvoice($ownerInvoice, $unitOwner, $form);
+						$this->commitOwnerInvoice($ownerInvoice, $unitOwner, $form, $type);
 					}
 				} else
 				{
@@ -134,7 +135,7 @@ class OwnerInvoiceController extends AbstractController
 		if ($form->isSubmitted())
 		{
 			$hoa = $ownerInvoice->getHoa();
-			$currentOwners = $hoaRepo->findUnitOwnersByPostDate($hoa, $postDate);
+			$currentOwners = $hoaRepo->findUnitOwnerByPostDate($hoa, $postDate);
 			$ownerPercents = [];
 			$ownerEmails = [];
 			foreach ($currentOwners as $unitOwner)
@@ -166,7 +167,7 @@ class OwnerInvoiceController extends AbstractController
 				$unitId = $unit->getId();
 				if (array_key_exists($unitId, $ownerPercents) && $ownerPercents[$unitId] >= 99)
 				{
-					foreach ($unit->getUnitOwners() as $unitOwner)
+					foreach ($unit->getUnitOwner() as $unitOwner)
 					{
 						$this->postTransaction($ownerInvoice, $unitOwner, $form);
 					}
@@ -203,7 +204,7 @@ class OwnerInvoiceController extends AbstractController
 		}
 	}
 
-	private function commitOwnerInvoice($ownerInvoice, $unitOwner, $form)
+	private function commitOwnerInvoice($ownerInvoice, $unitOwner, $form, $type)
 	{
 		$now = new \DateTime();
 		$unitId = $unitOwner->getUnit()->getId();
@@ -214,6 +215,7 @@ class OwnerInvoiceController extends AbstractController
 			$transaction = $this->postTransaction($ownerInvoice, $unitOwner, $form);
 			$newOwnerInvoice->setTransaction($transaction);
 		}
+		$newOwnerInvoice->setType($type);
 		$newOwnerInvoice->setOwner($unitOwner->getOwner());
 		$this->entityManager->persist($newOwnerInvoice);
 		$this->entityManager->flush();

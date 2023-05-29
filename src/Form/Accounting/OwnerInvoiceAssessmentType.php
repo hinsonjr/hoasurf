@@ -16,8 +16,7 @@ class OwnerInvoiceAssessmentType extends AbstractType
         $builder
             ->add('dueDate', DateType::class, ['widget' => 'single_text'])
             ->add('postDate', DateType::class, ['widget' => 'single_text'])
-            ->add('amount', null, ['mapped' => false, 'required'=>true])
-            ->add('owner')
+            ->add('amount')
             ->add('hoa')
         ;
     }

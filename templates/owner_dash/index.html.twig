@@ -24,13 +24,18 @@
                 <div class="col-sm card">
                     <div class=card-header>Payment Info</div>
                     <div class="cardlist-body">
-{#                        {% for payment in payment_records %}#}
                         <div class="row">
-                            <div class="col">Dues</div>
-                            <div class="col">$800.00</div>
-                            <div class="col">May 1</div>
+                            <div class="col">Type</div>
+                            <div class="col">Due Date</div>
+                            <div class="col">Amount</div>
                         </div>
-{#                        {% endfor %}#}
+                       {% for unitId, invoices in invoice_records %}
+                           {% for invoice in invoices %}
+                                <div class="col">{{ invoice.type }}</div>
+                                <div class="col">{{ invoice.dueDate }}</div>
+                                <div class="col">{{ invoice.amount }}</div>
+                            {%  endfor %}
+                       {% endfor %}
                     </div>
                 </div>
                 <div class="col-sm card">
@@ -61,7 +66,7 @@
                 </div>
                 <div class="card-body cardlist-body">
                     {% for owner in owner_records %}
-                        {%  for unit in owner.unitOwners %}
+                        {%  for unit in owner.unitOwner %}
                         <div class="row">
                             <div class="col">{{ unit.unit.unitNumber }}</div>
                             <div class="col">{{ unit.unit.building.name }}</div>

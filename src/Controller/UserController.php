@@ -30,7 +30,7 @@ class UserController extends AbstractController
 
 	
     #[Route('/selecthoa/{target}', name: 'user_select_hoa', methods: ['GET', 'POST'])]
-    public function selectHoa($target = "", Request $request, UserRepository $userRepository, EntityManagerInterface $em, HOARepository $hoaRepo): Response
+    public function selectHoa(Request $request, UserRepository $userRepository, EntityManagerInterface $em, HOARepository $hoaRepo, $target = ""): Response
     {
 		if (empty($target))
 		{

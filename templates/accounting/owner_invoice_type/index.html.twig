@@ -1,0 +1,35 @@
+{% extends 'acct-base.html.twig' %}
+
+{% block title %}Owner Invoice Type List{% endblock %}
+
+{% block content %}
+    <h1>Owner Invoice Type List</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Type</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for owner_invoice_type in owner_invoice_types %}
+            <tr>
+                <td>{{ owner_invoice_type.id }}</td>
+                <td>{{ owner_invoice_type.type }}</td>
+                <td>
+                    <a href="{{ path('app_accounting_owner_invoice_type_show', {'id': owner_invoice_type.id}) }}">show</a>
+                    <a href="{{ path('app_accounting_owner_invoice_type_edit', {'id': owner_invoice_type.id}) }}">edit</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="3">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a class="btn btn-primary" href="{{ path('app_accounting_owner_invoice_type_new') }}">Create new</a>
+{% endblock %}

@@ -34,12 +34,12 @@ class Unit
 	#[ORM\ManyToOne(targetEntity: Building::class, inversedBy: "units")]
 	private $building;
 
-	#[ORM\OneToMany(mappedBy: 'unit', targetEntity: UnitOwners::class)]
-	private Collection $unitOwners;
+	#[ORM\OneToMany(mappedBy: 'unit', targetEntity: UnitOwner::class)]
+	private Collection $unitOwner;
 
 	public function __construct()
 	{
-		$this->unitOwners = new ArrayCollection();
+		$this->unitOwner = new ArrayCollection();
 	}
 
 	public function __toString()
@@ -124,27 +124,27 @@ class Unit
 	}
 
 	/**
-	 * @return Collection<int, UnitOwners>
+	 * @return Collection<int, UnitOwner>
 	 */
-	public function getUnitOwners(): Collection
+	public function getUnitOwner(): Collection
 	{
-		return $this->unitOwners;
+		return $this->unitOwner;
 	}
 
-	public function addOwnerUnit(UnitOwners $ownerUnit): self
+	public function addOwnerUnit(UnitOwner $ownerUnit): self
 	{
-		if (!$this->unitOwners->contains($ownerUnit))
+		if (!$this->unitOwner->contains($ownerUnit))
 		{
-			$this->unitOwners->add($ownerUnit);
+			$this->unitOwner->add($ownerUnit);
 			$ownerUnit->setUnit($this);
 		}
 
 		return $this;
 	}
 
-	public function removeOwnerUnit(UnitOwners $ownerUnit): self
+	public function removeOwnerUnit(UnitOwner $ownerUnit): self
 	{
-		if ($this->unitOwners->removeElement($ownerUnit))
+		if ($this->unitOwner->removeElement($ownerUnit))
 		{
 			// set the owning side to null (unless already changed)
 			if ($ownerUnit->getUnit() === $this)

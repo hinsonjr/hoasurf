@@ -3,11 +3,10 @@
 {% block title %}Transaction List{% endblock %}
 
 {% block content %}
-    {{  parent() }}
     <h1>Transaction List</h1>
     <div class="button-list">
-        <a class="btn btn-primary" href="{{ path('app_accounting_owner_invoice_new') }}">Generate Owner Dues</a>
-        <a class="btn btn-primary" href="{{ path('app_accounting_owner_invoice_new') }}">Generate Owner Assessments</a>
+        <a class="btn btn-primary" href="{{ path('app_accounting_owner_invoice_dues') }}">Generate Owner Dues</a>
+        <a class="btn btn-primary" href="{{ path('app_accounting_owner_invoice_assessments') }}">Generate Owner Assessments</a>
         <a class="btn btn-primary" href="{{ path('app_accounting_owner_invoice_new') }}">Generate Owner Invoice</a>
     </div>
     <table class="table">
