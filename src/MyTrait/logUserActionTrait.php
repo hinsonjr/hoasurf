@@ -15,7 +15,7 @@ namespace App\MyTrait;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 
-trait logUserActionTrait
+trait LogUserActionTrait
 {
 
 	/**
