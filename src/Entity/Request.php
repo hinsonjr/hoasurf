@@ -2,11 +2,15 @@
 
 namespace App\Entity;
 
+use App\Repository\RequestStatusRepository;
 use App\Repository\RequestRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: RequestRepository::class)]
+#[ORM\HasLifecycleCallbacks]
 class Request
 {
     #[ORM\Id]
@@ -39,8 +43,19 @@ class Request
     #[ORM\JoinColumn(nullable: false)]
     private ?RequestStatus $status = null;
 
-    #[ORM\Column(type: Types::TEXT, nullable: true)]
-    private ?string $notes = null;
+    #[ORM\OneToMany(mappedBy: 'request', targetEntity: RequestNote::class, orphanRemoval: true)]
+    private Collection $notes;
+
+    public function __construct()
+    {
+        $this->notes = new ArrayCollection();
+    }
+
+    #[ORM\PrePersist]
+    public function initValues()
+    {
+        $this->createdDate = new \DateTimeImmutable();
+    }
 
     public function getId(): ?int
     {
@@ -131,14 +146,32 @@ class Request
         return $this;
     }
 
-    public function getNotes(): ?string
+    /**
+     * @return Collection<int, RequestNote>
+     */
+    public function getNotes(): Collection
     {
         return $this->notes;
     }
 
-    public function setNotes(?string $notes): self
+    public function addNote(RequestNote $note): self
     {
-        $this->notes = $notes;
+        if (!$this->notes->contains($note)) {
+            $this->notes->add($note);
+            $note->setRequest($this);
+        }
+
+        return $this;
+    }
+
+    public function removeNote(RequestNote $note): self
+    {
+        if ($this->notes->removeElement($note)) {
+            // set the owning side to null (unless already changed)
+            if ($note->getRequest() === $this) {
+                $note->setRequest(null);
+            }
+        }
 
         return $this;
     }

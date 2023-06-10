@@ -25,6 +25,11 @@ class RequestStatus
     {
         $this->requests = new ArrayCollection();
     }
+	
+	public function __toString()
+	{
+		return $this->getStatus();
+	}
 
     public function getId(): ?int
     {

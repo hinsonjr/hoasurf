@@ -27,6 +27,11 @@ class RequestType
 		$this->requests = new ArrayCollection();
 	}
 
+	public function __toString()
+	{
+		return $this->getType();
+	}
+	
 	public function getId(): ?int
 	{
 		return $this->id;

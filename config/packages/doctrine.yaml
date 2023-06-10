@@ -1,12 +1,27 @@
 doctrine:
     dbal:
-        url: '%env(DATABASE_URL)%'
-        charset: utf8mb4
-        default_table_options:
-            charset: utf8mb4
-            collate: utf8mb4_unicode_ci
-        mapping_types:
-            enum: string
+        default_connection: prod
+
+        connections:
+            dev:
+                url: '%env(DATABASE_URL)%'
+                charset: utf8mb4
+                server_version: '%env(SERVER_VERSION)%'            
+                default_table_options:
+                    charset: utf8mb4
+                    collate: utf8mb4_unicode_ci
+                mapping_types:
+                    enum: string
+            prod:
+                url: '%env(DATABASE_URL)%'
+                charset: utf8mb4
+                server_version: '%env(SERVER_VERSION)%'
+                default_table_options:
+                    charset: utf8mb4
+                    collate: utf8mb4_unicode_ci
+                mapping_types:
+                    enum: string
+           
 
         # IMPORTANT: You MUST configure your server version,
         # either here or in the DATABASE_URL env var (see .env file)
