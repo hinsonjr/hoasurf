@@ -39,6 +39,28 @@ class RequestRepository extends ServiceEntityRepository
         }
     }
 
+	public function findByFilters($filters): array
+    {
+        $qb = $this->createQueryBuilder('r');
+
+		if (!empty($filters['type']))
+		{
+			$qb->andWhere('r.type = :val1')
+				->setParameter('val1',$filters['type']);
+		}
+		if (!empty($filters['status']))
+		{
+			$qb->andWhere('r.status = :val2')
+				->setParameter('val2',$filters['status']);
+		}
+		$results = $qb->orderBy('r.id', 'ASC')
+            ->setMaxResults(20)
+            ->getQuery()
+            ->getResult();
+		return $results;
+ 
+    }
+
 //    /**
 //     * @return Request[] Returns an array of Request objects
 //     */

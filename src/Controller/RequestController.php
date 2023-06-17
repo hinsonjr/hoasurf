@@ -6,6 +6,8 @@ use App\Entity\Request;
 use App\Entity\RequestNote;
 use App\Form\RequestType;
 use App\Repository\RequestRepository;
+use App\Repository\RequestTypeRepository;
+use App\Repository\RequestStatusRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request as HttpRequest;
 use Symfony\Component\HttpFoundation\Response;
@@ -16,10 +18,17 @@ use Doctrine\Persistence\ManagerRegistry;
 class RequestController extends AbstractController
 {
     #[Route('/', name: 'app_request_index', methods: ['GET'])]
-    public function index(RequestRepository $requestRepository): Response
+    public function index(HttpRequest $request, RequestRepository $requestRepository, RequestTypeRepository $typeRepo, RequestStatusRepository $statusRepo): Response
     {
+		$types = $typeRepo->findAll();
+		$statuses = $statusRepo->findAll();
+		$filters['type'] = $request->get("type");
+		$filters['status'] = $request->get("status");
         return $this->render('request/index.html.twig', [
-            'requests' => $requestRepository->findAll(),
+            'requests' => $requestRepository->findByFilters($filters),
+			'typeList' => $types,
+			'statusList' => $statuses,
+			'filters' => $filters
         ]);
     }
 

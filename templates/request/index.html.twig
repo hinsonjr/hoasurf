@@ -4,11 +4,40 @@
 
 {% block content %}
     <h1>Request List</h1>
-
+    <h3>Filters</h3>
+    <form action="{{ path('app_request_index') }}" name="requestFilterForm">
+        <div class="row">
+            <div class="col-sm-2">Filter By Type</div>
+            <div class="col-sm-2">Filter By status</div>
+        </div>
+        <div class="row">
+             <div class="col-sm-2">
+                <select class="form-control" name="type">
+                    <option value="0">&lt;choose&gt;</option>
+                    {% for type in typeList %}
+                    <option value="{{ type.id }}" {{ type.id == filters['type'] ? "selected" : "" }}>{{ type.type }} </option>
+                    {%  endfor %}
+                </select>
+             </div>
+            <div class="col-sm-2">
+                <select class="form-control" name="status">
+                    <option value="0">&lt;choose&gt;</option>
+                    {% for status in statusList %}
+                    <option value="{{ status.id }}" {{ status.id == filters['status'] ? "selected" : "" }}>{{ status.status }}</option>
+                    {%  endfor %}
+                </select>
+            </div>
+            <div class="col-sm-2">
+                <button class="btn btn-primary" type="submit">Filter</button>
+            </div>
+        </div>
+    </form>
     <table class="table">
         <thead>
             <tr>
                 <th>Id</th>
+                <th>Type</th>
+                <th>Status</th>
                 <th>CreatedDate</th>
                 <th>CompletedDate</th>
                 <th>Notes</th>
@@ -19,6 +48,8 @@
         {% for request in requests %}
             <tr>
                 <td>{{ request.id }}</td>
+                <td>{{ request.type? request.type }}</td>
+                <td>{{ request.status? request.status }}</td>
                 <td>{{ request.createdDate ? request.createdDate|date('Y-m-d H:i:s') : '' }}</td>
                 <td>{{ request.completedDate ? request.completedDate|date('Y-m-d H:i:s') : '' }}</td>
                 <td>
@@ -26,9 +57,9 @@
                         <tbody>
             {% for note in request.notes %}
                             <tr>
-                                <td>{{ note.date|date("Y-m-d H:i:s")}}</td>
-                                <td>{{ note.addedBy }}</td>
-                                <td>{{ note.note }}</td>
+                                <td>@{{ note.date|date("m/d H:i")}}</td>
+                                <td>#{{ note.addedBy }}</td>
+                                <td>- {{ note.note }}</td>
                             </tr>
             {% endfor %}
                         </tbody>
