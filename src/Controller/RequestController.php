@@ -67,14 +67,20 @@ class RequestController extends AbstractController
     }
 
     #[Route('/{id}/edit', name: 'app_request_edit', methods: ['GET', 'POST'])]
-    public function edit(Request $request, HttpRequest $httpRequest, RequestRepository $requestRepository): Response
+    public function edit(Request $request, HttpRequest $httpRequest, RequestRepository $requestRepository, ManagerRegistry $mr): Response
     {
         $form = $this->createForm(RequestType::class, $request);
         $form->handleRequest($httpRequest);
 
         if ($form->isSubmitted() && $form->isValid()) {
             $requestRepository->save($request, true);
-
+			
+			$note = $form["note"]->getData();
+			$note->setAddedBy($this->getUser());
+			$note->setRequest($request);
+			$entityManager = $mr->getManager();
+			$entityManager->persist($note);
+			$entityManager->flush();
             return $this->redirectToRoute('app_request_index', [], Response::HTTP_SEE_OTHER);
         }
 
