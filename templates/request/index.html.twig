@@ -40,6 +40,7 @@
                 <th>Status</th>
                 <th>CreatedDate</th>
                 <th>CompletedDate</th>
+                <th>Subject</th>
                 <th>Notes</th>
                 <th>actions</th>
             </tr>
@@ -52,6 +53,7 @@
                 <td>{{ request.status? request.status }}</td>
                 <td>{{ request.createdDate ? request.createdDate|date('Y-m-d H:i:s') : '' }}</td>
                 <td>{{ request.completedDate ? request.completedDate|date('Y-m-d H:i:s') : '' }}</td>
+                <td>{{ request.subject }}</td>
                 <td>
                     <table>
                         <tbody>

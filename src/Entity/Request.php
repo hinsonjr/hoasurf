@@ -46,6 +46,13 @@ class Request
     #[ORM\OneToMany(mappedBy: 'request', targetEntity: RequestNote::class, orphanRemoval: true)]
     private Collection $notes;
 
+    #[ORM\ManyToOne(inversedBy: 'requests')]
+    #[ORM\JoinColumn(nullable: false)]
+    private ?Hoa $hoa = null;
+
+    #[ORM\Column(length: 255)]
+    private ?string $subject = null;
+
     public function __construct()
     {
         $this->notes = new ArrayCollection();
@@ -172,6 +179,30 @@ class Request
                 $note->setRequest(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getHoa(): ?Hoa
+    {
+        return $this->hoa;
+    }
+
+    public function setHoa(?Hoa $hoa): self
+    {
+        $this->hoa = $hoa;
+
+        return $this;
+    }
+
+    public function getSubject(): ?string
+    {
+        return $this->subject;
+    }
+
+    public function setSubject(string $subject): self
+    {
+        $this->subject = $subject;
 
         return $this;
     }
