@@ -17,6 +17,7 @@ class HoaType extends AbstractType
             ->add('adminName')
             ->add('adminPhone')
             ->add('adminEmail')
+            ->add('defaultAssignee')
         ;
     }
 

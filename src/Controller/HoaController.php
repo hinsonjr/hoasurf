@@ -11,7 +11,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
-#[Route(('/hoa'))]
+#[Route(('/admin/hoa'))]
 
 
 class HoaController extends AbstractController
@@ -82,4 +82,22 @@ class HoaController extends AbstractController
 
         return $this->redirectToRoute('hoa_index', [], Response::HTTP_SEE_OTHER);
     }
+    #[Route('/{id}/hoaAssignees', name: 'hoa_assignees', methods: ['GET', 'POST'])]
+
+    public function assignees(Request $request, Hoa $hoa, EntityManagerInterface $entityManager): Response
+    {
+        $form = $this->createForm(HoaType::class, $hoa);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $entityManager->flush();
+
+            return $this->redirectToRoute('hoa_assignees', [], Response::HTTP_SEE_OTHER);
+        }
+
+        return $this->renderForm('hoa/assignees.html.twig', [
+            'hoa' => $hoa,
+            'form' => $form,
+        ]);
+    }    
 }

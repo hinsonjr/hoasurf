@@ -1,0 +1,11 @@
+{# empty Twig template #}
+    <table>
+        <thead><tr><th>Account</th><th>Balance</th></tr></thead>
+        <tbody>
+    {%  for account in accounts %}
+        {%  if account.balance != 0 %}
+        <tr><td class="left">{{ account.name }}</td><td class="numbers" >{{ account.balance|format_currency('USD',{fraction_digit:0}) }}</tr>
+        {% endif %}
+    {%  endfor %}
+        </tbody>
+    </table>

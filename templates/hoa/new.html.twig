@@ -7,6 +7,10 @@
     <h1>Create New Hoa</h1>
 
     {{ include('hoa/_form.html.twig') }}
-
-    <a href="{{ path('hoa_index') }}">back to list</a>
+    <div class="row">
+        <div class="col-sm-3">
+            <button class="btn btn-primary">{{ button_label|default('Save') }}</button>
+            <li class="btn btn-info"><a href="{{ path('hoa_index') }}">Back to list</a></li>
+        </div>
+    </div>       
 {% endblock %}

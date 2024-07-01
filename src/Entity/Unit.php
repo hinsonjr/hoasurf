@@ -12,148 +12,182 @@ class Unit
 {
 
 	#[ORM\Id]
-	#[ORM\GeneratedValue]
-	#[ORM\Column(type: "integer")]
-	private $id;
+               	#[ORM\GeneratedValue]
+               	#[ORM\Column(type: "integer")]
+               	private $id;
 
 	#[ORM\Column(type: "string", length: 30)]
-	private $unitNumber;
+               	private $unitNumber;
 
 	#[ORM\Column(type: "text", nullable: true)]
-	private $description;
+               	private $description;
 
 	#[ORM\Column(type: "string", length: 10, nullable: true)]
-	private $sf;
+               	private $sf;
 
 	#[ORM\Column(type: "string", length: 5, nullable: true)]
-	private $beds;
+               	private $beds;
 
 	#[ORM\Column(type: "string", length: 5, nullable: true)]
-	private $baths;
+               	private $baths;
 
 	#[ORM\ManyToOne(targetEntity: Building::class, inversedBy: "units")]
-	private $building;
+               	private $building;
 
 	#[ORM\OneToMany(mappedBy: 'unit', targetEntity: UnitOwner::class)]
-	private Collection $unitOwner;
+               	private Collection $unitOwner;
+
+    #[ORM\OneToMany(mappedBy: 'unit', targetEntity: Request::class)]
+    private Collection $requests;
 
 	public function __construct()
-	{
-		$this->unitOwner = new ArrayCollection();
-	}
+               	{
+               		$this->unitOwner = new ArrayCollection();
+                 $this->requests = new ArrayCollection();
+               	}
 
 	public function __toString()
-	{
-		return $this->getUnitNumber() . "-" . $this->getBuilding();
-	}
+               	{
+               		return $this->getUnitNumber() . "-" . $this->getBuilding();
+               	}
 
 	public function getId(): ?int
-	{
-		return $this->id;
-	}
+               	{
+               		return $this->id;
+               	}
 
 	public function getUnitNumber(): ?string
-	{
-		return $this->unitNumber;
-	}
+               	{
+               		return $this->unitNumber;
+               	}
 
 	public function setUnitNumber(string $unitNumber): self
-	{
-		$this->unitNumber = $unitNumber;
-
-		return $this;
-	}
+               	{
+               		$this->unitNumber = $unitNumber;
+               
+               		return $this;
+               	}
 
 	public function getDescription()
-	{
-		return $this->description;
-	}
+               	{
+               		return $this->description;
+               	}
 
 	public function setDescription($description): self
-	{
-		$this->description = $description;
-
-		return $this;
-	}
+               	{
+               		$this->description = $description;
+               
+               		return $this;
+               	}
 
 	public function getSf(): ?string
-	{
-		return $this->sf;
-	}
+               	{
+               		return $this->sf;
+               	}
 
 	public function setSf(?string $sf): self
-	{
-		$this->sf = $sf;
-
-		return $this;
-	}
+               	{
+               		$this->sf = $sf;
+               
+               		return $this;
+               	}
 
 	public function getBeds(): ?string
-	{
-		return $this->beds;
-	}
+               	{
+               		return $this->beds;
+               	}
 
 	public function setBeds(?string $beds): self
-	{
-		$this->beds = $beds;
-
-		return $this;
-	}
+               	{
+               		$this->beds = $beds;
+               
+               		return $this;
+               	}
 
 	public function getBaths(): ?string
-	{
-		return $this->baths;
-	}
+               	{
+               		return $this->baths;
+               	}
 
 	public function setBaths(?string $baths): self
-	{
-		$this->baths = $baths;
-
-		return $this;
-	}
+               	{
+               		$this->baths = $baths;
+               
+               		return $this;
+               	}
 
 	public function getBuilding(): ?building
-	{
-		return $this->building;
-	}
+               	{
+               		return $this->building;
+               	}
 
 	public function setBuilding(?building $building): self
-	{
-		$this->building = $building;
-		return $this;
-	}
+               	{
+               		$this->building = $building;
+               		return $this;
+               	}
 
 	/**
 	 * @return Collection<int, UnitOwner>
 	 */
 	public function getUnitOwner(): Collection
-	{
-		return $this->unitOwner;
-	}
+               	{
+               		return $this->unitOwner;
+               	}
 
 	public function addOwnerUnit(UnitOwner $ownerUnit): self
-	{
-		if (!$this->unitOwner->contains($ownerUnit))
-		{
-			$this->unitOwner->add($ownerUnit);
-			$ownerUnit->setUnit($this);
-		}
-
-		return $this;
-	}
+               	{
+               		if (!$this->unitOwner->contains($ownerUnit))
+               		{
+               			$this->unitOwner->add($ownerUnit);
+               			$ownerUnit->setUnit($this);
+               		}
+               
+               		return $this;
+               	}
 
 	public function removeOwnerUnit(UnitOwner $ownerUnit): self
-	{
-		if ($this->unitOwner->removeElement($ownerUnit))
-		{
-			// set the owning side to null (unless already changed)
-			if ($ownerUnit->getUnit() === $this)
-			{
-				$ownerUnit->setUnit(null);
-			}
-		}
+               	{
+               		if ($this->unitOwner->removeElement($ownerUnit))
+               		{
+               			// set the owning side to null (unless already changed)
+               			if ($ownerUnit->getUnit() === $this)
+               			{
+               				$ownerUnit->setUnit(null);
+               			}
+               		}
+               
+               		return $this;
+               	}
 
-		return $this;
-	}
+    /**
+     * @return Collection<int, Request>
+     */
+    public function getRequests(): Collection
+    {
+        return $this->requests;
+    }
+
+    public function addRequest(Request $request): self
+    {
+        if (!$this->requests->contains($request)) {
+            $this->requests->add($request);
+            $request->setUnit($this);
+        }
+
+        return $this;
+    }
+
+    public function removeRequest(Request $request): self
+    {
+        if ($this->requests->removeElement($request)) {
+            // set the owning side to null (unless already changed)
+            if ($request->getUnit() === $this) {
+                $request->setUnit(null);
+            }
+        }
+
+        return $this;
+    }
 
 }

@@ -10,23 +10,22 @@
                         <div class="collapse navbar-collapse" id="navbarSupportedContent">
                             <div class="navbar-nav">
                                 {% block navitems %}
-                                    <a class="nav-item nav-link" href="{{ path('hoa_index') }}">HOAs</a>
-                                    <a class="nav-item nav-link" href="{{ path('building_index') }}">Buildings</a>
-                                    <a class="nav-item nav-link" href="{{ path('maintenance_object_index') }}">Payments</a>
-                                    <a class="nav-item nav-link" href="{{ path('maintenance_object_index') }}">Maintenance</a>
+                                    <a class="nav-item nav-link" href="{{ path('owner_payments') }}">Payments</a>
+                                    <a class="nav-item nav-link" href="{{ path('owner_requests') }}">Requests</a>
+                                    <a class="nav-item nav-link" href="{{ path('owner_messages') }}">Messages</a>
                                 {% endblock %}
                             </div>
 
                         </div>
-                        <div id="nav-user" class="nav-item dropdown navDropdown">
+                        <div id="nav-user" class="nav-item dropdown">
                             {%  if app.user %}
-                                <a role="button" class="nav-link btn btn-primary dropleft dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                    User
+                                <a role="button" class="nav-link btn btn-primary dropdown-toggle" href="#" role="button" id="navbarDropdownMenuLink" data-bs-toggle="dropdown" aria-expanded="true">
+                                    User {{ app.user.email }} #{{ app.user.id }}
                                 </a>
-                                <div class="navDropdown dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdownMenuLink">
+                                <div class="navDropdown dropdown-menu dropdown-menu-right justify-content-right" aria-labelledby="navbarDropdownMenuLink">
                                     <a class="dropdown-item" >{{ app.user.email }}</a>
                                     <a class="dropdown-item" >{{ app.user.roles[0] }}</a>
-                                    <a class="dropdown-item nav-link" href="/logout">Logout</a>
+                                    <a class="dropdown-item " href="/logout">Logout</a>
                                 </div>
                             {%  elseif app.request.get('_route') == "login" %}
                                 <div class="dropdown-item nav-link"><a href="{{  path('app_register') }}">Register</a></div>

@@ -110,7 +110,6 @@ class OwnerInvoiceController extends AbstractController
 					echo "Unit $unitId does not have 100% ownership<br>";
 				}
 			}
-			die("FRED");
 			return $this->redirectToRoute('app_accounting_owner_invoice_index', [], Response::HTTP_SEE_OTHER);
 		}
 
@@ -126,7 +125,7 @@ class OwnerInvoiceController extends AbstractController
 		HoaRepository $hoaRepo): Response
 	{
 		$ownerInvoice = new OwnerInvoice();
-		$form = $this->createForm(OwnerInvoiceDuesType::class, $ownerInvoice);
+		$form = $this->createForm(OwnerInvoiceType::class, $ownerInvoice);
 		$form->remove('transaction.date');
 		$form->handleRequest($request);
 
@@ -176,7 +175,6 @@ class OwnerInvoiceController extends AbstractController
 					echo "Unit $unitId does not have 100% ownership<br>";
 				}
 			}
-			die("FRED");
 			return $this->redirectToRoute('app_accounting_owner_invoice_index', [], Response::HTTP_SEE_OTHER);
 		}
 		return $this->renderForm('accounting/owner_invoice/new_dues.html.twig', [
@@ -216,7 +214,7 @@ class OwnerInvoiceController extends AbstractController
 			$newOwnerInvoice->setTransaction($transaction);
 		}
 		$newOwnerInvoice->setType($type);
-		$newOwnerInvoice->setOwner($unitOwner->getOwner());
+		$newOwnerInvoice->setUnitOwner($unitOwner);
 		$this->entityManager->persist($newOwnerInvoice);
 		$this->entityManager->flush();
 	}

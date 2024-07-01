@@ -18,10 +18,10 @@ class OwnerInvoiceType extends AbstractType
             ->add('postDate', DateType::class, ['widget' => 'single_text'])
             ->add('paidDate', DateType::class, ['widget' => 'single_text', 'required' => false])
 			->add('amount', null, ['mapped' => false, 'required'=>true])
-            ->add('owner')
+            ->add('unitOwner')
             ->add('type')
-            ->add('hoa')
-			
+            ->add('hoa', null, ['label'=>"HOA relevant"])
+	
         ;
     }
 

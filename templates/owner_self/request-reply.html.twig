@@ -1,0 +1,17 @@
+{% extends 'owner-base.html.twig' %}
+
+{% block title %}Reply to Message{% endblock %}
+
+    {%  block content %}
+    {{  parent() }}
+        <h1>Owner Message Reply - {{ app.user.name }} #{{ app.user.id }}</h1>
+        <div class="section-break">&nbsp;</div>
+
+
+    <h1>Reply Message</h1>
+
+    {{ include('owner_self/_form-request-reply.html.twig', {'button_label': 'Update'}) }}
+
+    <a href="{{ path('app_message_index') }}">back to list</a>
+
+{% endblock %}        

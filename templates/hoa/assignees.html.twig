@@ -1,0 +1,15 @@
+{% extends 'admin-base.html.twig' %}
+
+{% block title %}Edit Hoa Assignees{% endblock %}
+
+{% block content %}
+    {{  parent() }}
+    <h1>Edit Hoa Assignees</h1>
+    <small>Each Service Type can have an assignee and there must be a default assignee for each HOA (defined on the HOA Edit form).</small>
+
+    {{ include('hoa/_form.html.twig', {'button_label': 'Update'}) }}
+
+    <a href="{{ path('hoa_index') }}">back to list</a>
+
+    {{ include('hoa/_delete_form.html.twig') }}
+{% endblock %}

@@ -1,0 +1,55 @@
+{% extends 'owner-base.html.twig' %}
+
+{% block title %}Owners Requests{% endblock %}
+
+    {%  block content %}
+    {{  parent() }}
+        <h1>Owner Requests for {{ app.user.name }} #{{ app.user.id }}</h1>
+        <div class="section-break">&nbsp;</div>
+        
+        <div class="container">
+            <div class="row">
+                <div class="col-sm card">
+                    <div class=card-header>Requests</div>
+                    <div class="cardlist-body">
+                        {% for request in owner_requests %}
+                        <div class="row">
+                            <div class="col">{{ request.subject }}</div>
+                            <div class="col">{{ request.createdDate|date("Y-m-d") }}</div>
+                            <div class="col"><a role="button" class-="btn btn-primary" href="{{ path('app_request_reply', {'id': request.id}) }}">Reply</a></div>
+                        </div>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+
+            <div class="section-break">&nbsp;</div>
+            <div class="owner-table card">
+                <div class="card-header">
+                    Units Owned
+                </div>
+                <div class="row card-subtitle cardlist-heading">
+                    <div class="col">Unit</div>
+                    <div class="col">Building</div>
+                    <div class="col">Purchase Date</div>
+                    <div class="col">Sold Date</div>
+                    <div class="col">Ownership %</div>
+                </div>
+                <div class="card-body cardlist-body">
+                    {% for owner in owner_records %}
+                        <div class="row">
+                            <div class="col">{{ owner.unit.unitNumber }}</div>
+                            <div class="col">{{ owner.unit.building.name }}</div>
+                            <div class="col">{{ owner.startDate | date("Y-m-d") }}</div>
+                            {% if owner.endDate is not null  %}
+                            <div class="col">{{ owner.endDate | date("Y-m-d") }}</div>
+                            {% else %}
+                            <div class="col">Current Owner</div>
+                            {% endif %}
+                            <div class="col">{{ owner.ownPercent }}%</div>
+                        </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+{% endblock %}

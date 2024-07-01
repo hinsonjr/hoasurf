@@ -18,7 +18,7 @@ class RequestType extends AbstractType
             ->add('assignedTo')
             ->add('subject')
             ->add('hoa')
-			->add('note', RequestNoteType::class, ['mapped' => false, 'required'=>true, 'label'=>false])
+//			->add('note', RequestNoteType::class, ['mapped' => false, 'required'=>true, 'label'=>false])
         ;
     }
 

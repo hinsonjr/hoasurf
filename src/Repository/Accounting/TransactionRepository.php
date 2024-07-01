@@ -44,6 +44,17 @@ class TransactionRepository extends ServiceEntityRepository
         ;
 		return $qb->getResult();
     }
+	
+	public function findByDate($limit = 10)
+	{
+		return $this->createQueryBuilder('t')
+            ->andWhere('t.deleted = 0')
+            ->orderBy('t.date', 'DESC')
+            ->setMaxResults($limit)
+            ->getQuery()
+            ->getResult()
+        ;
+	}
     // /**
     //  * @return Transaction[] Returns an array of Transaction objects
     //  */

@@ -16,7 +16,7 @@
             <div class="row">
                 <div class="col-sm card">
                     <div class=card-header>
-                        <span>Account Balances</span>
+                        <span>Last 10 Transactions</span>
                         <span><a class="btn btn-primary" role="button" href="{{ path('accounting_transaction_new') }}">Add Transaction</a>
                     </div>
                     <div class="cardlist-body">                        
@@ -26,22 +26,25 @@
                     </div>
                 </div>
                 <div class="col-sm card">
-                    <div class=card-header>Open Service Requests</div>
-                    <div class="cardlist-body">                        
-                        <div class="row">
-                            <div class="row">
-                                <div class="col-sm">
-                                    Unit 215
-                                </div>
-                                <div class="col-sm">
-                                    Window Leak
-                                </div>
-                            </div>
-                        </div>
+                    <div class=card-header>
+                        <span>Service Requests</span>
+                        <span><a class="btn btn-primary" role="button" href="{{ path('app_request_new') }}">Add Request</a>
                     </div>
-                </div>
+                    <div class="cardlist-body">
+                        {% for request in requests %}
+                        <div class="row">
+                            <div class="col left">{{ request.status }}</div>
+                            <div class="col left">{{ request.subject }}</div>
+                            <div class="col">{{ request.createdDate|date("Y-m-d") }}</div>
+                        </div>
+                        {% endfor %}
+                    </div>
+                </div>  
                 <div class="col-sm card">
-                    <div class=card-header>Unit Information</div>
+                    <div class=card-header>
+                        <span>Unit Information</span>
+                        <span><a class="btn btn-primary" role="button" href="{{ path('app_request_new') }}">Change Owner</a>
+                    </div>                    
                     <div class="cardlist-body">                        
                         {% for building, cnt in unitCnts %}
                             {%  if building != "Total" %}

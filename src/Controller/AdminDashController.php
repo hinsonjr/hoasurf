@@ -7,13 +7,14 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\Persistence\ManagerRegistry;
-use App\Entity\Accounting\LedgerAccount;
+use App\Entity\Accounting\Transaction;
+use App\Entity\Request;
 
 class AdminDashController extends AbstractController
 {
 
 	#[Route('/admin/dash', name: 'admin_dash')]
-	public function index(): Response
+	public function index(ManagerRegistry $doctrine, ): Response
 	{
 		$user = $this->getUser();
 		$activeHoa = $user->getActiveHoa();
@@ -24,10 +25,16 @@ class AdminDashController extends AbstractController
 			$unitCnts[$building->getName()] = count($building->getUnits());
 			$unitCnts['Total'] += count($building->getUnits());
 		}
+		$transactionRepo = $doctrine->getRepository(Transaction::class);
+		$lastTransactions = $transactionRepo->findByDate(10);
+		$requestRepo = $doctrine->getRepository(Request::class);
+		$requests = $requestRepo->findByHoa($activeHoa);
 		return $this->render('admin_dash/index.html.twig', [
 				'controller_name' => 'AdminDashController',
 				'activeHoa' => $activeHoa,
-				'unitCnts' => $unitCnts
+				'requests' => $requests,
+				'unitCnts' => $unitCnts,
+				'transactions' => $lastTransactions
 		]);
 	}
 

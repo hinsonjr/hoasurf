@@ -53,6 +53,15 @@ class Request
     #[ORM\Column(length: 255)]
     private ?string $subject = null;
 
+    #[ORM\ManyToOne(inversedBy: 'requests')]
+    private ?Building $building = null;
+
+    #[ORM\ManyToOne(inversedBy: 'requests')]
+    private ?Unit $unit = null;
+
+    #[ORM\ManyToOne(inversedBy: 'requests')]
+    private ?Vendor $vendor = null;
+
     public function __construct()
     {
         $this->notes = new ArrayCollection();
@@ -203,6 +212,42 @@ class Request
     public function setSubject(string $subject): self
     {
         $this->subject = $subject;
+
+        return $this;
+    }
+
+    public function getBuilding(): ?Building
+    {
+        return $this->building;
+    }
+
+    public function setBuilding(?Building $building): self
+    {
+        $this->building = $building;
+
+        return $this;
+    }
+
+    public function getUnit(): ?Unit
+    {
+        return $this->unit;
+    }
+
+    public function setUnit(?Unit $unit): self
+    {
+        $this->unit = $unit;
+
+        return $this;
+    }
+
+    public function getVendor(): ?Vendor
+    {
+        return $this->vendor;
+    }
+
+    public function setVendor(?Vendor $vendor): self
+    {
+        $this->vendor = $vendor;
 
         return $this;
     }
