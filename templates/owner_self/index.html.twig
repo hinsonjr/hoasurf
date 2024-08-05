@@ -10,29 +10,36 @@
         <div class="container">
             <div class="row">
                 <div class="col-sm card">
-                    <div class=card-header>Messages</div>
+                    <div class="card-header">Messages</div>
+                    <div class="cardlist-title row">
+                        <div class="col bold">Action</div>
+                        <div class="col bold">Subject</div>
+                        <div class="col bold">Created</div>
+                    </div>
                     <div class="cardlist-body">
                         {% for message in owner_messages %}
                         <div class="row">
-                            <div class="col">{{ message.subject }}</div>
+                            <div class="col"><a role="button" class="btn btn-primary btn-sm" href="{{ path('app_message_new', ['parent',message.id]) }}">Reply</a></div>
+                            <div class="col">{{ message.subject|striptags|length > 20 ? message.subject|striptags|slice(0, 20) ~ '...' : message.subject|striptags }}</div>
                             <div class="col">{{ message.createdAt|date("Y-m-d") }}</div>
-                            <div class="col"><a role="button" class-="btn btn-primary" href="{{ path('app_message_new', ['parent',message.id]) }}">Reply</a></div>
                         </div>
                         {% endfor %}
                     </div>
                 </div>
                 <div class="col-sm card">
-                    <div class=card-header>Payment Info</div>
+                    <div class="card-header">Payment Info</div>
+                    <div class="cardlist-title row">
+                        <div class="col bold">Action</div>
+                        <div class="col bold">Unit</div>
+                        <div class="col bold">Type</div>
+                        <div class="col bold">Due</div>
+                        <div class="col bold">Amount</div>
+                    </div>
                     <div class="cardlist-body">
-                        <div class="row">
-                            <div class="col bold">Unit</div>
-                            <div class="col bold">Type</div>
-                            <div class="col bold">Due Date</div>
-                            <div class="col bold">Amount</div>
-                        </div>
                        {% for unitNumber, invoices in invoice_records %}
                            <div class='row'>
                            {% for invoice in invoices %}
+                                <div class="col"><a role="button" class="btn btn-primary btn-sm" >Pay</a></div>
                                 <div class='col'>Unit {{ unitNumber }}</div>
                                 <div class="col">{{ invoice.type }}</div>
                                 <div class="col">{{ invoice.dueDate|date("y-m-d") }}</div>
@@ -42,17 +49,25 @@
                        {% endfor %}
                     </div>
                 </div>
+            </div>
+            <div class="section-break">&nbsp;</div>
+            <div class="row">
                 <div class="col-sm card">
-                    <div class=card-header>Service Requests<</div>
-                    <div class="cardlist-body">
-                        {% for request in requests %}
-                        <div class="row">
-                            <div class="col">{{ request.status }}</div>
-                            <div class="col">{{ request.subject }}</div>
-                            <div class="col">{{ request.createdDate|date("Y-m-d") }}</div>
-                        </div>
-                        {% endfor %}
+                    <div class="card-header">Service Requests</div>
+                    <div class="cardlist-title row">
+                        <div class="col bold">Action</div>
+                        <div class="col bold">Status</div>
+                        <div class="col bold">Subject</div>
+                        <div class="col bold">Created</div>
+                    </div>                        
+                    {% for request in requests %}
+                    <div class="row">
+                        <div class="col"><a role="button" class="btn btn-primary btn-sm" href="{{ path('app_request_reply', {'id': request.id}) }}">Reply</a></div>
+                        <div class="col">{{ request.status }}</div>
+                        <div class="col">{{ request.subject|striptags|length > 20 ? request.subject|striptags|slice(0, 20) ~ '...' : request.subject|striptags }}</div>
+                        <div class="col">{{ request.createdDate|date("Y-m-d") }}</div>
                     </div>
+                    {% endfor %}
                 </div>                    
             </div>
 

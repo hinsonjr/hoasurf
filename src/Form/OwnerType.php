@@ -15,10 +15,12 @@ class OwnerType extends AbstractType
         $builder
             ->add('name')
             ->add('startDate', DateType::class, [
-                'widget' => 'single_text'
+                'widget' => 'single_text',
+                'required' => false
             ])
             ->add('endDate', DateType::class, [
-                'widget' => 'single_text'
+                'widget' => 'single_text',
+                'required' => false
             ])
             ->add('address')
             ->add('address2')

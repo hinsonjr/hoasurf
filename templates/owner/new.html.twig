@@ -5,8 +5,8 @@
 {% block content %}
     {{  parent() }}
     <h1>Create new Owner</h1>
+    <div class="form">
+        {{ include('owner/_form.html.twig') }}
 
-    {{ include('owner/_form.html.twig') }}
-
-    <a href="{{ path('app_owner_index') }}">back to list</a>
+    </div>
 {% endblock %}

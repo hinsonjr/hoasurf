@@ -1,4 +1,6 @@
-        <div class="row">
+{{ form_start(form) }}
+    
+    <div class="row">
            <div class="col-sm">
             {{ form_row(form.name) }}
            </div>        
@@ -38,6 +40,7 @@
                 {{ form_row(form.email) }}
            </div>        
         </div>
+            {%  if owner.unitOwner|length > 0 %}
         <div class="row">
             <label >Units Owned</label>
             <div class="col-sm-1">
@@ -51,7 +54,7 @@
             </div>
         </div>
         <div class="row">
-            {% for ou in owner.unitOwner %}
+                {% for ou in owner.unitOwner %}
                 <div class="col-sm-1">
                     {{ ou.unit.unitNumber }}
                 </div>
@@ -61,7 +64,12 @@
                 <div class="col-sm-2">
                     {{ ou.endDate|date('Y-m-d')}}
                 </div>
-            {% endfor %}
+                {% endfor %}
         </div>
-{#        <button class="btn btn-primary">{{ button_label|default('Save') }}</button>#}
+            {% endif %}
+        <div  class="row ">
+            <div class="col-sm-3">&nbsp;</div>
+            <button class="col-sm-2 btn btn-primary" type="submit">Submit</button>
+        </div>
+        <a href="{{ path('app_owner_index') }}">back to list</a>            
 {{ form_end(form) }}

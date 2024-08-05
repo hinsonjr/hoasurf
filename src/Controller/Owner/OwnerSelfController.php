@@ -166,13 +166,13 @@ class OwnerSelfController extends AbstractController
     }
     
     #[Route('/owner/request/{id}/reply', name: 'app_request_reply', methods: ['GET', 'POST'])]
-    public function requestReply(Request $request, RequestRepository $requestRepository, \App\Entity\Request $id): Response
+    public function requestReply(Request $httpRequest, RequestRepository $requestRepository, \App\Entity\Request $request): Response
     {
-        $form = $this->createForm(RequestOwnerReply::class, $id);
-        $form->handleRequest($request);
+        $form = $this->createForm(RequestOwnerReply::class, $request);
+        $form->handleRequest($httpRequest);
         if ($form->isSubmitted() && $form->isValid()) {
             $requestRepository->save($request, true);
-            return $this->redirectToRoute('app_request_index', [], Response::HTTP_SEE_OTHER);
+            return $this->redirectToRoute('owner_requests', [], Response::HTTP_SEE_OTHER);
         }
 
         return $this->renderForm('owner_self/request-reply.html.twig', [
