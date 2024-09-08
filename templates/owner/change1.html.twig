@@ -1,0 +1,48 @@
+{% extends 'admin-base.html.twig' %}
+
+{% block title %}Owner List{% endblock %}
+
+{% block content %}
+     
+    <h1>Change Owner Wizard</h1>
+{{ form_start(thisForm) }}        
+        <div class="row form-group">
+            <div class="col-sm-1">&nbsp;</div>
+            <div class="col-sm-2">
+                <label for="search">Does new owner exist?</label>
+            </div>
+            <div class="col-sm-2">
+                {{ form_row(thisForm.createOwner) }}
+            </div>
+            <div class="col-sm-2">
+                {{ form_row(thisForm.selectOwner) }}
+            </div>
+        </div>
+        <div id="createOwnerContainer" style="display:none;">
+            <h1>Create new Owner</h1>
+            <div class="form">
+                {{ include('owner/_form.html.twig') }}
+            </div>                
+        </div>
+        <div id="selectOwnerContainer" style="display:none;">
+            <h1>Select Owner</h1>
+            <div class="form">
+            </div>                
+        </div>
+        <div class="row form-group">
+            <div class="col-sm-1">&nbsp;</div>
+            <div class="col-sm-2">
+                <label for="search">Search By Owner's Unit Number</label>
+            </div>
+            <div class="col-sm-2">
+            </div>
+{{ form_end(thisForm)}}
+        </div>
+
+        <div  class="row ">
+            <div class="col-sm-3">&nbsp;</div>
+            <button class="col-sm-2 btn btn-primary" type="submit">Submit</button>
+        </div>
+    </form>
+    <hr>
+{% endblock %}

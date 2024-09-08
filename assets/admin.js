@@ -4,3 +4,14 @@
  */
 import './styles/admin.css';
 
+$('#form_createOwner').on('click', function ()
+{
+    if ($('#form_createOwner').is(":checked"))
+    {
+        $('#createOwnerContainer').show();
+    } else
+    {
+        $('#createOwnerContainer').hide();
+    }
+});
+

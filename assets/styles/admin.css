@@ -120,3 +120,8 @@ body {
     padding: 5px;
     width: 95%;
 }
+
+.field-label
+{
+    background: #d6eaf8;
+}

@@ -11,6 +11,8 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
+use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 
 #[Route('/admin/owner')]
 class OwnerController extends AbstractController
@@ -71,13 +73,13 @@ class OwnerController extends AbstractController
         ]);
     }
 
-    #[Route('/{id}', name: 'app_owner_show', methods: ['GET'])]
-    public function show(Owner $owner): Response
-    {
-        return $this->render('owner/show.html.twig', [
-            'owner' => $owner,
-        ]);
-    }
+//    #[Route('/{id}', name: 'app_owner_show', methods: ['GET'])]
+//    public function show(Owner $owner): Response
+//    {
+//        return $this->render('owner/show.html.twig', [
+//            'owner' => $owner,
+//        ]);
+//    }
 
     #[Route('/{id}/edit', name: 'app_owner_edit', methods: ['GET', 'POST'])]
     public function edit(Request $request, Owner $owner, EntityManagerInterface $entityManager): Response
@@ -97,6 +99,32 @@ class OwnerController extends AbstractController
         ]);
     }
 
+    #[Route('/change', name: 'app_owner_change', methods: ['GET', 'POST'])]
+    public function change(Request $request, EntityManagerInterface $entityManager): Response
+    {
+        $form = $this->createFormBuilder([])
+            ->add('createOwner', CheckboxType::class)
+            ->add('selectOwner', CheckboxType::class)
+            ->add('next', SubmitType::class)
+            ->getForm();
+        
+        $owner = new Owner();
+        $ownerForm = $this->createForm(OwnerType::class, $owner);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $entityManager->flush();
+
+            return $this->redirectToRoute('app_owner_index', [], Response::HTTP_SEE_OTHER);
+        }
+
+        return $this->renderForm('owner/change1.html.twig', [
+            'thisForm' => $form,
+            'form' => $ownerForm,
+            'owner' => $owner
+        ]);
+    }    
+
     #[Route('/{id}', name: 'app_owner_delete', methods: ['POST'])]
     public function delete(Request $request, Owner $owner, EntityManagerInterface $entityManager): Response
     {
@@ -107,4 +135,6 @@ class OwnerController extends AbstractController
 
         return $this->redirectToRoute('app_owner_index', [], Response::HTTP_SEE_OTHER);
     }
+
+
 }

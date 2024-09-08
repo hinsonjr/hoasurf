@@ -34,3 +34,8 @@ body {
     border-radius: 5px;
     
 }
+
+.field-label
+{
+    background: #87CEEB;
+}
