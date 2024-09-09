@@ -1,0 +1,58 @@
+{{ form_start(form) }}
+       <div class="col-sm-12">
+        {{ form_row(form.hoa) }}
+       </div>        
+    </div>
+    <div class="row">
+       <div class="col-sm-12">
+        {{ form_row(form.subject) }}
+       </div>        
+    </div>
+    <div class="row">
+       <div class="col-sm-3">
+        {{ form_row(form.type) }}
+       </div>        
+       <div class="col-sm-3">
+        {{ form_row(form.status) }}
+       </div>        
+    </div>
+    <div class="row">
+       <div class="col-sm-3">
+        {{ form_row(form.createdBy) }}
+       </div>        
+       <div class="col-sm-3">
+        {{ form_row(form.completedBy) }}
+       </div>        
+       <div class="col-sm-3">
+        {{ form_row(form.assignedTo) }}
+       </div>        
+    </div>
+    <div class="row">
+       <div class="col-sm-3">
+        {{ form_row(form.building) }}
+       </div>        
+       <div class="col-sm-3">
+        {{ form_row(form.unit) }}
+       </div>        
+       <div class="col-sm-3">
+        {{ form_row(form.vendor) }}
+       </div>        
+    </div>
+    <div class="row">
+       <div class="col-sm-12">
+        {{ form_row(form.note) }}
+       </div>        
+    </div>
+    <br>
+     <div class="row">
+         <div class="col-2">
+             <button class="btn btn-primary">{{ button_label|default('Update') }}</button>
+         </div>
+{{ form_end(form) }}
+         <div class="col-2">
+             <a class="btn btn-info" href="{{ path('app_request_index') }}">back to list</a>
+         </div>
+         <div class="col-2">
+             {{ include('request/_delete_form.html.twig') }}
+         </div>
+     </div>    

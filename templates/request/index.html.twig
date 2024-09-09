@@ -1,0 +1,36 @@
+{% extends 'admin-base.html.twig' %}
+
+{% block title %}Request Index{% endblock %}
+
+{% block content %}
+    <h1>Request Listing</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Created On</th>
+                <th>Status</th>
+                <th>Completed On</th>
+                <th>Subject</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for request in requests %}
+            <tr>
+                <td><a href="{{ path('app_request_show', {'id': request.id}) }}">View</a></td>
+                <td>{{ request.createdDate ? request.createdDate|date('Y-m-d H:i:s') : '' }}</td>
+                <td>{{ request.status}}</td>
+                <td>{{ request.completedDate ? request.completedDate|date('Y-m-d H:i:s') : '' }}</td>
+                <td>{{ request.subject }}</td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="5">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{{ path('app_request_new') }}">Create new</a>
+{% endblock %}
