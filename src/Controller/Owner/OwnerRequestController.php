@@ -3,6 +3,7 @@
 namespace App\Controller\Owner;
 
 use App\Entity\Request;
+use App\Entity\RequestStatus;
 use App\Form\Owner\RequestNew;
 use App\Form\Owner\RequestOwnerReply;
 use App\Repository\RequestRepository;
@@ -12,10 +13,18 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request as HttpRequest;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Doctrine\Persistence\ManagerRegistry;
 
 #[Route('/owner/request')]
 class OwnerRequestController extends AbstractController
 {
+    
+    private $doctrine;
+    public function __construct(ManagerRegistry $doctrine)
+    {
+        $this->doctrine = $doctrine;
+    }
+    
     #[Route('/', name: 'owner_request_index', methods: ['GET'])]
     public function index(HttpRequest $request, RequestRepository $requestRepository, RequestTypeRepository $typeRepo, RequestStatusRepository $statusRepo): Response
     {
@@ -58,6 +67,25 @@ class OwnerRequestController extends AbstractController
         ]);
     }
 
+    #[Route('/{id}/update-status', name: 'owner_request_update_status', methods: ['GET', 'POST'])]
+    public function updateStatus(HttpRequest $httpRequest, Request $request, RequestRepository $requestRepository): Response
+    {
+		$newStatus = $httpRequest->request->get('status');
+        $oldStatus = $request->getStatus();
+        $status = new RequestStatus();
+        $status->setStatus($newStatus);
+        $request->setStatus($status);
+
+        $now = new \DateTime;
+        $request->setCompletedDate($now);
+        $request->setCompletedBy($this->getUser());
+        $this->doctrine->getManager()->persist($status);
+        $this->doctrine->getManager()->persist($request);
+        $this->doctrine->getManager()->flush();            
+        
+        return $this->json(['newStatus' => $newStatus, 'oldStatus' => $oldStatus]);
+    }
+
     #[Route('/{id}/edit', name: 'owner_request_edit', methods: ['GET', 'POST'])]
     public function edit(HttpRequest $httpRequest, Request $request, RequestRepository $requestRepository): Response
     {
@@ -81,9 +109,9 @@ class OwnerRequestController extends AbstractController
             }
             $request->addNote($note);
 //            $requestRepository->save($request, true);
-    		$this->entityManager->persist($note);
-    		$this->entityManager->persist($request);
-    		$this->entityManager->flush();            
+    		$this->getDoctrine()->getManager()->persist($note);
+    		$this->getDoctrine()->getManager()->persist($request);
+    		$this->getDoctrine()->getManager()->flush();            
 
             return $this->redirectToRoute('app_request_index', [], Response::HTTP_SEE_OTHER);
         }

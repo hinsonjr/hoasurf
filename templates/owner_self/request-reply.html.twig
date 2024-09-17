@@ -1,6 +1,29 @@
 {% extends 'owner-base.html.twig' %}
 
-{% block title %}Reply to Message{% endblock %}
+{%  block javascripts_footer %}
+    <script>
+        $(document).ready()
+        {
+            $("#request_owner_reply_markComplete")
+                .on('click', function() {
+                var id = $('#request-id');
+                $.ajax({
+                    url : '{{ path('owner_request_update_status', {'id' : 2 }) }}',
+                    type : 'POST',
+                    data : {status: "Complete"},
+                    success : function(code_html, status)
+                    {
+                        alert("Request was marked as completed");
+                    },
+                    error : function(result, status, error){
+                    }
+                });
+                return false;
+            });
+        };
+    </script>
+{% endblock %}
+{% block title %}Reply to Request{% endblock %}
 
     {%  block content %}
     {{  parent() }}
@@ -9,6 +32,7 @@
     <h1>Owner Message Reply - {{ app.user.name }} #{{ app.user.id }}</h1>
     <div class="form">
     {{ include('owner_self/_form-request-reply.html.twig', {'button_label': 'Update'}) }}
+    <input type="hidden" id="request-id" value="{{ request.id}}">
     <div  class="row ">
         <div class="col-sm-3">&nbsp;</div>
         <button class="col-sm-2 btn btn-primary" type="submit">Submit</button>

@@ -174,10 +174,12 @@ class OwnerSelfController extends AbstractController
             $requestRepository->save($request, true);
             return $this->redirectToRoute('owner_requests', [], Response::HTTP_SEE_OTHER);
         }
+        $notes = $request->getNotes();
 
         return $this->renderForm('owner_self/request-reply.html.twig', [
             'request' => $request,
             'form' => $form,
+            'notes' => $notes
         ]);
     }    
 }

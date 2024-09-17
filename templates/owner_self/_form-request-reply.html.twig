@@ -4,8 +4,11 @@
            </div>  
         </div>
         <div class="row">
-           <div class="col-sm-12 mb-3">
+           <div class="col-sm-6 mb-3">
                 {{ form_row(form.status) }}
+           </div> 
+           <div class="col-sm-3 mb-3">
+                <br>{{ form_row(form.markComplete) }}
            </div> 
         </div> 
         <div class="row">
@@ -26,9 +29,11 @@
                 {{ form_row(form.completedDate) }}
            </div> 
         </div>           
-    {% endif %}           
+    {% endif %}            
+    {%  for note in notes  %}   
         <div class="row">
            <div class="col-sm-12 mb-3">
                 {{ form_row(form.note) }}
            </div> 
-        </div>                
+        </div>
+    {% endfor %}
