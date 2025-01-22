@@ -101,7 +101,7 @@ class OwnerRequestController extends AbstractController
             if ($request->getStatus() != $form['request']->getStatus())
             {
                 $request->setStatus($form['request']->getStatus());
-                if ($form['request']->getStatus() === "Completed")
+                if ($form['request']->getStatus() === "Complete")
                 {
                     $request->setCompletedDate($now);
                     $request->setCompletedBy($this->getUser());
